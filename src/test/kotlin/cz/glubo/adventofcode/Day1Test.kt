@@ -1,11 +1,14 @@
 package cz.glubo.adventofcode
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class Day1Test {
     @Test
-    fun `can we run a test`(){
-        Assertions.assertTrue(true, "We can run test")
+    fun `ElfChooser can accept Elf`(){
+        val elfChooser = ElfChooser()
+        elfChooser.pushElf(
+            Elf(emptyList())
+        )
     }
+
 }
