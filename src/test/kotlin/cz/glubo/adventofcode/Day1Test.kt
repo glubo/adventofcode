@@ -22,4 +22,12 @@ class Day1Test {
         }
     }
 
+    @Test
+    fun `ElfChooser will return single Elf`() {
+        val elfChooser = ElfChooser()
+        val elf = Elf(emptyList())
+        elfChooser.pushElf(elf)
+        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elf)
+    }
+
 }
