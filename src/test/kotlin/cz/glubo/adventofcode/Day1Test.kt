@@ -30,4 +30,28 @@ class Day1Test {
         Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elf)
     }
 
+    @Test
+    fun `ElfChooser will return elf with most calories`() {
+        val elfChooser = ElfChooser()
+        val elfLowCalories = Elf(listOf(1))
+        val elfHighCalories = Elf(listOf(333))
+
+        elfChooser.pushElf(elfLowCalories)
+        elfChooser.pushElf(elfHighCalories)
+
+        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
+    }
+
+    @Test
+    fun `ElfChooser will return elf with most calories inverted input`() {
+        val elfChooser = ElfChooser()
+        val elfLowCalories = Elf(listOf(1))
+        val elfHighCalories = Elf(listOf(333))
+
+        elfChooser.pushElf(elfHighCalories)
+        elfChooser.pushElf(elfLowCalories)
+
+        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
+    }
+
 }

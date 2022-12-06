@@ -11,9 +11,11 @@ data class Elf(
 class ElfChooser {
     private var elfWithMostCalories: Elf? = null
 
-
     fun pushElf(elf: Elf) {
-        elfWithMostCalories = elf
+        val currentTarget = elfWithMostCalories?.getTotalCalories() ?: Int.MIN_VALUE
+        if (elf.getTotalCalories() > currentTarget) {
+            elfWithMostCalories = elf
+        }
     }
 
     fun getElfWithMostCalories(): Elf {
