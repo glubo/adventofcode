@@ -1,5 +1,6 @@
 package cz.glubo.adventofcode
 
+import java.lang.RuntimeException
 
 data class Elf(
     val calories: List<Int>
@@ -10,4 +11,10 @@ data class Elf(
 class ElfChooser {
     fun pushElf(elf: Elf) {
     }
+
+    fun getElfWithMostCalories(): Elf {
+        throw ElfNotFound()
+    }
+
+    class ElfNotFound: RuntimeException()
 }
