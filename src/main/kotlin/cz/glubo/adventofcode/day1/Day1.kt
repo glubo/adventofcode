@@ -1,7 +1,10 @@
 package cz.glubo.adventofcode.day1
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.runningFold
 import java.lang.RuntimeException
 
 data class Elf(
@@ -29,9 +32,18 @@ class ElfChooser {
 }
 
 class ElfParser {
-    fun parseInput(inputLines: Flow<String>): Flow<Elf> = inputLines.map {
-        Elf(
-            listOf(it.toInt())
-        )
-    }
+    suspend fun parseInput(inputLines: Flow<String>): Flow<Elf> = listOf(inputLines.runningFold(emptyList<Int>()) { accumulator, value ->
+        accumulator + value.toInt()
+    }.last()
+        .let {
+            if (it.isNotEmpty()) {
+                Elf(
+                    it
+                )
+            } else {
+                null
+            }
+        })
+        .filterNotNull()
+        .asFlow()
 }

@@ -86,4 +86,20 @@ class Day1Test {
         assertEquals(123, elfCollection.first().getTotalCalories())
     }
 
+    @Test
+    fun `Multiline elf parsing`() = runTest {
+        val parser = ElfParser()
+
+        val outputFlow = parser.parseInput(
+            listOf(
+                "123",
+                "210"
+            ).asFlow()
+        )
+
+        val elfCollection = outputFlow.toCollection(mutableListOf())
+        assertEquals(1, elfCollection.count())
+        assertEquals(333, elfCollection.first().getTotalCalories())
+    }
+
 }
