@@ -1,9 +1,9 @@
-package cz.glubo.adventofcode
+package cz.glubo.adventofcode.day1
 
 import java.lang.RuntimeException
 
 data class Elf(
-    val calories: List<Int>
+    val calories: List<Int>,
 ) {
     fun getTotalCalories() = calories.sum()
 }
@@ -23,5 +23,5 @@ class ElfChooser {
             ?: throw ElfNotFound()
     }
 
-    class ElfNotFound: RuntimeException()
+    class ElfNotFound : RuntimeException()
 }

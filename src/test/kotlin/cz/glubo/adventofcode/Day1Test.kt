@@ -1,5 +1,7 @@
 package cz.glubo.adventofcode
 
+import cz.glubo.adventofcode.day1.Elf
+import cz.glubo.adventofcode.day1.ElfChooser
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
