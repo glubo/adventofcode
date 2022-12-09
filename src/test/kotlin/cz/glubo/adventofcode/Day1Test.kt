@@ -2,7 +2,13 @@ package cz.glubo.adventofcode
 
 import cz.glubo.adventofcode.day1.Elf
 import cz.glubo.adventofcode.day1.ElfChooser
+import cz.glubo.adventofcode.day1.ElfParser
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class Day1Test {
@@ -29,7 +35,7 @@ class Day1Test {
         val elfChooser = ElfChooser()
         val elf = Elf(emptyList())
         elfChooser.pushElf(elf)
-        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elf)
+        assertEquals(elfChooser.getElfWithMostCalories(), elf)
     }
 
     @Test
@@ -41,7 +47,7 @@ class Day1Test {
         elfChooser.pushElf(elfLowCalories)
         elfChooser.pushElf(elfHighCalories)
 
-        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
+        assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
     }
 
     @Test
@@ -53,7 +59,31 @@ class Day1Test {
         elfChooser.pushElf(elfHighCalories)
         elfChooser.pushElf(elfLowCalories)
 
-        Assertions.assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
+        assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
+    }
+
+    @Test
+    fun `Empty input yields no elfs`() = runTest {
+        val parser = ElfParser()
+
+        val outputFlow = parser.parseInput(emptyList<String>().asFlow())
+
+        assertEquals(0, outputFlow.count())
+    }
+
+    @Test
+    fun `Simple elf parsing`() = runTest {
+        val parser = ElfParser()
+
+        val outputFlow = parser.parseInput(
+            listOf(
+                "123"
+            ).asFlow()
+        )
+
+        val elfCollection = outputFlow.toCollection(mutableListOf())
+        assertEquals(1, elfCollection.count())
+        assertEquals(123, elfCollection.first().getTotalCalories())
     }
 
 }

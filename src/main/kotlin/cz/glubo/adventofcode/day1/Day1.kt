@@ -1,5 +1,7 @@
 package cz.glubo.adventofcode.day1
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.lang.RuntimeException
 
 data class Elf(
@@ -24,4 +26,12 @@ class ElfChooser {
     }
 
     class ElfNotFound : RuntimeException()
+}
+
+class ElfParser {
+    fun parseInput(inputLines: Flow<String>): Flow<Elf> = inputLines.map {
+        Elf(
+            listOf(it.toInt())
+        )
+    }
 }
