@@ -1,13 +1,14 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package cz.glubo.adventofcode
 
 import cz.glubo.adventofcode.day1.Elf
 import cz.glubo.adventofcode.day1.ElfChooser
 import cz.glubo.adventofcode.day1.ElfParser
 import cz.glubo.adventofcode.day1.day1
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
