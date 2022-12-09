@@ -3,13 +3,17 @@ package cz.glubo.adventofcode
 import cz.glubo.adventofcode.day1.Elf
 import cz.glubo.adventofcode.day1.ElfChooser
 import cz.glubo.adventofcode.day1.ElfParser
+import cz.glubo.adventofcode.day1.day1
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 
 class Day1Test {
     @Test
@@ -82,8 +86,10 @@ class Day1Test {
         )
 
         val elfCollection = outputFlow.toCollection(mutableListOf())
-        assertEquals(1, elfCollection.count())
-        assertEquals(123, elfCollection.first().getTotalCalories())
+        assertAll(
+            { assertEquals(1, elfCollection.count()) },
+            { assertEquals(123, elfCollection.first().getTotalCalories()) },
+        )
     }
 
     @Test
@@ -98,8 +104,52 @@ class Day1Test {
         )
 
         val elfCollection = outputFlow.toCollection(mutableListOf())
-        assertEquals(1, elfCollection.count())
-        assertEquals(333, elfCollection.first().getTotalCalories())
+        assertAll(
+            { assertEquals(1, elfCollection.count()) },
+            { assertEquals(333, elfCollection.first().getTotalCalories()) },
+        )
+    }
+
+    @Test
+    fun `Multiple elves parsing`() = runTest {
+        val parser = ElfParser()
+
+        val outputFlow = parser.parseInput(
+            listOf(
+                "123",
+                "",
+                "210"
+            ).asFlow()
+        )
+
+        val elfCollection = outputFlow.toCollection(mutableListOf())
+        assertAll(
+            { assertEquals(2, elfCollection.count()) },
+            { assertEquals(123, elfCollection[0].getTotalCalories()) },
+            { assertEquals(210, elfCollection[1].getTotalCalories()) },
+        )
+    }
+
+    @Test
+    fun `Example from Aoc`() = runTest {
+        val calories = listOf(
+                "1000",
+                "2000",
+                "3000",
+                "",
+                "4000",
+                "",
+                "5000",
+                "6000",
+                "",
+                "7000",
+                "8000",
+                "9000",
+                "",
+                "10000",
+            ).asFlow().day1()
+
+        assertEquals(24000, calories)
     }
 
 }
