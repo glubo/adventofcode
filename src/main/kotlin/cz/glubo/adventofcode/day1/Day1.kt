@@ -26,7 +26,9 @@ suspend fun Flow<String>.day1p1(): Int {
     return chosenElf.getTotalCalories()
 }
 
-class ElfChooser {
+class ElfChooser(
+    val mostCaloriesCapacity: Int = 1,
+) {
     private var elfWithMostCalories: Elf? = null
 
     fun pushElf(elf: Elf) {
@@ -39,6 +41,13 @@ class ElfChooser {
     fun getElfWithMostCalories(): Elf {
         return elfWithMostCalories
             ?: throw ElfNotFound()
+    }
+
+    fun getElvesWithMostCalories(): List<Elf> {
+        return listOf(
+            elfWithMostCalories
+                ?: throw ElfNotFound()
+        )
     }
 
     class ElfNotFound : RuntimeException()

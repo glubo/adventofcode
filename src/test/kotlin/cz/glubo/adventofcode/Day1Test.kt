@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 
+/**
+ * https://adventofcode.com/2022/day/1
+ */
 class Day1Test {
     @Test
     fun `ElfChooser can accept Elf`() {
@@ -131,8 +134,9 @@ class Day1Test {
         )
     }
 
+
     @Test
-    fun `Example from Aoc`() = runTest {
+    fun `Example from Aoc day1 part1`() = runTest {
         val calories = listOf(
                 "1000",
                 "2000",
