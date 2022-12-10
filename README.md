@@ -9,7 +9,7 @@ I am trying to more or less follow draconian Uncle Bob's TDD principles as an ex
 java -jar build/libs/adventofcode-1.0-SNAPSHOT-all.jar
 ```
 This will show available commands
-To run for example `day1` command:
+To run for example `day1p1` command:
 ```shell
-java -jar build/libs/adventofcode-1.0-SNAPSHOT-all.jar day1
+java -jar build/libs/adventofcode-1.0-SNAPSHOT-all.jar day1p1
 ```

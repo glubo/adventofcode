@@ -1,4 +1,5 @@
-import cz.glubo.adventofcode.day1.day1
+import cz.glubo.adventofcode.day1.day1p1
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
@@ -6,16 +7,22 @@ import picocli.CommandLine.Command
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
-@Command(mixinStandardHelpOptions = true)
-class Day1Command : Callable<Int> {
+abstract class FlowCommand<ResultType>: Callable<Int> {
+    abstract suspend fun execute(linesFlow: Flow<String>): ResultType
+
     override fun call(): Int {
         runBlocking {
-            val result = generateSequence(::readLine).asFlow()
-                .day1()
+            val linesFlow = generateSequence(::readLine).asFlow()
+            val result = execute(linesFlow)
             println(result)
         }
         return 0
     }
+
+}
+@Command(mixinStandardHelpOptions = true)
+class Day1P1Command : FlowCommand<Int>() {
+    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1p1()
 }
 
 @Command(mixinStandardHelpOptions = true)
@@ -31,7 +38,7 @@ class MyHelpCommand : Callable<Int> {
 
 fun main(args: Array<String>) {
     val commands = mapOf(
-        "day1" to Day1Command(),
+        "day1p1" to Day1P1Command(),
     )
 
     val cmd = CommandLine(MyHelpCommand())
