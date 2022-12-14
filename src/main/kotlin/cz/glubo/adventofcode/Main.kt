@@ -1,4 +1,5 @@
 import cz.glubo.adventofcode.day1.day1p1
+import cz.glubo.adventofcode.day1.day1p2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
@@ -26,6 +27,11 @@ class Day1P1Command : FlowCommand<Int>() {
 }
 
 @Command(mixinStandardHelpOptions = true)
+class Day1P2Command : FlowCommand<Int>() {
+    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1p2()
+}
+
+@Command(mixinStandardHelpOptions = true)
 class MyHelpCommand : Callable<Int> {
     @CommandLine.Spec
     lateinit var spec: CommandLine.Model.CommandSpec
@@ -39,6 +45,7 @@ class MyHelpCommand : Callable<Int> {
 fun main(args: Array<String>) {
     val commands = mapOf(
         "day1p1" to Day1P1Command(),
+        "day1p2" to Day1P2Command(),
     )
 
     val cmd = CommandLine(MyHelpCommand())

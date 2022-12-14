@@ -26,28 +26,39 @@ suspend fun Flow<String>.day1p1(): Int {
     return chosenElf.getTotalCalories()
 }
 
+suspend fun Flow<String>.day1p2(): Int {
+    val parser = ElfParser()
+    val elfChooser = ElfChooser(mostCaloriesCapacity = 3)
+
+    val totalCaloriesOfChosenElves = parser.parseInput(this)
+        .runningFold(elfChooser) { accumulator, value ->
+            accumulator.pushElf(value)
+            accumulator
+        }.last()
+        .getElvesWithMostCalories()
+        .sumOf { it.getTotalCalories() }
+
+    return totalCaloriesOfChosenElves
+}
+
 class ElfChooser(
     val mostCaloriesCapacity: Int = 1,
 ) {
-    private var elfWithMostCalories: Elf? = null
+    private var elvesWithMostCalories: List<Elf> = listOf()
 
     fun pushElf(elf: Elf) {
-        val currentTarget = elfWithMostCalories?.getTotalCalories() ?: Int.MIN_VALUE
-        if (elf.getTotalCalories() > currentTarget) {
-            elfWithMostCalories = elf
-        }
+        elvesWithMostCalories = (elvesWithMostCalories + elf)
+            .sortedByDescending { it.getTotalCalories() }
+            .take(mostCaloriesCapacity)
     }
 
     fun getElfWithMostCalories(): Elf {
-        return elfWithMostCalories
+        return elvesWithMostCalories.firstOrNull()
             ?: throw ElfNotFound()
     }
 
     fun getElvesWithMostCalories(): List<Elf> {
-        return listOf(
-            elfWithMostCalories
-                ?: throw ElfNotFound()
-        )
+        return elvesWithMostCalories
     }
 
     class ElfNotFound : RuntimeException()

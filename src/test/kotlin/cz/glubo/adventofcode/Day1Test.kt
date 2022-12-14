@@ -6,6 +6,7 @@ import cz.glubo.adventofcode.day1.Elf
 import cz.glubo.adventofcode.day1.ElfChooser
 import cz.glubo.adventofcode.day1.ElfParser
 import cz.glubo.adventofcode.day1.day1p1
+import cz.glubo.adventofcode.day1.day1p2
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.count
@@ -134,27 +135,66 @@ class Day1Test {
         )
     }
 
-
     @Test
     fun `Example from Aoc day1 part1`() = runTest {
         val calories = listOf(
-                "1000",
-                "2000",
-                "3000",
-                "",
-                "4000",
-                "",
-                "5000",
-                "6000",
-                "",
-                "7000",
-                "8000",
-                "9000",
-                "",
-                "10000",
-            ).asFlow().day1p1()
+            "1000",
+            "2000",
+            "3000",
+            "",
+            "4000",
+            "",
+            "5000",
+            "6000",
+            "",
+            "7000",
+            "8000",
+            "9000",
+            "",
+            "10000",
+        ).asFlow().day1p1()
 
         assertEquals(24000, calories)
     }
 
+    @Test
+    fun `ElfChooser can pick two most caloric Elves`() {
+        val elfChooser = ElfChooser(mostCaloriesCapacity = 2)
+        val elf1 = Elf(listOf(111))
+        val elf2 = Elf(listOf(222))
+        val elf3 = Elf(listOf(333))
+
+        elfChooser.pushElf(elf1)
+        elfChooser.pushElf(elf2)
+        elfChooser.pushElf(elf3)
+
+        val chosenElves = elfChooser.getElvesWithMostCalories()
+        assertAll(
+            { assertEquals(2, chosenElves.size) },
+            { assertEquals(chosenElves[0], elf3) },
+            { assertEquals(chosenElves[1], elf2) },
+        )
+    }
+
+    @Test
+    fun `Example from Aoc day1 part2`() = runTest {
+        val calories = listOf(
+            "1000",
+            "2000",
+            "3000",
+            "",
+            "4000",
+            "",
+            "5000",
+            "6000",
+            "",
+            "7000",
+            "8000",
+            "9000",
+            "",
+            "10000",
+        ).asFlow().day1p2()
+
+        assertEquals(45000, calories)
+    }
 }
