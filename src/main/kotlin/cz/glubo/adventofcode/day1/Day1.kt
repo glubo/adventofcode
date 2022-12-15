@@ -12,7 +12,7 @@ data class Elf(
     fun getTotalCalories() = calories.sum()
 }
 
-suspend fun Flow<String>.day1p1(): Int {
+suspend fun Flow<String>.day1part1(): Int {
     val parser = ElfParser()
     val elfChooser = ElfChooser()
 
@@ -26,7 +26,7 @@ suspend fun Flow<String>.day1p1(): Int {
     return chosenElf.getTotalCalories()
 }
 
-suspend fun Flow<String>.day1p2(): Int {
+suspend fun Flow<String>.day1part2(): Int {
     val parser = ElfParser()
     val elfChooser = ElfChooser(mostCaloriesCapacity = 3)
 

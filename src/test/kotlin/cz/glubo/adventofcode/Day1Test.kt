@@ -5,8 +5,8 @@ package cz.glubo.adventofcode
 import cz.glubo.adventofcode.day1.Elf
 import cz.glubo.adventofcode.day1.ElfChooser
 import cz.glubo.adventofcode.day1.ElfParser
-import cz.glubo.adventofcode.day1.day1p1
-import cz.glubo.adventofcode.day1.day1p2
+import cz.glubo.adventofcode.day1.day1part1
+import cz.glubo.adventofcode.day1.day1part2
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.count
@@ -152,7 +152,7 @@ class Day1Test {
             "9000",
             "",
             "10000",
-        ).asFlow().day1p1()
+        ).asFlow().day1part1()
 
         assertEquals(24000, calories)
     }
@@ -193,7 +193,7 @@ class Day1Test {
             "9000",
             "",
             "10000",
-        ).asFlow().day1p2()
+        ).asFlow().day1part2()
 
         assertEquals(45000, calories)
     }

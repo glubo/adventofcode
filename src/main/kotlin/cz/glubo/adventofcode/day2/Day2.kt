@@ -121,13 +121,13 @@ fun Flow<String>.parseRoundsExpectation(): Flow<RoundExpectation> = map { line -
 }
 
 
-suspend fun Flow<String>.day2p1(): Int = this.parseRounds()
+suspend fun Flow<String>.day2part1(): Int = this.parseRounds()
     .runningFold(Game.unitGame()) { accumulator, value ->
         accumulator.addRound(value)
     }.last()
     .score
 
-suspend fun Flow<String>.day2p2(): Int = this.parseRoundsExpectation()
+suspend fun Flow<String>.day2part2(): Int = this.parseRoundsExpectation()
     .runningFold(Game.unitGame()) { accumulator, value ->
         accumulator.addRoundExpectation(value)
     }.last()

@@ -11,8 +11,8 @@ import cz.glubo.adventofcode.day2.Round
 import cz.glubo.adventofcode.day2.RoundExpectation
 import cz.glubo.adventofcode.day2.addRound
 import cz.glubo.adventofcode.day2.addRoundExpectation
-import cz.glubo.adventofcode.day2.day2p1
-import cz.glubo.adventofcode.day2.day2p2
+import cz.glubo.adventofcode.day2.day2part1
+import cz.glubo.adventofcode.day2.day2part2
 import cz.glubo.adventofcode.day2.parseRounds
 import cz.glubo.adventofcode.day2.parseRoundsExpectation
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -82,7 +82,7 @@ class Day2Test {
             "A Y",
             "B X",
             "C Z",
-        ).day2p1()
+        ).day2part1()
 
         assertEquals(15, score)
     }
@@ -139,7 +139,7 @@ class Day2Test {
             "A Y",
             "B X",
             "C Z",
-        ).day2p2()
+        ).day2part2()
 
         assertEquals(12, score)
     }
