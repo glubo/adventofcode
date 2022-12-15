@@ -132,7 +132,6 @@ class Day2Test {
         )
     }
 
-
     @Test
     fun `Day 2 Part 2 example`() = runTest {
         val score = flowOf(

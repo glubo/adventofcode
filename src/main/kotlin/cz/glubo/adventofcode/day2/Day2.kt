@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.runningFold
-import java.lang.RuntimeException
 
 enum class Hand(
     val value: Int,
@@ -62,7 +61,7 @@ private object Referee {
 }
 
 enum class Result(
-    val representation: String
+    val representation: String,
 ) {
     Lose("X"),
     Draw("Y"),
@@ -100,6 +99,7 @@ private val roundRegex = """(?<opponentMove>\S+)\s(?<myMove>\S+)""".toRegex()
 private fun handBy(value: String, selector: (Hand) -> String) = Hand.values().first { hand ->
     value == selector(hand)
 }
+
 private fun resultBy(value: String) = Result.values().first { result ->
     value == result.representation
 }
@@ -119,7 +119,6 @@ fun Flow<String>.parseRoundsExpectation(): Flow<RoundExpectation> = map { line -
         resultBy(match.groups["myMove"]!!.value),
     )
 }
-
 
 suspend fun Flow<String>.day2part1(): Int = this.parseRounds()
     .runningFold(Game.unitGame()) { accumulator, value ->
