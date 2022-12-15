@@ -21,6 +21,7 @@ dependencies {
     kapt("info.picocli:picocli-codegen:4.7.0")
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
 }
 
 tasks.test {

@@ -1,5 +1,6 @@
 import cz.glubo.adventofcode.day1.day1p1
 import cz.glubo.adventofcode.day1.day1p2
+import cz.glubo.adventofcode.day2.day2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
@@ -8,7 +9,7 @@ import picocli.CommandLine.Command
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
-abstract class FlowCommand<ResultType>: Callable<Int> {
+abstract class FlowCommand<ResultType> : Callable<Int> {
     abstract suspend fun execute(linesFlow: Flow<String>): ResultType
 
     override fun call(): Int {
@@ -21,6 +22,7 @@ abstract class FlowCommand<ResultType>: Callable<Int> {
     }
 
 }
+
 @Command(mixinStandardHelpOptions = true)
 class Day1P1Command : FlowCommand<Int>() {
     override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1p1()
@@ -29,6 +31,11 @@ class Day1P1Command : FlowCommand<Int>() {
 @Command(mixinStandardHelpOptions = true)
 class Day1P2Command : FlowCommand<Int>() {
     override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1p2()
+}
+
+@Command(mixinStandardHelpOptions = true)
+class Day2Command : FlowCommand<Int>() {
+    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day2()
 }
 
 @Command(mixinStandardHelpOptions = true)
@@ -46,6 +53,7 @@ fun main(args: Array<String>) {
     val commands = mapOf(
         "day1p1" to Day1P1Command(),
         "day1p2" to Day1P2Command(),
+        "day2" to Day2Command(),
     )
 
     val cmd = CommandLine(MyHelpCommand())
