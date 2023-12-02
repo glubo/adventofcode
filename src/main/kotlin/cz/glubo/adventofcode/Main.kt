@@ -24,23 +24,10 @@ abstract class FlowCommand<ResultType> : Callable<Int> {
 }
 
 @Command(mixinStandardHelpOptions = true)
-class Day1Part1Command : FlowCommand<Int>() {
-    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1part1()
-}
-
-@Command(mixinStandardHelpOptions = true)
-class Day1Part2Command : FlowCommand<Int>() {
-    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day1part2()
-}
-
-@Command(mixinStandardHelpOptions = true)
-class Day2Part1Command : FlowCommand<Int>() {
-    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day2part1()
-}
-
-@Command(mixinStandardHelpOptions = true)
-class Day2Part2Command : FlowCommand<Int>() {
-    override suspend fun execute(linesFlow: Flow<String>) = linesFlow.day2part2()
+class LinesToIntCommand(
+    private val action: suspend (Flow<String>) -> Int,
+) : FlowCommand<Int>() {
+    override suspend fun execute(linesFlow: Flow<String>) = action(linesFlow)
 }
 
 @Command(mixinStandardHelpOptions = true)
@@ -57,10 +44,10 @@ class MyHelpCommand : Callable<Int> {
 fun main(args: Array<String>) {
     val commands =
         mapOf(
-            "day1p1" to Day1Part1Command(),
-            "day1p2" to Day1Part2Command(),
-            "day2p1" to Day2Part1Command(),
-            "day2p2" to Day2Part2Command(),
+            "day1p1" to LinesToIntCommand { it.day1part1() },
+            "day1p2" to LinesToIntCommand { it.day1part2() },
+            "day2p1" to LinesToIntCommand { it.day2part1() },
+            "day2p2" to LinesToIntCommand { it.day2part2() },
         )
 
     val cmd = CommandLine(MyHelpCommand())
