@@ -24,6 +24,7 @@ dependencies {
     testImplementation(Testing.junit.jupiter.params)
     testImplementation(Testing.kotest.runner.junit5)
     testImplementation(Testing.kotest.assertions.core)
+    testImplementation(Testing.kotest.framework.datatest)
 }
 
 tasks.test {
