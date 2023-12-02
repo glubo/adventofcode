@@ -1,96 +1,49 @@
 package cz.glubo.adventofcode.day1
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.runningFold
 
-data class Elf(
-    val calories: List<Int>,
-) {
-    fun getTotalCalories() = calories.sum()
-}
-
 suspend fun Flow<String>.day1part1(): Int {
-    val parser = ElfParser()
-    val elfChooser = ElfChooser()
+    val sum =
+        parseCalibrationInput(this)
+            .runningFold(0) { accumulator, value ->
+                accumulator + value
+            }.last()
 
-    val chosenElf = parser.parseInput(this)
-        .runningFold(elfChooser) { accumulator, value ->
-            accumulator.pushElf(value)
-            accumulator
-        }.last()
-        .getElfWithMostCalories()
-
-    return chosenElf.getTotalCalories()
+    return sum
 }
 
 suspend fun Flow<String>.day1part2(): Int {
-    val parser = ElfParser()
-    val elfChooser = ElfChooser(mostCaloriesCapacity = 3)
-
-    val totalCaloriesOfChosenElves = parser.parseInput(this)
-        .runningFold(elfChooser) { accumulator, value ->
-            accumulator.pushElf(value)
-            accumulator
+    val sum =
+        parseCalibrationInput(
+            normaliseCalibrationInput(
+                this,
+            ),
+        ).runningFold(0) { accumulator, value ->
+            accumulator + value
         }.last()
-        .getElvesWithMostCalories()
-        .sumOf { it.getTotalCalories() }
 
-    return totalCaloriesOfChosenElves
+    return sum
 }
 
-class ElfChooser(
-    val mostCaloriesCapacity: Int = 1,
-) {
-    private var elvesWithMostCalories: List<Elf> = listOf()
-
-    fun pushElf(elf: Elf) {
-        elvesWithMostCalories = (elvesWithMostCalories + elf)
-            .sortedByDescending { it.getTotalCalories() }
-            .take(mostCaloriesCapacity)
+fun normaliseCalibrationInput(inputLines: Flow<String>): Flow<String> =
+    inputLines.map { line ->
+        line.replace("one", "one1one")
+            .replace("two", "two2two")
+            .replace("three", "three3three")
+            .replace("four", "four4four")
+            .replace("five", "five5five")
+            .replace("six", "six6six")
+            .replace("seven", "seven7seven")
+            .replace("eight", "eight8eight")
+            .replace("nine", "nine9nine")
     }
 
-    fun getElfWithMostCalories(): Elf {
-        return elvesWithMostCalories.firstOrNull()
-            ?: throw ElfNotFound()
+fun parseCalibrationInput(inputLines: Flow<String>): Flow<Int> =
+    inputLines.map { line ->
+        val first = line.first { it.isDigit() }.digitToInt()
+        val last = line.last { it.isDigit() }.digitToInt()
+        first * 10 + last
     }
-
-    fun getElvesWithMostCalories(): List<Elf> {
-        return elvesWithMostCalories
-    }
-
-    class ElfNotFound : RuntimeException()
-}
-
-class ElfParser {
-    fun parseInput(inputLines: Flow<String>): Flow<Elf> = inputLines.windowBy(
-        { it.isBlank() },
-        { stringList ->
-            val calories = stringList.filter { it.isNotBlank() }
-                .map { it.toInt() }
-            if (calories.isNotEmpty())
-                Elf(calories)
-            else
-                null
-        }
-    ).filterNotNull()
-
-    fun <T, R> Flow<T>.windowBy(breakWindow: suspend (T) -> Boolean, transform: suspend (List<T>) -> R): Flow<R> {
-
-        return flow {
-            val buffer = ArrayDeque<T>()
-
-            collect { value ->
-                if (breakWindow(value)) {
-                    emit(transform(buffer))
-                    buffer.clear()
-                } else {
-                    buffer.addLast(value)
-                }
-            }
-            emit(transform(buffer))
-        }
-    }
-}

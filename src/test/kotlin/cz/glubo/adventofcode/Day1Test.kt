@@ -2,199 +2,93 @@
 
 package cz.glubo.adventofcode
 
-import cz.glubo.adventofcode.day1.Elf
-import cz.glubo.adventofcode.day1.ElfChooser
-import cz.glubo.adventofcode.day1.ElfParser
 import cz.glubo.adventofcode.day1.day1part1
 import cz.glubo.adventofcode.day1.day1part2
+import cz.glubo.adventofcode.day1.normaliseCalibrationInput
+import cz.glubo.adventofcode.day1.parseCalibrationInput
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.toCollection
-import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 
 /**
- * https://adventofcode.com/2022/day/1
+ * https://adventofcode.com/2023/day/1
  */
-class Day1Test {
-    @Test
-    fun `ElfChooser can accept Elf`() {
-        val elfChooser = ElfChooser()
-        elfChooser.pushElf(
-            Elf(emptyList())
-        )
+class Day1Test : StringSpec({
+    "We can parse simple example" {
+        parseCalibrationInput(
+            flowOf(
+                "x1a2b3d",
+            ),
+        ).first() shouldBe 13
     }
 
-    @Test
-    fun `ElfChooser will throw ElfNotFound when no elf was pushed`() {
-        val elfChooser = ElfChooser()
-        Assertions.assertThrows(
-            ElfChooser.ElfNotFound::class.java
-        ) {
-            elfChooser.getElfWithMostCalories()
-        }
-    }
-
-    @Test
-    fun `ElfChooser will return single Elf`() {
-        val elfChooser = ElfChooser()
-        val elf = Elf(emptyList())
-        elfChooser.pushElf(elf)
-        assertEquals(elfChooser.getElfWithMostCalories(), elf)
-    }
-
-    @Test
-    fun `ElfChooser will return elf with most calories`() {
-        val elfChooser = ElfChooser()
-        val elfLowCalories = Elf(listOf(1))
-        val elfHighCalories = Elf(listOf(333))
-
-        elfChooser.pushElf(elfLowCalories)
-        elfChooser.pushElf(elfHighCalories)
-
-        assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
-    }
-
-    @Test
-    fun `ElfChooser will return elf with most calories inverted input`() {
-        val elfChooser = ElfChooser()
-        val elfLowCalories = Elf(listOf(1))
-        val elfHighCalories = Elf(listOf(333))
-
-        elfChooser.pushElf(elfHighCalories)
-        elfChooser.pushElf(elfLowCalories)
-
-        assertEquals(elfChooser.getElfWithMostCalories(), elfHighCalories)
-    }
-
-    @Test
-    fun `Empty input yields no elfs`() = runTest {
-        val parser = ElfParser()
-
-        val outputFlow = parser.parseInput(emptyList<String>().asFlow())
-
-        assertEquals(0, outputFlow.count())
-    }
-
-    @Test
-    fun `Simple elf parsing`() = runTest {
-        val parser = ElfParser()
-
-        val outputFlow = parser.parseInput(
+    "We can parse whole example" {
+        parseCalibrationInput(
+            flowOf(
+                "1abc2",
+                "pqr3stu8vwx",
+                "a1b2c3d4e5f",
+                "treb7uchet",
+            ),
+        ).toList() shouldBe
             listOf(
-                "123"
-            ).asFlow()
-        )
-
-        val elfCollection = outputFlow.toCollection(mutableListOf())
-        assertAll(
-            { assertEquals(1, elfCollection.count()) },
-            { assertEquals(123, elfCollection.first().getTotalCalories()) },
-        )
+                12,
+                38,
+                15,
+                77,
+            )
     }
 
-    @Test
-    fun `Multiline elf parsing`() = runTest {
-        val parser = ElfParser()
+    "Example matches expected value" {
+        flowOf(
+            "1abc2",
+            "pqr3stu8vwx",
+            "a1b2c3d4e5f",
+            "treb7uchet",
+        ).day1part1() shouldBe 142
+    }
 
-        val outputFlow = parser.parseInput(
+    "Simple normalisation example" {
+        parseCalibrationInput(
+            normaliseCalibrationInput(
+                flowOf(
+                    "7pqrstsixteen",
+                ),
+            ),
+        ).first() shouldBe 76
+    }
+
+    "All normalisation examples" {
+        parseCalibrationInput(
+            normaliseCalibrationInput(
+                flowOf(
+                    "two1nine",
+                    "eightwothree",
+                    "abcone2threexyz",
+                    "xtwone3four",
+                    "4nineeightseven2",
+                    "zoneight234",
+                    "7pqrstsixteen",
+                ),
+            ),
+        ).toList() shouldBe
             listOf(
-                "123",
-                "210"
-            ).asFlow()
-        )
-
-        val elfCollection = outputFlow.toCollection(mutableListOf())
-        assertAll(
-            { assertEquals(1, elfCollection.count()) },
-            { assertEquals(333, elfCollection.first().getTotalCalories()) },
-        )
+                29, 83, 13, 24, 42, 14, 76,
+            )
     }
 
-    @Test
-    fun `Multiple elves parsing`() = runTest {
-        val parser = ElfParser()
-
-        val outputFlow = parser.parseInput(
-            listOf(
-                "123",
-                "",
-                "210"
-            ).asFlow()
-        )
-
-        val elfCollection = outputFlow.toCollection(mutableListOf())
-        assertAll(
-            { assertEquals(2, elfCollection.count()) },
-            { assertEquals(123, elfCollection[0].getTotalCalories()) },
-            { assertEquals(210, elfCollection[1].getTotalCalories()) },
-        )
+    "complete day1p2 example" {
+        flowOf(
+            "two1nine",
+            "eightwothree",
+            "abcone2threexyz",
+            "xtwone3four",
+            "4nineeightseven2",
+            "zoneight234",
+            "7pqrstsixteen",
+        ).day1part2() shouldBe 281
     }
-
-    @Test
-    fun `Example from Aoc day1 part1`() = runTest {
-        val calories = listOf(
-            "1000",
-            "2000",
-            "3000",
-            "",
-            "4000",
-            "",
-            "5000",
-            "6000",
-            "",
-            "7000",
-            "8000",
-            "9000",
-            "",
-            "10000",
-        ).asFlow().day1part1()
-
-        assertEquals(24000, calories)
-    }
-
-    @Test
-    fun `ElfChooser can pick two most caloric Elves`() {
-        val elfChooser = ElfChooser(mostCaloriesCapacity = 2)
-        val elf1 = Elf(listOf(111))
-        val elf2 = Elf(listOf(222))
-        val elf3 = Elf(listOf(333))
-
-        elfChooser.pushElf(elf1)
-        elfChooser.pushElf(elf2)
-        elfChooser.pushElf(elf3)
-
-        val chosenElves = elfChooser.getElvesWithMostCalories()
-        assertAll(
-            { assertEquals(2, chosenElves.size) },
-            { assertEquals(chosenElves[0], elf3) },
-            { assertEquals(chosenElves[1], elf2) },
-        )
-    }
-
-    @Test
-    fun `Example from Aoc day1 part2`() = runTest {
-        val calories = listOf(
-            "1000",
-            "2000",
-            "3000",
-            "",
-            "4000",
-            "",
-            "5000",
-            "6000",
-            "",
-            "7000",
-            "8000",
-            "9000",
-            "",
-            "10000",
-        ).asFlow().day1part2()
-
-        assertEquals(45000, calories)
-    }
-}
+})
