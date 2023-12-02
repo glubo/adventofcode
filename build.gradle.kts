@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    kotlin("kapt")
     id("com.github.johnrengelman.shadow")
     application
 }
@@ -18,7 +17,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(KotlinX.coroutines.core)
     implementation("info.picocli:picocli:_")
-    kapt("info.picocli:picocli-codegen:_")
     testImplementation(kotlin("test"))
     testImplementation(KotlinX.coroutines.test)
     testImplementation(Testing.junit.jupiter.params)
@@ -33,6 +31,10 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
+}
+
+tasks.withType<JavaExec> {
+    standardInput = System.`in`
 }
 
 application {

@@ -82,7 +82,6 @@ fun getGameValues(inputLines: Flow<String>): Flow<Int> =
 
 fun getGameValues2(inputLines: Flow<String>): Flow<Int> =
     inputLines.map { line ->
-        val gameId = getGameId(line)
         val colorMaxs = getMaxColorCounts(line)
 
         colorMaxs.entries.fold(1) { acc, entry ->
