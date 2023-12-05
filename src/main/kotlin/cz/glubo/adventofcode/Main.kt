@@ -8,6 +8,8 @@ import cz.glubo.adventofcode.day4.day4part1
 import cz.glubo.adventofcode.day4.day4part2
 import cz.glubo.adventofcode.day5.day5part1
 import cz.glubo.adventofcode.day5.day5part2
+import cz.glubo.adventofcode.daylast4.dayLast4part1
+import cz.glubo.adventofcode.daylast4.dayLast4part2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
@@ -58,6 +60,8 @@ fun main(args: Array<String>) {
             "day3p2" to LinesToIntCommand { it.day3part2() },
             "day4p1" to LinesToIntCommand { it.day4part1() },
             "day4p2" to LinesToIntCommand { it.day4part2() },
+            "daylast4p1" to LinesToIntCommand { it.dayLast4part1() },
+            "daylast4p2" to LinesToIntCommand { it.dayLast4part2() },
             "day5p1" to LinesToIntCommand { it.day5part1() },
             "day5p2" to LinesToIntCommand { it.day5part2() },
         )
