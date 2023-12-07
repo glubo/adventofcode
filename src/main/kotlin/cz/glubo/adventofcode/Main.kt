@@ -8,6 +8,8 @@ import cz.glubo.adventofcode.day4.day4part1
 import cz.glubo.adventofcode.day4.day4part2
 import cz.glubo.adventofcode.day5.day5part1
 import cz.glubo.adventofcode.day5.day5part2
+import cz.glubo.adventofcode.day6.day6part1
+import cz.glubo.adventofcode.day6.day6part2
 import cz.glubo.adventofcode.daylast4.dayLast4part1
 import cz.glubo.adventofcode.daylast4.dayLast4part2
 import kotlinx.coroutines.flow.Flow
@@ -64,6 +66,8 @@ fun main(args: Array<String>) {
             "daylast4p2" to LinesToIntCommand { it.dayLast4part2() },
             "day5p1" to LinesToIntCommand { it.day5part1() },
             "day5p2" to LinesToIntCommand { it.day5part2() },
+            "day6p1" to LinesToIntCommand { it.day6part1() },
+            "day6p2" to LinesToIntCommand { it.day6part2() },
         )
 
     val cmd = CommandLine(MyHelpCommand())
