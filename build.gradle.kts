@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     id("com.github.johnrengelman.shadow")
+    id("org.jmailen.kotlinter")
     application
 }
 
@@ -39,4 +40,12 @@ tasks.withType<JavaExec> {
 
 application {
     mainClass.set("MainKt")
+}
+
+tasks.build {
+    dependsOn("formatKotlin")
+}
+
+kotlinter {
+    ignoreFailures = true
 }

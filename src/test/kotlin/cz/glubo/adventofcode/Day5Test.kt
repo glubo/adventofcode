@@ -2,9 +2,6 @@
 
 package cz.glubo.adventofcode.day2
 
-import cz.glubo.adventofcode.day4.day4part1
-import cz.glubo.adventofcode.day4.day4part2
-import cz.glubo.adventofcode.day4.pow2
 import cz.glubo.adventofcode.day5.MapElement
 import cz.glubo.adventofcode.day5.day5part1
 import cz.glubo.adventofcode.day5.day5part2

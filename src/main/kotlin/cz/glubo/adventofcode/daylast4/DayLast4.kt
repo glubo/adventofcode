@@ -2,19 +2,21 @@ package cz.glubo.adventofcode.daylast4
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.fold
-import kotlinx.coroutines.flow.toList
 
 /**
  * https://adventofcode.com/2022/day/4
  */
 
-private fun String.toRange() = this.split("-").let {
-    it.first().toInt() to it.last().toInt()
-}
+private fun String.toRange() =
+    this.split("-").let {
+        it.first().toInt() to it.last().toInt()
+    }
+
 suspend fun Flow<String>.dayLast4part1(): Int {
     return this.fold(0) { acc, line ->
-        val pairs = line.split(",")
-            .map { it.toRange() }
+        val pairs =
+            line.split(",")
+                .map { it.toRange() }
 
         val first = pairs.first()
         val second = pairs.last()
@@ -29,8 +31,9 @@ suspend fun Flow<String>.dayLast4part1(): Int {
 
 suspend fun Flow<String>.dayLast4part2(): Int {
     return this.fold(0) { acc, line ->
-        val pairs = line.split(",")
-            .map { it.toRange() }
+        val pairs =
+            line.split(",")
+                .map { it.toRange() }
 
         val first = pairs.first()
         val second = pairs.last()

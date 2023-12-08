@@ -2,16 +2,11 @@
 
 package cz.glubo.adventofcode.day2
 
-import cz.glubo.adventofcode.day4.day4part1
-import cz.glubo.adventofcode.day4.day4part2
-import cz.glubo.adventofcode.day4.pow2
 import cz.glubo.adventofcode.daylast4.dayLast4part1
 import cz.glubo.adventofcode.daylast4.dayLast4part2
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 /**
@@ -39,5 +34,4 @@ class DayLast4Test : FreeSpec({
             "2-6,4-8",
         ).dayLast4part2() shouldBe 4
     }
-
 })

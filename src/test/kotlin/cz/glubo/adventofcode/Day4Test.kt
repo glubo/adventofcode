@@ -9,7 +9,6 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 /**
@@ -34,8 +33,7 @@ class Day4Test : FreeSpec({
             2 to 4,
             3 to 8,
             4 to 16,
-
-            ) {
+        ) {
             pow2(
                 it.first,
             ) shouldBe it.second
@@ -51,6 +49,5 @@ class Day4Test : FreeSpec({
             "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36",
             "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
         ).day4part2() shouldBe 30
-   }
-
+    }
 })
