@@ -49,6 +49,13 @@ class LinesToIntCommand(
 }
 
 @Command(mixinStandardHelpOptions = true)
+class LinesToLongCommand(
+    private val action: suspend (Flow<String>) -> Long,
+) : FlowCommand<Long>() {
+    override suspend fun execute(linesFlow: Flow<String>) = action(linesFlow)
+}
+
+@Command(mixinStandardHelpOptions = true)
 class MyHelpCommand : Callable<Int> {
     @CommandLine.Spec
     lateinit var spec: CommandLine.Model.CommandSpec
@@ -79,7 +86,7 @@ fun main(args: Array<String>) {
             "day7p1" to LinesToIntCommand { it.day7part1() },
             "day7p2" to LinesToIntCommand { it.day7part2() },
             "day8p1" to LinesToIntCommand { it.day8part1() },
-            "day8p2" to LinesToIntCommand { it.day8part2() },
+            "day8p2" to LinesToLongCommand { it.day8part2() },
             "day9p1" to LinesToIntCommand { it.day9part1() },
             "day9p2" to LinesToIntCommand { it.day9part2() },
         )

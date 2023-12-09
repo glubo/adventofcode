@@ -18,9 +18,18 @@ suspend fun Flow<String>.day8part1(): Int {
         graph[key] = value
     }
 
+    return navigate(directions, graph, "AAA") { it == "ZZZ" }
+}
+
+private fun navigate(
+    directions: List<Char>,
+    graph: MutableMap<String, Pair<String, String>>,
+    initialPosition: String,
+    endCondition: (String) -> Boolean,
+): Int {
     var ret = 0
-    directions.repeat().fold("AAA") { position, direction ->
-        if (position == "ZZZ") {
+    directions.repeat().fold(initialPosition) { position, direction ->
+        if (endCondition(position)) {
             return ret
         }
 
@@ -36,7 +45,24 @@ suspend fun Flow<String>.day8part1(): Int {
     return 0
 }
 
-suspend fun Flow<String>.day8part2(): Int {
+private fun gcd(
+    m: Long,
+    n: Long,
+): Long {
+    if (n == 0L) {
+        return m
+    }
+    return gcd(n, m % n)
+}
+
+private fun lcm(
+    m: Long,
+    n: Long,
+): Long {
+    return m * n / gcd(m, n)
+}
+
+suspend fun Flow<String>.day8part2(): Long {
     val lines = this.toList()
     val directions = lines.first().toList()
 
@@ -49,27 +75,10 @@ suspend fun Flow<String>.day8part2(): Int {
         graph[key] = value
     }
 
-    var ret = 0L
-
     val startingPositions = graph.keys.filter { it.endsWith("A") }
 
-    directions.repeat().fold(startingPositions) { positions, direction ->
-        if (ret % 10000000 == 0L) {
-            println("$ret: $positions")
-        }
-        if (positions.all { it.endsWith("Z") }) {
-            println("$ret: $positions")
-            return ret.toInt()
-        }
-
-        ret++
-
-        when (direction) {
-            'L' -> positions.map { graph[it]!!.first }
-            'R' -> positions.map { graph[it]!!.second }
-            else -> throw RuntimeException("nope")
-        }
+    return startingPositions.fold(1) { lcm, start ->
+        val current = navigate(directions, graph, start) { it.endsWith('Z') }
+        lcm(lcm, current.toLong())
     }
-
-    return 0
 }
