@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package cz.glubo.adventofcode.day2
 
 import cz.glubo.adventofcode.day2.Color.BLUE
@@ -8,12 +6,12 @@ import cz.glubo.adventofcode.day2.Color.RED
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
 /**
  * https://adventofcode.com/2023/day/2
  */
+@Suppress("UNUSED")
 class Day2Test : FreeSpec({
     "We can parse game id" {
         getGameId(

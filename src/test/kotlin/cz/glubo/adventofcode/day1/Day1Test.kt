@@ -1,14 +1,7 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+package cz.glubo.adventofcode.day1
 
-package cz.glubo.adventofcode
-
-import cz.glubo.adventofcode.day1.day1part1
-import cz.glubo.adventofcode.day1.day1part2
-import cz.glubo.adventofcode.day1.normaliseCalibrationInput
-import cz.glubo.adventofcode.day1.parseCalibrationInput
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
@@ -16,6 +9,7 @@ import kotlinx.coroutines.flow.toList
 /**
  * https://adventofcode.com/2023/day/1
  */
+@Suppress("UNUSED")
 class Day1Test : StringSpec({
     "We can parse simple example" {
         parseCalibrationInput(

@@ -108,7 +108,7 @@ fun String.toCombination2(): Combination {
 
 fun String.toCardValue(): Long {
     var m: Long = 1
-    var sum: Long = 0L
+    var sum = 0L
     this.reversed().forEach {
         sum += m * cardValue[it]!!
         m *= (cards.size + 1)
@@ -118,7 +118,7 @@ fun String.toCardValue(): Long {
 
 fun String.toCardValue2(): Long {
     var m: Long = 1
-    var sum: Long = 0L
+    var sum = 0L
     this.reversed().forEach {
         sum += m * cardValue2[it]!!
         m *= (cards.size + 1)

@@ -1,17 +1,13 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
+package cz.glubo.adventofcode.day3
 
-package cz.glubo.adventofcode.day2
-
-import cz.glubo.adventofcode.day3.day3part1
-import cz.glubo.adventofcode.day3.day3part2
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 
 /**
- * https://adventofcode.com/2023/day/2
+ * https://adventofcode.com/2023/day/3
  */
+@Suppress("UNUSED")
 class Day3Test : FreeSpec({
     "We can solve the example" {
         flowOf(

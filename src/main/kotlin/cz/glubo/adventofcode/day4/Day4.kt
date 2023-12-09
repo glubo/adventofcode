@@ -59,7 +59,7 @@ suspend fun Flow<String>.day4part2(): Int {
         val weGenerateCopies = ourWinningNumbers.size
 
         (1..weGenerateCopies).forEach { j ->
-            copiesMap.set(i + j, (copiesMap[i + j] ?: 1) + ourCopies)
+            copiesMap[i + j] = (copiesMap[i + j] ?: 1) + ourCopies
         }
 
         sum += ourCopies

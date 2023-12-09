@@ -2,7 +2,6 @@ package cz.glubo.adventofcode.day3
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.toList
 import kotlin.math.abs
 
@@ -24,9 +23,9 @@ fun checkForSymbol(
 suspend fun Flow<String>.day3part1(): Int {
     val lines = this.toList()
     var acc = 0
-    (0..<lines.size).forEach { i ->
+    lines.indices.forEach { i ->
         var currentNumber: Int? = null
-        var foundMatchingSymbol: Boolean = false
+        var foundMatchingSymbol = false
         (0..<lines[i].length).forEach { j ->
             val currentChar = lines[i][j]
             when {
@@ -81,30 +80,29 @@ suspend fun Flow<String>.day3part2(): Int {
         val value: Int,
     )
 
-    var gearPositions = ArrayDeque<Pos>()
-    var numbers = ArrayDeque<Number>()
+    val gearPositions = ArrayDeque<Pos>()
+    val numbers = ArrayDeque<Number>()
 
     this.collectIndexed { y, line ->
         var currentNumber: Number? = null
-        (0..<line.length).forEach { x ->
+        line.indices.forEach { x ->
             val currentChar = line[x]
             when {
                 currentChar.isDigit() -> {
-                    if (currentNumber == null) {
-                        currentNumber =
+                    currentNumber =
+                        if (currentNumber == null) {
                             Number(
                                 Pos(x, y),
                                 1,
                                 currentChar.digitToInt(),
                             )
-                    } else {
-                        currentNumber =
+                        } else {
                             Number(
                                 currentNumber!!.startPos,
                                 currentNumber!!.length + 1,
                                 currentNumber!!.value * 10 + currentChar.digitToInt(),
                             )
-                    }
+                        }
                 }
 
                 currentChar == '*' -> {
@@ -129,7 +127,7 @@ suspend fun Flow<String>.day3part2(): Int {
         }
     }
 
-    return gearPositions.mapNotNull { gearPos ->
+    return gearPositions.sumOf { gearPos ->
         val adjacentNumbers =
             numbers.filter { number ->
                 abs(number.startPos.y - gearPos.y) <= 1 &&
@@ -142,5 +140,5 @@ suspend fun Flow<String>.day3part2(): Int {
         } else {
             0
         }
-    }.sum()
+    }
 }

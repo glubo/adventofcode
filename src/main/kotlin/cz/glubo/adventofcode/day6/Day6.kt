@@ -8,7 +8,7 @@ fun simulate(
     dist: Long,
 ) = (0..time).filter { chargeTime ->
     val goTime = time - chargeTime
-    val speed = chargeTime
+    val speed = chargeTime * 1
     val goDist = goTime * speed
     goDist > dist
 }.size

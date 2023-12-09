@@ -1,3 +1,5 @@
+package cz.glubo.adventofcode
+
 import cz.glubo.adventofcode.day1.day1part1
 import cz.glubo.adventofcode.day1.day1part2
 import cz.glubo.adventofcode.day2.day2part1

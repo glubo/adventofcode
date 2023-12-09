@@ -1,7 +1,6 @@
 package cz.glubo.adventofcode.day8
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 
 fun <T> List<T>.repeat() = sequence { while (true) yieldAll(this@repeat) }

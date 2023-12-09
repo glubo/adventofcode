@@ -10,6 +10,9 @@ plugins {
 group = "cz.glubo"
 version = "1.0-SNAPSHOT"
 
+application {
+    mainClass.set("cz.glubo.adventofcode.MainKt")
+}
 repositories {
     mavenCentral()
 }
@@ -36,10 +39,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<JavaExec> {
     standardInput = System.`in`
-}
-
-application {
-    mainClass.set("MainKt")
 }
 
 tasks.build {

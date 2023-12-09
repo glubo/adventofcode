@@ -49,14 +49,14 @@ fun String.asColor() =
 fun getGameId(line: String) =
     dayRegex.find(line)
         ?.groups?.get("id")
-        ?.value?.let { it.toInt() }
+        ?.value?.toInt()
         ?: 0
 
 fun getMaxColorCounts(line: String): Map<Color, Int> =
     colorRegex.findAll(line)
         .fold(emptyMap<Color, Int>().toMutableMap()) { acc, matchResult ->
-            val color = matchResult.groups.get("color")!!.value.asColor()!!
-            val count = matchResult.groups.get("count")!!.value.toInt()
+            val color = matchResult.groups["color"]!!.value.asColor()!!
+            val count = matchResult.groups["count"]!!.value.toInt()
             acc[color] = max(count, acc[color] ?: 0)
             acc
         }
@@ -64,9 +64,9 @@ fun getMaxColorCounts(line: String): Map<Color, Int> =
 fun getGameValues(inputLines: Flow<String>): Flow<Int> =
     inputLines.map { line ->
         val gameId = getGameId(line)
-        val colorMaxs = getMaxColorCounts(line)
+        val maxColorCounts = getMaxColorCounts(line)
 
-        if (colorMaxs.entries.none {
+        if (maxColorCounts.entries.none {
                 when (it.key) {
                     RED -> it.value > 12
                     GREEN -> it.value > 13
@@ -82,9 +82,9 @@ fun getGameValues(inputLines: Flow<String>): Flow<Int> =
 
 fun getGameValues2(inputLines: Flow<String>): Flow<Int> =
     inputLines.map { line ->
-        val colorMaxs = getMaxColorCounts(line)
+        val maxColorCounts = getMaxColorCounts(line)
 
-        colorMaxs.entries.fold(1) { acc, entry ->
+        maxColorCounts.entries.fold(1) { acc, entry ->
             acc * entry.value
         }
     }

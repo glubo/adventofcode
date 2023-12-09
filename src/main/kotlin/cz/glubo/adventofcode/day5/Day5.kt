@@ -69,11 +69,9 @@ data class MapElement(
 
     fun contains(input: Long) = (from..<from + length).contains(input)
 
-    fun start() = from
+    private fun start() = from
 
-    fun end() = from + length - 1
-
-    fun range() = (start()..end())
+    private fun end() = from + length - 1
 
     companion object {
         fun parse(line: String): MapElement {
@@ -196,7 +194,6 @@ suspend fun Flow<String>.day5part2(): Int {
             }
         }.next()
 
-    return model.currentValues.map { it.start() }
-        .min()
+    return model.currentValues.minOf { it.start() }
         .toInt()
 }
