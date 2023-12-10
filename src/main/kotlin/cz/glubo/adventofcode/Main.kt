@@ -2,6 +2,8 @@ package cz.glubo.adventofcode
 
 import cz.glubo.adventofcode.day1.day1part1
 import cz.glubo.adventofcode.day1.day1part2
+import cz.glubo.adventofcode.day10.day10part1
+import cz.glubo.adventofcode.day10.day10part2
 import cz.glubo.adventofcode.day2.day2part1
 import cz.glubo.adventofcode.day2.day2part2
 import cz.glubo.adventofcode.day3.day3part1
@@ -20,6 +22,9 @@ import cz.glubo.adventofcode.day9.day9part1
 import cz.glubo.adventofcode.day9.day9part2
 import cz.glubo.adventofcode.daylast4.dayLast4part1
 import cz.glubo.adventofcode.daylast4.dayLast4part2
+import io.klogging.Level
+import io.klogging.config.ANSI_CONSOLE
+import io.klogging.config.loggingConfiguration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
@@ -29,6 +34,9 @@ import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
 abstract class FlowCommand<ResultType> : Callable<Int> {
+    @CommandLine.Option(names = ["--verbose", "-v"], negatable = true)
+    var verbose: Boolean = false
+
     abstract suspend fun execute(linesFlow: Flow<String>): ResultType
 
     override fun call(): Int {
@@ -67,6 +75,18 @@ class MyHelpCommand : Callable<Int> {
 }
 
 fun main(args: Array<String>) {
+    val verbose = args.any { it in listOf("-v", "--verbose") }
+    loggingConfiguration {
+        ANSI_CONSOLE()
+        minDirectLogLevel(Level.DEBUG)
+        logging {
+            if (verbose) {
+                fromMinLevel(Level.DEBUG) {
+                    toSink("console")
+                }
+            }
+        }
+    }
     val commands =
         mapOf(
             "day1p1" to LinesToIntCommand { it.day1part1() },
@@ -89,6 +109,8 @@ fun main(args: Array<String>) {
             "day8p2" to LinesToLongCommand { it.day8part2() },
             "day9p1" to LinesToIntCommand { it.day9part1() },
             "day9p2" to LinesToIntCommand { it.day9part2() },
+            "day10p1" to LinesToLongCommand { it.day10part1() },
+            "day10p2" to LinesToLongCommand { it.day10part2() },
         )
 
     val cmd = CommandLine(MyHelpCommand())

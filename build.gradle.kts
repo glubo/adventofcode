@@ -21,6 +21,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(KotlinX.coroutines.core)
     implementation("info.picocli:picocli:_")
+    implementation("io.klogging:slf4j-klogging:_")
     testImplementation(kotlin("test"))
     testImplementation(KotlinX.coroutines.test)
     testImplementation(Testing.junit.jupiter.params)
