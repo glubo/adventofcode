@@ -23,7 +23,7 @@ suspend fun Flow<String>.day10part2(): Long {
         tiles,
     )
 
-    val cleanTiles = tiles.getCleanTiles(startPosition)
+    val cleanTiles = tiles.cleanNonFenceTiles(startPosition)
 
     cleanTiles.log()
 
@@ -32,8 +32,8 @@ suspend fun Flow<String>.day10part2(): Long {
 
         we ray trace top and bottom half of each line from left to right and when both halves of empty tile (not a fence) are inside (odd), the empty tile is inside
 
-         ⥤      .┌┐..┌┐.┌┘..└┐.│.│
          TOP    000000000111222334
+         ⥤      .┌┐..┌┐.┌┘..└┐.│.│
          BOTTOM 012223445555566778
          INSIDE ..........II....I.
      */
@@ -59,30 +59,30 @@ suspend fun Flow<String>.day10part2(): Long {
 }
 
 private data class Tile(
-    val connectedTo: List<Pair<Int, Int>>,
+    val connectedTo: List<YXPair>,
     var distance: Long? = null,
 )
 
 private fun Tile.hasConnection(
-    atPos: Pair<Int, Int>,
-    toPos: Pair<Int, Int>,
-) = this.connectedTo.any { (atPos.first + it.first == toPos.first) && (atPos.second + it.second == toPos.second) }
+    atPos: YXPair,
+    toPos: YXPair,
+) = this.connectedTo.any {
+    atPos + it == toPos
+}
 
-private fun List<List<Tile>>.getOrNull(position: Pair<Int, Int>) = this.getOrNull(position.first)?.getOrNull(position.second)
+private fun List<List<Tile>>.getOrNull(position: YXPair) = this.getOrNull(position.first)?.getOrNull(position.second)
 
 private fun traceFenceAndMarkDistances(
-    startPosition: Pair<Int, Int>,
+    startPosition: YXPair,
     tiles: List<List<Tile>>,
 ): Long {
     var heads = listOf(startPosition)
     while (heads.isNotEmpty()) {
-        val nextHeads = mutableListOf<Pair<Int, Int>>()
+        val nextHeads = mutableListOf<YXPair>()
         heads.forEach { head ->
-            val y = head.first
-            val x = head.second
-            val headTile = tiles[y][x]
+            val headTile = tiles[head.first][head.second]
             headTile.connectedTo.forEach { direction ->
-                val nextPos = y + direction.first to x + direction.second
+                val nextPos = head + direction
                 val nextTile = tiles.getOrNull(nextPos)
                 if (nextTile != null) {
                     when {
@@ -108,18 +108,32 @@ private fun traceFenceAndMarkDistances(
     return -2
 }
 
-private fun List<List<Tile>>.getCleanTiles(startPosition: Pair<Int, Int>) =
+private fun List<YXPair>.filterLeadingToFence(
+    tiles: List<List<Tile>>,
+    y: Int,
+    x: Int,
+): List<YXPair> {
+    return this.filter {
+        tiles.getOrNull((y to x) + it)?.distance != null
+    }
+}
+
+private operator fun YXPair.plus(it: YXPair): YXPair =
+    (this.first + it.first) to (this.second + it.second)
+
+private fun List<List<Tile>>.cleanNonFenceTiles(startPosition: YXPair) =
     mapIndexed { y, line ->
         line.mapIndexed { x, dirtyTile ->
             when {
-                y == startPosition.first && x == startPosition.second -> {
+                y to x == startPosition -> {
                     Tile(
-                        connectedTo = dirtyTile.connectedTo.filter { getOrNull(y + it.first to x + it.second)?.distance != null },
+                        connectedTo = dirtyTile.connectedTo.filterLeadingToFence(this, y, x),
                         distance = dirtyTile.distance,
                     )
                 }
 
                 dirtyTile.distance == null -> Tile(emptyList())
+
                 else -> Tile(dirtyTile.connectedTo, dirtyTile.distance)
             }
         }
@@ -141,11 +155,13 @@ private suspend fun List<List<Tile>>.log() =
         }
     }
 
-private suspend fun Flow<String>.parseTiles(): Pair<List<List<Tile>>, Pair<Int, Int>> {
-    var startPosition: Pair<Int, Int>? = null
+typealias YXPair = Pair<Int, Int>
+
+private suspend fun Flow<String>.parseTiles(): Pair<List<List<Tile>>, YXPair> {
+    var startPosition: YXPair? = null
     val tiles =
-        toList().mapIndexed { i, line ->
-            line.mapIndexed { j, char ->
+        toList().mapIndexed { y, line ->
+            line.mapIndexed { x, char ->
                 when (char) {
                     '.' -> Tile(emptyList())
                     '-' -> Tile(listOf(0 to 1, 0 to -1))
@@ -155,16 +171,13 @@ private suspend fun Flow<String>.parseTiles(): Pair<List<List<Tile>>, Pair<Int, 
                     'F' -> Tile(listOf(1 to 0, 0 to 1))
                     '7' -> Tile(listOf(1 to 0, 0 to -1))
                     'S' -> {
-                        startPosition = i to j
+                        startPosition = y to x
                         Tile(listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1), 0)
                     }
 
-                    else -> throw RuntimeException("Unexpected tile at $i $j: '$char'")
+                    else -> throw RuntimeException("Unexpected tile at $y $x: '$char'")
                 }
             }
         }
-    if (startPosition == null) {
-        throw RuntimeException("Start was not found")
-    }
-    return tiles to startPosition!!
+    return tiles to (startPosition ?: throw RuntimeException("Start was not found"))
 }
