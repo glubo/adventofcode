@@ -118,8 +118,7 @@ private fun List<YXPair>.filterLeadingToFence(
     }
 }
 
-private operator fun YXPair.plus(it: YXPair): YXPair =
-    (this.first + it.first) to (this.second + it.second)
+private operator fun YXPair.plus(it: YXPair): YXPair = (this.first + it.first) to (this.second + it.second)
 
 private fun List<List<Tile>>.cleanNonFenceTiles(startPosition: YXPair) =
     mapIndexed { y, line ->

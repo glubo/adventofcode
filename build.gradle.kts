@@ -32,6 +32,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    maxHeapSize = "20g"
 }
 
 tasks.withType<KotlinCompile> {

@@ -57,13 +57,14 @@ suspend fun Flow<String>.sumOfDistances(expansion: Int): Long {
             val gapsXcrossed = (x1..x2).count { it in gapsX }
             val gapsYcrossed = (y1..y2).count { it in gapsY }
 
-            val distance = (
+            val distance =
+                (
                     0 +
-                            abs(x1 - x2) +
-                            abs(y1 - y2) +
-                            gapsYcrossed * expansionBonus +
-                            gapsXcrossed * expansionBonus
-                    ).toLong()
+                        abs(x1 - x2) +
+                        abs(y1 - y2) +
+                        gapsYcrossed * expansionBonus +
+                        gapsXcrossed * expansionBonus
+                ).toLong()
             logger.debug { "distance between $i $j: $distance; from ${galaxies[i]} to ${galaxies[j]}, gx: $gapsXcrossed gy: $gapsYcrossed " }
             distance
         }
