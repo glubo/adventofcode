@@ -65,7 +65,9 @@ suspend fun Flow<String>.sumOfDistances(expansion: Int): Long {
                         gapsYcrossed * expansionBonus +
                         gapsXcrossed * expansionBonus
                 ).toLong()
-            logger.debug { "distance between $i $j: $distance; from ${galaxies[i]} to ${galaxies[j]}, gx: $gapsXcrossed gy: $gapsYcrossed " }
+            logger.debug {
+                "distance between $i $j: $distance; from ${galaxies[i]} to ${galaxies[j]}, gx: $gapsXcrossed gy: $gapsYcrossed "
+            }
             distance
         }
     }

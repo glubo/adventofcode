@@ -13,12 +13,13 @@ suspend fun Flow<String>.day12part1(): Long {
             ruleString.split(',')
                 .map { it.toInt() }
 
-        var variants = variations(
-            Input(
-                source,
-                rules
+        var variants =
+            variations(
+                Input(
+                    source,
+                    rules,
+                ),
             )
-        )
         logger.debug { "source: '$source' rules: '$rules' variants: $variants" }
 
         acc + variants
@@ -33,12 +34,13 @@ suspend fun Flow<String>.day12part2(): Long {
             ruleStringR.split(',')
                 .map { it.toInt() }
         val source = "$sourceIn?$sourceIn?$sourceIn?$sourceIn?$sourceIn"
-        val validCount = variations(
-            Input(
-                source,
-                rules
+        val validCount =
+            variations(
+                Input(
+                    source,
+                    rules,
+                ),
             )
-        )
         acc + validCount
     }
 }
@@ -49,11 +51,17 @@ data class Input(
 )
 
 fun ifb(condition: () -> Boolean) = if (condition()) 1L else 0L
+
 fun String.removePrefix(char: Char) = this.dropWhile { it == char }
+
 fun String.prefixLength(chars: CharSequence) = this.takeWhile { it in chars }.length
+
 fun String.replaceFirst(char: Char) = this.replaceRange(0, 1, char.toString())
 
-fun tapDebug(input: Input, function: (Input) -> Long): Long {
+fun tapDebug(
+    input: Input,
+    function: (Input) -> Long,
+): Long {
     val result = function(input)
 
     logger.debug { "for input $input got $result" }
@@ -61,65 +69,70 @@ fun tapDebug(input: Input, function: (Input) -> Long): Long {
     return result
 }
 
-fun variations(input: Input) = buildMap<Input, Long> {
-    fun rec(i: Input): Long = getOrPut(i) {
-        tapDebug(i) {
-            when {
-                i.tail.isEmpty() -> ifb { i.rulesLeft.isEmpty() }
-                i.rulesLeft.isEmpty() -> ifb { !i.tail.contains('#') }
-                else -> when (i.tail.first()) {
-                    '.' -> rec(
-                        Input(
-                            i.tail.removePrefix('.'),
-                            i.rulesLeft
-                        )
-                    )
-
-                    '#' -> {
-                        if (i.rulesLeft.first() > i.tail.prefixLength("#?")) {
-                            0L
-                        } else {
-                            val newTail = i.tail.drop(i.rulesLeft.first())
-                            when {
-                                newTail.isEmpty() -> ifb { i.rulesLeft.size == 1 }
-                                newTail.startsWith('#') -> 0L
-                                newTail.startsWith('?') ->
+fun variations(input: Input) =
+    buildMap<Input, Long> {
+        fun rec(i: Input): Long =
+            getOrPut(i) {
+                tapDebug(i) {
+                    when {
+                        i.tail.isEmpty() -> ifb { i.rulesLeft.isEmpty() }
+                        i.rulesLeft.isEmpty() -> ifb { !i.tail.contains('#') }
+                        else ->
+                            when (i.tail.first()) {
+                                '.' ->
                                     rec(
                                         Input(
-                                            newTail.drop(1),
-                                            i.rulesLeft.drop(1)
-                                        )
-                                    )
-                                newTail.startsWith('.') ->
-                                    rec(
-                                        Input(
-                                            newTail.removePrefix('.'),
-                                            i.rulesLeft.drop(1)
-                                        )
+                                            i.tail.removePrefix('.'),
+                                            i.rulesLeft,
+                                        ),
                                     )
 
-                                else -> throw RuntimeException("asdasd")
+                                '#' -> {
+                                    if (i.rulesLeft.first() > i.tail.prefixLength("#?")) {
+                                        0L
+                                    } else {
+                                        val newTail = i.tail.drop(i.rulesLeft.first())
+                                        when {
+                                            newTail.isEmpty() -> ifb { i.rulesLeft.size == 1 }
+                                            newTail.startsWith('#') -> 0L
+                                            newTail.startsWith('?') ->
+                                                rec(
+                                                    Input(
+                                                        newTail.drop(1),
+                                                        i.rulesLeft.drop(1),
+                                                    ),
+                                                )
+                                            newTail.startsWith('.') ->
+                                                rec(
+                                                    Input(
+                                                        newTail.removePrefix('.'),
+                                                        i.rulesLeft.drop(1),
+                                                    ),
+                                                )
+
+                                            else -> throw RuntimeException("asdasd")
+                                        }
+                                    }
+                                }
+
+                                '?' ->
+                                    rec(
+                                        Input(
+                                            i.tail.replaceFirst('#'),
+                                            i.rulesLeft,
+                                        ),
+                                    ) +
+                                        rec(
+                                            Input(
+                                                i.tail.replaceFirst('.'),
+                                                i.rulesLeft,
+                                            ),
+                                        )
+
+                                else -> 0L
                             }
-                        }
                     }
-
-                    '?' -> rec(
-                        Input(
-                            i.tail.replaceFirst('#'),
-                            i.rulesLeft
-                        )
-                    ) + rec(
-                        Input(
-                            i.tail.replaceFirst('.'),
-                            i.rulesLeft
-                        )
-                    )
-
-                    else -> 0L
                 }
             }
-        }
-    }
-    rec(input)
-}[input]!!
-
+        rec(input)
+    }[input]!!
