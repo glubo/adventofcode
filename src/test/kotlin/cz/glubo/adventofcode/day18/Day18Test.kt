@@ -1,7 +1,6 @@
 package cz.glubo.adventofcode.day18
 
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flowOf
 
@@ -66,5 +65,4 @@ class Day18Test : FreeSpec({
             "U 2 (#7a21e3)",
         ).day18part2() shouldBe 952408144115L
     }
-
 })

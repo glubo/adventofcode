@@ -1,7 +1,6 @@
 package cz.glubo.adventofcode.day17
 
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flowOf
 

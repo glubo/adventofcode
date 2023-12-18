@@ -6,6 +6,7 @@ import cz.glubo.adventofcode.utils.Direction.UP
 import cz.glubo.adventofcode.utils.IVec2
 import cz.glubo.adventofcode.utils.Orientation
 import cz.glubo.adventofcode.utils.Orientation.VERTICAL
+import cz.glubo.adventofcode.utils.length
 import cz.glubo.adventofcode.utils.rangeUnion
 import io.klogging.noCoLogger
 import kotlinx.coroutines.flow.Flow
@@ -23,24 +24,55 @@ data class Op(
 suspend fun Flow<String>.day18part1(): Long {
     val ops = mutableListOf<Op>()
     this.collect { line ->
-        val match = opRegex.find(line)
-            ?: throw RuntimeException("Line $line does not match")
+        val match =
+            opRegex.find(line)
+                ?: throw RuntimeException("Line $line does not match")
         ops.add(
             Op(
-                direction = when (match.groups["opcode"]!!.value) {
-                    "U" -> UP
-                    "D" -> DOWN
-                    "R" -> Direction.RIGHT
-                    "L" -> Direction.LEFT
-                    else -> throw RuntimeException("Invalid direction")
-                },
+                direction =
+                    when (match.groups["opcode"]!!.value) {
+                        "U" -> UP
+                        "D" -> DOWN
+                        "R" -> Direction.RIGHT
+                        "L" -> Direction.LEFT
+                        else -> throw RuntimeException("Invalid direction")
+                    },
                 length = match.groups["length"]!!.value.toInt(),
-                color = match.groups["color"]!!.value
-            )
+                color = match.groups["color"]!!.value,
+            ),
         )
     }
 
-    return count(ops)
+    return countLava(ops)
+}
+
+suspend fun Flow<String>.day18part2(): Long {
+    val ops = mutableListOf<Op>()
+    this.collect { line ->
+        val match =
+            opRegex.find(line)
+                ?: throw RuntimeException("Line $line does not match")
+        val input = match.groups["color"]!!.value
+        val newOp =
+            Op(
+                direction =
+                    when (input.last()) {
+                        '3' -> UP
+                        '1' -> DOWN
+                        '0' -> Direction.RIGHT
+                        '2' -> Direction.LEFT
+                        else -> throw RuntimeException("Invalid direction")
+                    },
+                length = input.take(5).toInt(16),
+                color = input,
+            )
+        logger.debug { "$input: $newOp" }
+        ops.add(
+            newOp,
+        )
+    }
+
+    return countLava(ops)
 }
 
 data class Line(
@@ -49,83 +81,82 @@ data class Line(
     val direction: Direction,
 )
 
-fun count(ops: List<Op>): Long {
+fun intersectToRanges(intersects: List<Int>): List<IntRange> =
+    intersects
+        .sorted()
+        .chunked(2)
+        .map { (start, end) -> (start..end) }
 
+fun walkOps(
+    ops: List<Op>,
+    callback: (op: Op, pos: IVec2, nextPos: IVec2) -> Unit,
+) = ops.fold(IVec2(0, 0)) { pos, op ->
+    val nextPos = pos + op.direction.vector * op.length
+    callback(op, pos, nextPos)
+    nextPos
+}
+
+/**
+ * https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
+ *
+ * we ray cast horizontally top and bottom from each horizontal cut (any vertical start/stop)
+ * we then compute lava on current line (either top or bottom is inside)
+ * and lava in between current and next cut (bottom is inside * inner distance to next)
+ *
+ */
+fun countLava(ops: List<Op>): Long {
     val lines = mutableListOf<Line>()
-    ops.fold(IVec2(0, 0)) { pos, op ->
-        val nextPos = pos + op.direction.vector * op.length
+    walkOps(ops) { op, pos, nextPos ->
         if (Orientation.of(op.direction) == VERTICAL) {
-            // we don't care about horizontal lines for ray tracing
+            // we don't care about horizontal lines for ray tracing similar to day 10
             lines.add(
                 Line(
                     start = pos,
                     end = nextPos,
-                    direction = op.direction
-                )
+                    direction = op.direction,
+                ),
             )
         }
-        nextPos
     }
 
     val verticalCuts = lines.map { it.start.y }.distinct().sorted()
 
-    var lavaCount = 0L
-    verticalCuts.forEachIndexed { index, y ->
-        val topIntersects = lines.filter {
-            when (it.direction) {
-                UP -> y in (it.end.y + 1..it.start.y)
-                DOWN -> y in (it.start.y + 1..it.end.y)
-                else -> false
-            }
-        }.sortedBy { it.start.x }
-        val topRanges = topIntersects.chunked(2)
-            .map { (start, end) -> (start.start.x..end.start.x) }
+    var lavaCount =
+        verticalCuts.foldIndexed(0L) { index, acc, y ->
+            val topIntersects =
+                lines.filter {
+                    when (it.direction) {
+                        UP -> y in (it.end.y + 1..it.start.y)
+                        DOWN -> y in (it.start.y + 1..it.end.y)
+                        else -> false
+                    }
+                }
+            val topRanges = intersectToRanges(topIntersects.map { it.start.x })
 
+            val botIntersects =
+                lines.filter {
+                    when (it.direction) {
+                        UP -> y in (it.end.y..<it.start.y)
+                        DOWN -> y in (it.start.y..<it.end.y)
+                        else -> false
+                    }
+                }.sortedBy { it.start.x }
+            val botRanges = intersectToRanges(botIntersects.map { it.start.x })
 
-        val botIntersects = lines.filter {
-            when (it.direction) {
-                UP -> y in (it.end.y..<it.start.y)
-                DOWN -> y in (it.start.y..<it.end.y)
-                else -> false
-            }
-        }.sortedBy { it.start.x }
-        val botRanges = botIntersects.chunked(2)
-            .map { (start, end) -> (start.start.x..end.start.x) }
+            val bothLavaCount =
+                (topRanges + botRanges)
+                    .rangeUnion()
+                    .sumOf { it.length().toLong() }
 
-        val topLavaCount =  (topRanges + botRanges).rangeUnion()
-            .sumOf { it.endInclusive - it.start + 1 }
-        val botMultiplier = if (verticalCuts.lastIndex != index) {
-            verticalCuts[index + 1] - y - 1
-        } else 1
-        val botLavaCount = botRanges
-            .sumOf { (it.endInclusive - it.start + 1).toLong() * botMultiplier }
-        lavaCount += topLavaCount + botLavaCount
-    }
+            val botMultiplier =
+                if (verticalCuts.lastIndex != index) {
+                    verticalCuts[index + 1] - y - 1
+                } else {
+                    1
+                }
+            val botLavaCount = botRanges.sumOf { it.length().toLong() }
+
+            acc + bothLavaCount + botLavaCount * botMultiplier
+        }
     return lavaCount
-}
-
-suspend fun Flow<String>.day18part2(): Long {
-    val ops = mutableListOf<Op>()
-    this.collect { line ->
-        val match = opRegex.find(line)
-            ?: throw RuntimeException("Line $line does not match")
-        val input = match.groups["color"]!!.value
-        val newOp = Op(
-            direction = when (input.last()) {
-                '3' -> UP
-                '1' -> DOWN
-                '0' -> Direction.RIGHT
-                '2' -> Direction.LEFT
-                else -> throw RuntimeException("Invalid direction")
-            },
-            length = input.take(5).toInt(16),
-            color = input
-        )
-        logger.debug { "$input: $newOp" }
-        ops.add(
-            newOp
-        )
-    }
-
-    return count(ops)
 }

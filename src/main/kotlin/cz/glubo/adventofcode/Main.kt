@@ -39,6 +39,7 @@ import cz.glubo.adventofcode.daylast4.dayLast4part2
 import io.klogging.Level
 import io.klogging.config.ANSI_CONSOLE
 import io.klogging.config.loggingConfiguration
+import io.klogging.noCoLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
@@ -46,6 +47,9 @@ import picocli.CommandLine
 import picocli.CommandLine.Command
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
+import kotlin.time.measureTime
+
+private val logger = noCoLogger({}.javaClass.`package`.toString())
 
 abstract class FlowCommand<ResultType> : Callable<Int> {
     @CommandLine.Option(names = ["--verbose", "-v"], negatable = true)
@@ -54,11 +58,15 @@ abstract class FlowCommand<ResultType> : Callable<Int> {
     abstract suspend fun execute(linesFlow: Flow<String>): ResultType
 
     override fun call(): Int {
-        runBlocking {
-            val linesFlow = generateSequence(::readLine).asFlow()
-            val result = execute(linesFlow)
-            println(result)
-        }
+        var result: ResultType?
+        val duration =
+            measureTime {
+                runBlocking {
+                    val linesFlow = generateSequence(::readLine).asFlow()
+                    result = execute(linesFlow)
+                }
+            }
+        logger.info { "result: $result (took $duration)" }
         return 0
     }
 }

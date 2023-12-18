@@ -27,13 +27,13 @@ class RangesTest : FreeSpec({
 
     "rangeUnion single" - {
         "two disjoint ranges" {
-            listOf((1..2),  (4..5)).rangeUnion() shouldBe listOf((1..2), (4..5))
+            listOf((1..2), (4..5)).rangeUnion() shouldBe listOf((1..2), (4..5))
         }
         "three disjoint ranges" {
-            listOf((1..2),  (4..5), (7..8)).rangeUnion() shouldBe listOf((1..2), (4..5), (7..8))
+            listOf((1..2), (4..5), (7..8)).rangeUnion() shouldBe listOf((1..2), (4..5), (7..8))
         }
         "three touching ranges" {
-            listOf((1..<4),  (4..6), (7..8)).rangeUnion() shouldBe listOf((1..8))
+            listOf((1..<4), (4..6), (7..8)).rangeUnion() shouldBe listOf((1..8))
         }
     }
 })

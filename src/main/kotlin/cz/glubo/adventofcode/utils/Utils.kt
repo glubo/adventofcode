@@ -5,15 +5,17 @@ import cz.glubo.adventofcode.utils.Direction.LEFT
 import cz.glubo.adventofcode.utils.Direction.RIGHT
 import cz.glubo.adventofcode.utils.Direction.UP
 import kotlin.math.abs
-import kotlin.math.min
 import kotlin.math.max
+import kotlin.math.min
 
 data class IVec2(
     val x: Int,
     val y: Int,
 ) {
     operator fun plus(other: IVec2) = IVec2(this.x + other.x, this.y + other.y)
+
     operator fun minus(other: IVec2) = IVec2(this.x - other.x, this.y - other.y)
+
     operator fun times(scale: Int) = IVec2(scale * this.x, scale * this.y)
 
     /**
@@ -33,27 +35,29 @@ enum class Direction(
 ) {
     UP(
         IVec2(0, -1),
-        '↑'
+        '↑',
     ),
     DOWN(
         IVec2(0, 1),
-        '↓'
+        '↓',
     ),
     LEFT(
         IVec2(-1, 0),
-        '←'
+        '←',
     ),
     RIGHT(
         IVec2(1, 0),
-        '→'
-    );
+        '→',
+    ),
+    ;
 
-    fun opposite() = when (this) {
-        UP -> DOWN
-        DOWN -> UP
-        LEFT -> RIGHT
-        RIGHT -> LEFT
-    }
+    fun opposite() =
+        when (this) {
+            UP -> DOWN
+            DOWN -> UP
+            LEFT -> RIGHT
+            RIGHT -> LEFT
+        }
 }
 
 enum class Orientation(
@@ -61,20 +65,23 @@ enum class Orientation(
 ) {
     HORIZONTAL(listOf(LEFT, RIGHT)),
 
-    VERTICAL(listOf(UP, DOWN));
+    VERTICAL(listOf(UP, DOWN)),
+    ;
 
-    fun switch() = when (this) {
-        HORIZONTAL -> VERTICAL
-        VERTICAL -> HORIZONTAL
-    }
+    fun switch() =
+        when (this) {
+            HORIZONTAL -> VERTICAL
+            VERTICAL -> HORIZONTAL
+        }
 
     companion object {
-        fun of(direction: Direction) = when (direction) {
-            UP -> VERTICAL
-            DOWN -> VERTICAL
-            LEFT -> HORIZONTAL
-            RIGHT -> HORIZONTAL
-        }
+        fun of(direction: Direction) =
+            when (direction) {
+                UP -> VERTICAL
+                DOWN -> VERTICAL
+                LEFT -> HORIZONTAL
+                RIGHT -> HORIZONTAL
+            }
     }
 }
 
@@ -86,21 +93,25 @@ open class Field<T>(
     val topLeft = IVec2(0, 0)
     val bottomRight = IVec2(width - 1, height - 1)
 
-    operator fun get(at: IVec2) =
-        if (outside(at)) null else fields[at.x + at.y * width]
+    operator fun get(at: IVec2) = if (outside(at)) null else fields[at.x + at.y * width]
 
-    operator fun set(at: IVec2, it: T) {
-        if (!outside(at))
+    operator fun set(
+        at: IVec2,
+        it: T,
+    ) {
+        if (!outside(at)) {
             fields[at.x + at.y * width] = it
+        }
     }
 
-    fun outside(it: IVec2) = when {
-        it.x >= width -> true
-        it.y >= height -> true
-        it.x < 0 -> true
-        it.y < 0 -> true
-        else -> false
-    }
+    fun outside(it: IVec2) =
+        when {
+            it.x >= width -> true
+            it.y >= height -> true
+            it.x < 0 -> true
+            it.y < 0 -> true
+            else -> false
+        }
 }
 
 infix fun IntRange.rangeUnion(that: IntRange) =
@@ -117,7 +128,10 @@ infix fun IntRange.rangeUnion(that: IntRange) =
 fun List<IntRange>.rangeUnion() =
     this.sortedBy { it.first }
         .fold(listOf<IntRange>()) { acc, it ->
-            val newTail = acc.lastOrNull()?.rangeUnion(it)
-                ?: listOf(it)
+            val newTail =
+                acc.lastOrNull()?.rangeUnion(it)
+                    ?: listOf(it)
             acc.dropLast(1) + newTail
         }
+
+fun IntRange.length() = (this.endInclusive - this.start + 1)

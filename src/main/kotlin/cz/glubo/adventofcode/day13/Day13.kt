@@ -6,6 +6,9 @@ import kotlin.math.min
 
 private val logger = noCoLogger({}.javaClass.`package`.toString())
 
+// helper to solve smart-cast hell
+private const val IZERO: Int = 0
+
 suspend fun Flow<String>.day13part1(): Long {
     return this.day13(0)
 }
@@ -47,7 +50,7 @@ fun weightReflection(
             lower.zip(upper).sumOf { lines ->
                 val smudges =
                     horizontalRange.sumOf {
-                        if (field[lines.first][it] != field[lines.second][it]) 1 else 0 as Int
+                        if (field[lines.first][it] != field[lines.second][it]) 1 else IZERO
                     }
                 logger.debug("${lines.first} ${lines.second} $smudges")
                 smudges
@@ -66,7 +69,7 @@ fun weightReflection(
             lower.zip(upper).sumOf { columns ->
                 val smudges =
                     verticalRange.sumOf {
-                        if (field[it][columns.first] != field[it][columns.second]) 1 else 0 as Int
+                        if (field[it][columns.first] != field[it][columns.second]) 1 else IZERO
                     }
                 logger.debug("${columns.first} ${columns.second} $smudges")
                 smudges
