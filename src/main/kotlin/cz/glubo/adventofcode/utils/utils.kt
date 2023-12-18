@@ -1,10 +1,12 @@
-package cz.glubo.adventofcode
+package cz.glubo.adventofcode.utils
 
-import cz.glubo.adventofcode.Direction.DOWN
-import cz.glubo.adventofcode.Direction.LEFT
-import cz.glubo.adventofcode.Direction.RIGHT
-import cz.glubo.adventofcode.Direction.UP
+import cz.glubo.adventofcode.utils.Direction.DOWN
+import cz.glubo.adventofcode.utils.Direction.LEFT
+import cz.glubo.adventofcode.utils.Direction.RIGHT
+import cz.glubo.adventofcode.utils.Direction.UP
 import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.max
 
 data class IVec2(
     val x: Int,
@@ -33,9 +35,25 @@ enum class Direction(
         IVec2(0, -1),
         '↑'
     ),
-    DOWN(IVec2(0, 1), '↓'),
-    LEFT(IVec2(-1, 0), '←'),
-    RIGHT(IVec2(1, 0), '→'),
+    DOWN(
+        IVec2(0, 1),
+        '↓'
+    ),
+    LEFT(
+        IVec2(-1, 0),
+        '←'
+    ),
+    RIGHT(
+        IVec2(1, 0),
+        '→'
+    );
+
+    fun opposite() = when (this) {
+        UP -> DOWN
+        DOWN -> UP
+        LEFT -> RIGHT
+        RIGHT -> LEFT
+    }
 }
 
 enum class Orientation(
@@ -84,3 +102,22 @@ open class Field<T>(
         else -> false
     }
 }
+
+infix fun IntRange.rangeUnion(that: IntRange) =
+    listOf(
+        (min(this.start, that.start)..min(this.endInclusive, that.endInclusive)),
+        (max(this.start, that.start)..max(this.endInclusive, that.endInclusive)),
+    ).let { (lower, higher) ->
+        when {
+            lower.endInclusive + 1 >= higher.start -> listOf((lower.start..higher.endInclusive))
+            else -> listOf(lower, higher)
+        }
+    }
+
+fun List<IntRange>.rangeUnion() =
+    this.sortedBy { it.first }
+        .fold(listOf<IntRange>()) { acc, it ->
+            val newTail = acc.lastOrNull()?.rangeUnion(it)
+                ?: listOf(it)
+            acc.dropLast(1) + newTail
+        }

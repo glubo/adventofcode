@@ -1,10 +1,10 @@
 package cz.glubo.adventofcode.day17
 
-import cz.glubo.adventofcode.Field
-import cz.glubo.adventofcode.IVec2
-import cz.glubo.adventofcode.Orientation
-import cz.glubo.adventofcode.Orientation.HORIZONTAL
-import cz.glubo.adventofcode.Orientation.VERTICAL
+import cz.glubo.adventofcode.utils.Field
+import cz.glubo.adventofcode.utils.IVec2
+import cz.glubo.adventofcode.utils.Orientation
+import cz.glubo.adventofcode.utils.Orientation.HORIZONTAL
+import cz.glubo.adventofcode.utils.Orientation.VERTICAL
 import io.klogging.noCoLogger
 import kotlinx.coroutines.flow.Flow
 import java.util.PriorityQueue
