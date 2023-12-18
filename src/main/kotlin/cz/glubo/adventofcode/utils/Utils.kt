@@ -4,6 +4,7 @@ import cz.glubo.adventofcode.utils.Direction.DOWN
 import cz.glubo.adventofcode.utils.Direction.LEFT
 import cz.glubo.adventofcode.utils.Direction.RIGHT
 import cz.glubo.adventofcode.utils.Direction.UP
+import io.klogging.noCoLogger
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -112,6 +113,15 @@ open class Field<T>(
             it.y < 0 -> true
             else -> false
         }
+
+    fun debug(map: (T) -> Char) {
+        noCoLogger(this.javaClass.toString()).debug {
+            "Field $width * $height\n" +
+                fields.chunked(width)
+                    .map { line -> line.map { map(it) }.joinToString("") }
+                    .joinToString("\n")
+        }
+    }
 }
 
 infix fun IntRange.rangeUnion(that: IntRange) =
