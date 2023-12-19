@@ -145,3 +145,14 @@ fun List<IntRange>.rangeUnion() =
         }
 
 fun IntRange.length() = (this.endInclusive - this.start + 1)
+
+fun (MatchResult?).getGroup(group: String) = this!!.groups[group]!!.value
+
+fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
+    when {
+        boundary in (this.start + 1..this.endInclusive) -> {
+            (this.start..<boundary) to (boundary..this.endInclusive)
+        }
+        boundary <= this.start -> null to this
+        else -> this to null
+    }

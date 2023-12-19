@@ -25,7 +25,7 @@ class RangesTest : FreeSpec({
         }
     }
 
-    "rangeUnion single" - {
+    "rangeUnion list" - {
         "two disjoint ranges" {
             listOf((1..2), (4..5)).rangeUnion() shouldBe listOf((1..2), (4..5))
         }
@@ -34,6 +34,24 @@ class RangesTest : FreeSpec({
         }
         "three touching ranges" {
             listOf((1..<4), (4..6), (7..8)).rangeUnion() shouldBe listOf((1..8))
+        }
+    }
+
+    "split range single" - {
+        "simple split" {
+            (1..5).split(4) shouldBe ((1..3) to(4..5))
+        }
+        "split on start" {
+            (1..5).split(1) shouldBe (null to (1..5))
+        }
+        "split before start" {
+            (1..5).split(-1) shouldBe (null to (1..5))
+        }
+        "split at the end" {
+            (1..5).split(5) shouldBe ((1..4) to (5..5))
+        }
+        "split after the end" {
+            (1..5).split(6) shouldBe ((1..5) to null)
         }
     }
 })
