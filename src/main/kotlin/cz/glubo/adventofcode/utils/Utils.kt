@@ -156,3 +156,5 @@ fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
         boundary <= this.start -> null to this
         else -> this to null
     }
+
+fun Int?.orMax() = this ?: Int.MAX_VALUE
