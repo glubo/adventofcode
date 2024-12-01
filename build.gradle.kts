@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     kotlin("jvm")
@@ -35,8 +36,8 @@ tasks.test {
     maxHeapSize = "20g"
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+tasks.withType<KotlinJvmCompile> {
+    kotlinOptions.jvmTarget = "21"
 }
 
 tasks.withType<JavaExec> {

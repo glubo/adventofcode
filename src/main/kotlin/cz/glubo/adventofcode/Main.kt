@@ -1,46 +1,46 @@
 package cz.glubo.adventofcode
 
-import cz.glubo.adventofcode.day1.day1part1
-import cz.glubo.adventofcode.day1.day1part2
-import cz.glubo.adventofcode.day10.day10part1
-import cz.glubo.adventofcode.day10.day10part2
-import cz.glubo.adventofcode.day11.day11part1
-import cz.glubo.adventofcode.day11.day11part2
-import cz.glubo.adventofcode.day12.day12part1
-import cz.glubo.adventofcode.day12.day12part2
-import cz.glubo.adventofcode.day13.day13part1
-import cz.glubo.adventofcode.day13.day13part2
-import cz.glubo.adventofcode.day14.day14part1
-import cz.glubo.adventofcode.day14.day14part2
-import cz.glubo.adventofcode.day15.day15part1
-import cz.glubo.adventofcode.day15.day15part2
-import cz.glubo.adventofcode.day16.day16part1
-import cz.glubo.adventofcode.day16.day16part2
-import cz.glubo.adventofcode.day17.day17part1
-import cz.glubo.adventofcode.day17.day17part2
-import cz.glubo.adventofcode.day18.day18part1
-import cz.glubo.adventofcode.day18.day18part2
-import cz.glubo.adventofcode.day19.day19part1
-import cz.glubo.adventofcode.day19.day19part2
-import cz.glubo.adventofcode.day2.day2part1
-import cz.glubo.adventofcode.day2.day2part2
-import cz.glubo.adventofcode.day25.day25part1
-import cz.glubo.adventofcode.day3.day3part1
-import cz.glubo.adventofcode.day3.day3part2
-import cz.glubo.adventofcode.day4.day4part1
-import cz.glubo.adventofcode.day4.day4part2
-import cz.glubo.adventofcode.day5.day5part1
-import cz.glubo.adventofcode.day5.day5part2
-import cz.glubo.adventofcode.day6.day6part1
-import cz.glubo.adventofcode.day6.day6part2
-import cz.glubo.adventofcode.day7.day7part1
-import cz.glubo.adventofcode.day7.day7part2
-import cz.glubo.adventofcode.day8.day8part1
-import cz.glubo.adventofcode.day8.day8part2
-import cz.glubo.adventofcode.day9.day9part1
-import cz.glubo.adventofcode.day9.day9part2
-import cz.glubo.adventofcode.daylast4.dayLast4part1
-import cz.glubo.adventofcode.daylast4.dayLast4part2
+import cz.glubo.adventofcode.y2023.day1.y2023day1part1
+import cz.glubo.adventofcode.y2023.day1.y2023day1part2
+import cz.glubo.adventofcode.y2023.day10.y2023day10part1
+import cz.glubo.adventofcode.y2023.day10.y2023day10part2
+import cz.glubo.adventofcode.y2023.day11.y2023day11part1
+import cz.glubo.adventofcode.y2023.day11.y2023day11part2
+import cz.glubo.adventofcode.y2023.day12.y2023day12part1
+import cz.glubo.adventofcode.y2023.day12.y2023day12part2
+import cz.glubo.adventofcode.y2023.day13.y2023day13part1
+import cz.glubo.adventofcode.y2023.day13.y2023day13part2
+import cz.glubo.adventofcode.y2023.day14.y2023day14part1
+import cz.glubo.adventofcode.y2023.day14.y2023day14part2
+import cz.glubo.adventofcode.y2023.day15.y2023day15part1
+import cz.glubo.adventofcode.y2023.day15.y2023day15part2
+import cz.glubo.adventofcode.y2023.day16.y2023day16part1
+import cz.glubo.adventofcode.y2023.day16.y2023day16part2
+import cz.glubo.adventofcode.y2023.day17.y2023day17part1
+import cz.glubo.adventofcode.y2023.day17.y2023day17part2
+import cz.glubo.adventofcode.y2023.day18.y2023day18part1
+import cz.glubo.adventofcode.y2023.day18.y2023day18part2
+import cz.glubo.adventofcode.y2023.day19.y2023day19part1
+import cz.glubo.adventofcode.y2023.day19.y2023day19part2
+import cz.glubo.adventofcode.y2023.day2.y2023day2part1
+import cz.glubo.adventofcode.y2023.day2.y2023day2part2
+import cz.glubo.adventofcode.y2023.day25.y2023day25part1
+import cz.glubo.adventofcode.y2023.day3.y2023day3part1
+import cz.glubo.adventofcode.y2023.day3.y2023day3part2
+import cz.glubo.adventofcode.y2023.day4.y2023day4part1
+import cz.glubo.adventofcode.y2023.day4.y2023day4part2
+import cz.glubo.adventofcode.y2023.day5.y2023day5part1
+import cz.glubo.adventofcode.y2023.day5.y2023day5part2
+import cz.glubo.adventofcode.y2023.day6.y2023day6part1
+import cz.glubo.adventofcode.y2023.day6.y2023day6part2
+import cz.glubo.adventofcode.y2023.day7.y2023day7part1
+import cz.glubo.adventofcode.y2023.day7.y2023day7part2
+import cz.glubo.adventofcode.y2023.day8.y2023day8part1
+import cz.glubo.adventofcode.y2023.day8.y2023day8part2
+import cz.glubo.adventofcode.y2023.day9.y2023day9part1
+import cz.glubo.adventofcode.y2023.day9.y2023day9part2
+import cz.glubo.adventofcode.y2023.daylast4.y2023dayLast4part1
+import cz.glubo.adventofcode.y2023.daylast4.y2023dayLast4part2
 import io.klogging.Level
 import io.klogging.config.ANSI_CONSOLE
 import io.klogging.config.loggingConfiguration
@@ -116,47 +116,47 @@ fun main(args: Array<String>) {
     }
     val commands =
         mapOf(
-            "day1p1" to LinesToIntCommand { it.day1part1() },
-            "day1p2" to LinesToIntCommand { it.day1part2() },
-            "day2p1" to LinesToIntCommand { it.day2part1() },
-            "day2p2" to LinesToIntCommand { it.day2part2() },
-            "day3p1" to LinesToIntCommand { it.day3part1() },
-            "day3p2" to LinesToIntCommand { it.day3part2() },
-            "day4p1" to LinesToIntCommand { it.day4part1() },
-            "day4p2" to LinesToIntCommand { it.day4part2() },
-            "daylast4p1" to LinesToIntCommand { it.dayLast4part1() },
-            "daylast4p2" to LinesToIntCommand { it.dayLast4part2() },
-            "day5p1" to LinesToIntCommand { it.day5part1() },
-            "day5p2" to LinesToIntCommand { it.day5part2() },
-            "day6p1" to LinesToIntCommand { it.day6part1() },
-            "day6p2" to LinesToIntCommand { it.day6part2() },
-            "day7p1" to LinesToIntCommand { it.day7part1() },
-            "day7p2" to LinesToIntCommand { it.day7part2() },
-            "day8p1" to LinesToIntCommand { it.day8part1() },
-            "day8p2" to LinesToLongCommand { it.day8part2() },
-            "day9p1" to LinesToIntCommand { it.day9part1() },
-            "day9p2" to LinesToIntCommand { it.day9part2() },
-            "day10p1" to LinesToLongCommand { it.day10part1() },
-            "day10p2" to LinesToLongCommand { it.day10part2() },
-            "day11p1" to LinesToLongCommand { it.day11part1() },
-            "day11p2" to LinesToLongCommand { it.day11part2() },
-            "day12p1" to LinesToLongCommand { it.day12part1() },
-            "day12p2" to LinesToLongCommand { it.day12part2() },
-            "day13p1" to LinesToLongCommand { it.day13part1() },
-            "day13p2" to LinesToLongCommand { it.day13part2() },
-            "day14p1" to LinesToLongCommand { it.day14part1() },
-            "day14p2" to LinesToLongCommand { it.day14part2() },
-            "day15p1" to LinesToLongCommand { it.day15part1() },
-            "day15p2" to LinesToLongCommand { it.day15part2() },
-            "day16p1" to LinesToLongCommand { it.day16part1() },
-            "day16p2" to LinesToLongCommand { it.day16part2() },
-            "day17p1" to LinesToLongCommand { it.day17part1() },
-            "day17p2" to LinesToLongCommand { it.day17part2() },
-            "day18p1" to LinesToLongCommand { it.day18part1() },
-            "day18p2" to LinesToLongCommand { it.day18part2() },
-            "day19p1" to LinesToLongCommand { it.day19part1() },
-            "day19p2" to LinesToLongCommand { it.day19part2() },
-            "day25p1" to LinesToLongCommand { it.day25part1() },
+            "2023day1p1" to LinesToIntCommand { it.y2023day1part1() },
+            "2023day1p2" to LinesToIntCommand { it.y2023day1part2() },
+            "2023day2p1" to LinesToIntCommand { it.y2023day2part1() },
+            "2023day2p2" to LinesToIntCommand { it.y2023day2part2() },
+            "2023day3p1" to LinesToIntCommand { it.y2023day3part1() },
+            "2023day3p2" to LinesToIntCommand { it.y2023day3part2() },
+            "2023day4p1" to LinesToIntCommand { it.y2023day4part1() },
+            "2023day4p2" to LinesToIntCommand { it.y2023day4part2() },
+            "2023daylast4p1" to LinesToIntCommand { it.y2023dayLast4part1() },
+            "2023daylast4p2" to LinesToIntCommand { it.y2023dayLast4part2() },
+            "2023day5p1" to LinesToIntCommand { it.y2023day5part1() },
+            "2023day5p2" to LinesToIntCommand { it.y2023day5part2() },
+            "2023day6p1" to LinesToIntCommand { it.y2023day6part1() },
+            "2023day6p2" to LinesToIntCommand { it.y2023day6part2() },
+            "2023day7p1" to LinesToIntCommand { it.y2023day7part1() },
+            "2023day7p2" to LinesToIntCommand { it.y2023day7part2() },
+            "2023day8p1" to LinesToIntCommand { it.y2023day8part1() },
+            "2023day8p2" to LinesToLongCommand { it.y2023day8part2() },
+            "2023day9p1" to LinesToIntCommand { it.y2023day9part1() },
+            "2023day9p2" to LinesToIntCommand { it.y2023day9part2() },
+            "2023day10p1" to LinesToLongCommand { it.y2023day10part1() },
+            "2023day10p2" to LinesToLongCommand { it.y2023day10part2() },
+            "2023day11p1" to LinesToLongCommand { it.y2023day11part1() },
+            "2023day11p2" to LinesToLongCommand { it.y2023day11part2() },
+            "2023day12p1" to LinesToLongCommand { it.y2023day12part1() },
+            "2023day12p2" to LinesToLongCommand { it.y2023day12part2() },
+            "2023day13p1" to LinesToLongCommand { it.y2023day13part1() },
+            "2023day13p2" to LinesToLongCommand { it.y2023day13part2() },
+            "2023day14p1" to LinesToLongCommand { it.y2023day14part1() },
+            "2023day14p2" to LinesToLongCommand { it.y2023day14part2() },
+            "2023day15p1" to LinesToLongCommand { it.y2023day15part1() },
+            "2023day15p2" to LinesToLongCommand { it.y2023day15part2() },
+            "2023day16p1" to LinesToLongCommand { it.y2023day16part1() },
+            "2023day16p2" to LinesToLongCommand { it.y2023day16part2() },
+            "2023day17p1" to LinesToLongCommand { it.y2023day17part1() },
+            "2023day17p2" to LinesToLongCommand { it.y2023day17part2() },
+            "2023day18p1" to LinesToLongCommand { it.y2023day18part1() },
+            "2023day18p2" to LinesToLongCommand { it.y2023day18part2() },
+            "2023day19p1" to LinesToLongCommand { it.y2023day19part1() },
+            "2023day19p2" to LinesToLongCommand { it.y2023day19part2() },
+            "2023day25p1" to LinesToLongCommand { it.y2023day25part1() },
         )
 
     val cmd = CommandLine(MyHelpCommand())
