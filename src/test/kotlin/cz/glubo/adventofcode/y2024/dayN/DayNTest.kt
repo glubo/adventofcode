@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 
 /**
- * https://adventofcode.com/2023/day/1
+ * https://adventofcode.com/2024/day/N
  */
 @Suppress("UNUSED")
 class DayNTest : StringSpec({

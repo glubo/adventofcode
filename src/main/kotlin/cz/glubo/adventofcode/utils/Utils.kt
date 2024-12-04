@@ -30,6 +30,44 @@ data class IVec2(
     infix fun tcDistance(other: IVec2) = abs(this.x - other.x) + abs(this.y - other.y)
 }
 
+enum class FullDirection(
+    val vector: IVec2,
+    val char: Char,
+) {
+    UP(
+        IVec2(0, -1),
+        '↑',
+    ),
+    UP_LEFT(
+        IVec2(-1, -1),
+        '↖',
+    ),
+    UP_RIGHT(
+        IVec2(1, -1),
+        '↗',
+    ),
+    DOWN(
+        IVec2(0, 1),
+        '↓',
+    ),
+    DOWN_LEFT(
+        IVec2(-1, 1),
+        '↙',
+    ),
+    DOWN_RIGHT(
+        IVec2(1, 1),
+        '↘',
+    ),
+    LEFT(
+        IVec2(-1, 0),
+        '←',
+    ),
+    RIGHT(
+        IVec2(1, 0),
+        '→',
+    ),
+};
+
 enum class Direction(
     val vector: IVec2,
     val char: Char,
