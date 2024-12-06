@@ -25,7 +25,8 @@ suspend fun Flow<String>.y2023day25part1(): Long {
     logger.debug { "usage map: ${edgeUsage.toSortedMap()}" }
 
     val toRemove =
-        edgeUsage.entries.sortedByDescending { it.value }
+        edgeUsage.entries
+            .sortedByDescending { it.value }
             .take(3)
             .map { it.key }
     logger.debug {
@@ -120,7 +121,8 @@ fun findPath(
 
     val toExplore = mutableListOf<Explore>()
     toExplore.addAll(
-        edges.filterCrossing(start)
+        edges
+            .filterCrossing(start)
             .map { edge ->
                 Explore(edge.other(start), listOf(edge))
             },
@@ -141,7 +143,8 @@ fun findPath(
                 visitedNodes.compute(explore.tail) { _, c ->
                     min(explore.pathTaken.size, c.orMax())
                 }
-                edges.filterCrossing(explore.tail)
+                edges
+                    .filterCrossing(explore.tail)
                     .filter { edge ->
                         edge !in explore.pathTaken
                     }.forEach { edge ->

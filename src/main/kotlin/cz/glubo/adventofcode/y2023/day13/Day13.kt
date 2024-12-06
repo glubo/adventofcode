@@ -9,13 +9,9 @@ private val logger = noCoLogger({}.javaClass.`package`.toString())
 // helper to solve smart-cast hell
 private const val IZERO: Int = 0
 
-suspend fun Flow<String>.y2023day13part1(): Long {
-    return this.day13(0)
-}
+suspend fun Flow<String>.y2023day13part1(): Long = this.day13(0)
 
-suspend fun Flow<String>.y2023day13part2(): Long {
-    return this.day13(1)
-}
+suspend fun Flow<String>.y2023day13part2(): Long = this.day13(1)
 
 private suspend fun Flow<String>.day13(smudges: Int): Long {
     val buffer = ArrayDeque<String>()

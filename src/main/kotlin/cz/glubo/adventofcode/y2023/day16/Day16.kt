@@ -34,19 +34,21 @@ suspend fun Flow<String>.y2023day16part1(): Long {
 suspend fun Flow<String>.y2023day16part2(): Long {
     val tileField = parseField()
     val maxX =
-        (0..<tileField.width).flatMap { x ->
-            listOf(
-                countLavaTiles(tileField, IVec2(x, -1) to DOWN),
-                countLavaTiles(tileField, IVec2(x, tileField.height) to UP),
-            )
-        }.max()
+        (0..<tileField.width)
+            .flatMap { x ->
+                listOf(
+                    countLavaTiles(tileField, IVec2(x, -1) to DOWN),
+                    countLavaTiles(tileField, IVec2(x, tileField.height) to UP),
+                )
+            }.max()
     val maxY =
-        (0..<tileField.height).flatMap { y ->
-            listOf(
-                countLavaTiles(tileField, IVec2(-1, y) to RIGHT),
-                countLavaTiles(tileField, IVec2(tileField.width, y) to LEFT),
-            )
-        }.max()
+        (0..<tileField.height)
+            .flatMap { y ->
+                listOf(
+                    countLavaTiles(tileField, IVec2(-1, y) to RIGHT),
+                    countLavaTiles(tileField, IVec2(tileField.width, y) to LEFT),
+                )
+            }.max()
     return max(maxX, maxY)
 }
 
@@ -108,7 +110,8 @@ private fun countLavaTiles(
 
     lavaField.debug { if (it) '#' else '.' }
     return lavaField.fields
-        .count { it }.toLong()
+        .count { it }
+        .toLong()
 }
 
 private suspend fun Flow<String>.parseField(): Field<Tile> {

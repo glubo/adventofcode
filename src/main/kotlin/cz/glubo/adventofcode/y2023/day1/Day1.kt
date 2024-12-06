@@ -30,7 +30,8 @@ suspend fun Flow<String>.y2023day1part2(): Int {
 
 fun normaliseCalibrationInput(inputLines: Flow<String>): Flow<String> =
     inputLines.map { line ->
-        line.replace("one", "one1one")
+        line
+            .replace("one", "one1one")
             .replace("two", "two2two")
             .replace("three", "three3three")
             .replace("four", "four4four")

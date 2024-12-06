@@ -58,9 +58,7 @@ private fun gcd(
 private fun lcm(
     m: Long,
     n: Long,
-): Long {
-    return m * n / gcd(m, n)
-}
+): Long = m * n / gcd(m, n)
 
 suspend fun Flow<String>.y2023day8part2(): Long {
     val lines = this.toList()

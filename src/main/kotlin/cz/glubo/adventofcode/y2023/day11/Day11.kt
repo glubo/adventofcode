@@ -9,13 +9,9 @@ import kotlin.math.min
 
 private val logger = logger({}.javaClass.`package`.toString())
 
-suspend fun Flow<String>.y2023day11part1(): Long {
-    return sumOfDistances(2)
-}
+suspend fun Flow<String>.y2023day11part1(): Long = sumOfDistances(2)
 
-suspend fun Flow<String>.y2023day11part2(): Long {
-    return sumOfDistances(1000000)
-}
+suspend fun Flow<String>.y2023day11part2(): Long = sumOfDistances(1000000)
 
 suspend fun Flow<String>.sumOfDistances(expansion: Int): Long {
     /** x to y */

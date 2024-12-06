@@ -7,17 +7,18 @@ import kotlinx.coroutines.flow.first
 private val logger = noCoLogger({}.javaClass.`package`.toString())
 
 fun String.myHash() =
-    this.fold(0) { acc, char ->
-        val currentAscii = char.code
+    this
+        .fold(0) { acc, char ->
+            val currentAscii = char.code
 
-        ((acc + currentAscii) * 17) % 256
-    }.toLong()
+            ((acc + currentAscii) * 17) % 256
+        }.toLong()
 
-suspend fun Flow<String>.y2023day15part1(): Long {
-    return this.first()
+suspend fun Flow<String>.y2023day15part1(): Long =
+    this
+        .first()
         .split(",")
         .sumOf { it.myHash() }
-}
 
 data class Lens(
     val label: String,
@@ -32,7 +33,8 @@ suspend fun Flow<String>.y2023day15part2(): Long {
 
     val setRegex = """(?<label>\w+)=(?<param>\d+)""".toRegex()
     val delRegex = "(?<label>\\w+)-".toRegex()
-    this.first()
+    this
+        .first()
         .split(",")
         .forEach { op ->
             when {

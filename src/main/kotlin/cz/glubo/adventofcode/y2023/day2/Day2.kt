@@ -47,13 +47,17 @@ fun String.asColor() =
     }
 
 fun getGameId(line: String) =
-    dayRegex.find(line)
-        ?.groups?.get("id")
-        ?.value?.toInt()
+    dayRegex
+        .find(line)
+        ?.groups
+        ?.get("id")
+        ?.value
+        ?.toInt()
         ?: 0
 
 fun getMaxColorCounts(line: String): Map<Color, Int> =
-    colorRegex.findAll(line)
+    colorRegex
+        .findAll(line)
         .fold(emptyMap<Color, Int>().toMutableMap()) { acc, matchResult ->
             val color = matchResult.groups["color"]!!.value.asColor()!!
             val count = matchResult.groups["count"]!!.value.toInt()

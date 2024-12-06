@@ -12,10 +12,11 @@ private fun String.toRange() =
         it.first().toInt() to it.last().toInt()
     }
 
-suspend fun Flow<String>.y2023dayLast4part1(): Int {
-    return this.fold(0) { acc, line ->
+suspend fun Flow<String>.y2023dayLast4part1(): Int =
+    this.fold(0) { acc, line ->
         val pairs =
-            line.split(",")
+            line
+                .split(",")
                 .map { it.toRange() }
 
         val first = pairs.first()
@@ -27,12 +28,12 @@ suspend fun Flow<String>.y2023dayLast4part1(): Int {
             else -> acc
         }
     }
-}
 
-suspend fun Flow<String>.y2023dayLast4part2(): Int {
-    return this.fold(0) { acc, line ->
+suspend fun Flow<String>.y2023dayLast4part2(): Int =
+    this.fold(0) { acc, line ->
         val pairs =
-            line.split(",")
+            line
+                .split(",")
                 .map { it.toRange() }
 
         val first = pairs.first()
@@ -44,4 +45,3 @@ suspend fun Flow<String>.y2023dayLast4part2(): Int {
             else -> acc
         }
     }
-}

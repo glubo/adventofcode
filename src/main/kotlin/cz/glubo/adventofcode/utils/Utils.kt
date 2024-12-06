@@ -66,7 +66,7 @@ enum class FullDirection(
         IVec2(1, 0),
         '→',
     ),
-};
+}
 
 enum class Direction(
     val vector: IVec2,
@@ -124,6 +124,20 @@ enum class Orientation(
     }
 }
 
+class FieldWithFakeTile<T>(
+    width: Int,
+    height: Int,
+    fields: MutableList<T>,
+    val fakeTilePos: IVec2,
+    val fakeTile: T,
+) : Field<T>(width, height, fields) {
+    override fun get(at: IVec2): T? =
+        when {
+            fakeTilePos == at -> fakeTile
+            else -> super.get(at)
+        }
+}
+
 open class Field<T>(
     val width: Int,
     val height: Int,
@@ -132,7 +146,7 @@ open class Field<T>(
     val topLeft = IVec2(0, 0)
     val bottomRight = IVec2(width - 1, height - 1)
 
-    operator fun get(at: IVec2) = if (outside(at)) null else fields[at.x + at.y * width]
+    open operator fun get(at: IVec2) = if (outside(at)) null else fields[at.x + at.y * width]
 
     operator fun set(
         at: IVec2,
@@ -155,7 +169,8 @@ open class Field<T>(
     fun debug(map: (T) -> Char) {
         noCoLogger(this.javaClass.toString()).debug {
             "Field $width * $height\n" +
-                fields.chunked(width)
+                fields
+                    .chunked(width)
                     .map { line -> line.map { map(it) }.joinToString("") }
                     .joinToString("\n")
         }
@@ -174,7 +189,8 @@ infix fun IntRange.rangeUnion(that: IntRange) =
     }
 
 fun List<IntRange>.rangeUnion() =
-    this.sortedBy { it.first }
+    this
+        .sortedBy { it.first }
         .fold(listOf<IntRange>()) { acc, it ->
             val newTail =
                 acc.lastOrNull()?.rangeUnion(it)

@@ -21,7 +21,8 @@ val cards =
     )
 
 val cardValue =
-    cards.mapIndexed { index, s -> s to index.toLong() }
+    cards
+        .mapIndexed { index, s -> s to index.toLong() }
         .toMap()
 
 val cards2 =
@@ -42,7 +43,8 @@ val cards2 =
     )
 
 val cardValue2 =
-    cards2.mapIndexed { index, s -> s to index.toLong() }
+    cards2
+        .mapIndexed { index, s -> s to index.toLong() }
         .toMap()
 
 val combinationMultiplier = 24883200L
@@ -61,7 +63,8 @@ enum class Combination(
 
 fun String.toCombination(): Combination {
     val groups =
-        this.groupBy { it }
+        this
+            .groupBy { it }
             .toList()
             .sortedByDescending { it.second.size }
     val big = groups[0].second.size
@@ -79,7 +82,8 @@ fun String.toCombination(): Combination {
 
 fun String.toCombination2(): Combination {
     val groups =
-        this.groupBy { it }
+        this
+            .groupBy { it }
             .toList()
             .sortedByDescending { it.second.size }
     val jokerCount = this.count { it == 'J' }
@@ -136,22 +140,25 @@ suspend fun Flow<String>.y2023day7part1(): Int {
     )
 
     val hands =
-        lines.map { line ->
-            val parts = line.split(" ")
-            Hand(
-                parts[0],
-                parts[1].toLong(),
-                parts[0].toCombination(),
-            )
-        }.sortedBy {
-            val l = it.combination.value * combinationMultiplier + it.cards.toCardValue()
-            println("$it $l")
-            l
-        }
+        lines
+            .map { line ->
+                val parts = line.split(" ")
+                Hand(
+                    parts[0],
+                    parts[1].toLong(),
+                    parts[0].toCombination(),
+                )
+            }.sortedBy {
+                val l = it.combination.value * combinationMultiplier + it.cards.toCardValue()
+                println("$it $l")
+                l
+            }
 
-    return hands.mapIndexed { index, hand ->
-        (index + 1) * hand.bid
-    }.sum().toInt()
+    return hands
+        .mapIndexed { index, hand ->
+            (index + 1) * hand.bid
+        }.sum()
+        .toInt()
 }
 
 suspend fun Flow<String>.y2023day7part2(): Int {
@@ -164,20 +171,23 @@ suspend fun Flow<String>.y2023day7part2(): Int {
     )
 
     val hands =
-        lines.map { line ->
-            val parts = line.split(" ")
-            Hand(
-                parts[0],
-                parts[1].toLong(),
-                parts[0].toCombination2(),
-            )
-        }.sortedBy {
-            val l = it.combination.value * combinationMultiplier + it.cards.toCardValue2()
-            println("$it $l")
-            l
-        }
+        lines
+            .map { line ->
+                val parts = line.split(" ")
+                Hand(
+                    parts[0],
+                    parts[1].toLong(),
+                    parts[0].toCombination2(),
+                )
+            }.sortedBy {
+                val l = it.combination.value * combinationMultiplier + it.cards.toCardValue2()
+                println("$it $l")
+                l
+            }
 
-    return hands.mapIndexed { index, hand ->
-        (index + 1) * hand.bid
-    }.sum().toInt()
+    return hands
+        .mapIndexed { index, hand ->
+            (index + 1) * hand.bid
+        }.sum()
+        .toInt()
 }

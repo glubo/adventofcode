@@ -76,7 +76,8 @@ data class MapElement(
     companion object {
         fun parse(line: String): MapElement {
             val numbers =
-                line.split(" ")
+                line
+                    .split(" ")
                     .map { it.toLong() }
             return MapElement(
                 from = numbers[1],
@@ -103,40 +104,42 @@ data class Model(
 
 suspend fun Flow<String>.y2023day5part1(): Int {
     val model =
-        this.fold(
-            Model(
-                emptyList(),
-                emptyList(),
-            ),
-        ) { acc, line ->
-            when {
-                line.startsWith("seeds:") -> {
-                    Model(
-                        line.removePrefix("seeds: ")
-                            .split(" ")
-                            .filter { it.isNotBlank() }
-                            .map { it.toLong() },
-                        acc.currentMap,
-                    )
-                }
+        this
+            .fold(
+                Model(
+                    emptyList(),
+                    emptyList(),
+                ),
+            ) { acc, line ->
+                when {
+                    line.startsWith("seeds:") -> {
+                        Model(
+                            line
+                                .removePrefix("seeds: ")
+                                .split(" ")
+                                .filter { it.isNotBlank() }
+                                .map { it.toLong() },
+                            acc.currentMap,
+                        )
+                    }
 
-                categories.contains(line) -> {
-                    acc
-                }
+                    categories.contains(line) -> {
+                        acc
+                    }
 
-                line == "" -> {
-                    acc.next()
-                }
+                    line == "" -> {
+                        acc.next()
+                    }
 
-                else -> {
-                    val currentMapElement = MapElement.parse(line)
-                    Model(
-                        acc.currentValues,
-                        acc.currentMap + currentMapElement,
-                    )
+                    else -> {
+                        val currentMapElement = MapElement.parse(line)
+                        Model(
+                            acc.currentValues,
+                            acc.currentMap + currentMapElement,
+                        )
+                    }
                 }
-            }
-        }.next()
+            }.next()
 
     return model.currentValues.min().toInt()
 }
@@ -147,53 +150,57 @@ data class Model2(
 ) {
     fun next() =
         Model2(
-            this.currentMap.fold(currentValues) { acc, mapElement ->
-                acc.flatMap { listElement ->
-                    mapElement.applyElement(listElement)
-                }
-            }.map { ListElement(it.from, it.length, false) },
+            this.currentMap
+                .fold(currentValues) { acc, mapElement ->
+                    acc.flatMap { listElement ->
+                        mapElement.applyElement(listElement)
+                    }
+                }.map { ListElement(it.from, it.length, false) },
             emptyList(),
         )
 }
 
 suspend fun Flow<String>.y2023day5part2(): Int {
     val model =
-        this.fold(
-            Model2(
-                emptyList(),
-                emptyList(),
-            ),
-        ) { acc, line ->
-            when {
-                line.startsWith("seeds:") -> {
-                    Model2(
-                        line.removePrefix("seeds: ")
-                            .split(" ")
-                            .filter { it.isNotBlank() }
-                            .chunked(2)
-                            .map { ListElement(it[0].toLong(), it[1].toLong(), false) },
-                        acc.currentMap,
-                    )
-                }
+        this
+            .fold(
+                Model2(
+                    emptyList(),
+                    emptyList(),
+                ),
+            ) { acc, line ->
+                when {
+                    line.startsWith("seeds:") -> {
+                        Model2(
+                            line
+                                .removePrefix("seeds: ")
+                                .split(" ")
+                                .filter { it.isNotBlank() }
+                                .chunked(2)
+                                .map { ListElement(it[0].toLong(), it[1].toLong(), false) },
+                            acc.currentMap,
+                        )
+                    }
 
-                categories.contains(line) -> {
-                    acc
-                }
+                    categories.contains(line) -> {
+                        acc
+                    }
 
-                line == "" -> {
-                    acc.next()
-                }
+                    line == "" -> {
+                        acc.next()
+                    }
 
-                else -> {
-                    val currentMapElement = MapElement.parse(line)
-                    Model2(
-                        acc.currentValues,
-                        acc.currentMap + currentMapElement,
-                    )
+                    else -> {
+                        val currentMapElement = MapElement.parse(line)
+                        Model2(
+                            acc.currentValues,
+                            acc.currentMap + currentMapElement,
+                        )
+                    }
                 }
-            }
-        }.next()
+            }.next()
 
-    return model.currentValues.minOf { it.start() }
+    return model.currentValues
+        .minOf { it.start() }
         .toInt()
 }

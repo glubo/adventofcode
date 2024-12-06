@@ -6,17 +6,19 @@ import kotlinx.coroutines.flow.toList
 fun simulate(
     time: Long,
     dist: Long,
-) = (0..time).filter { chargeTime ->
-    val goTime = time - chargeTime
-    val speed = chargeTime * 1
-    val goDist = goTime * speed
-    goDist > dist
-}.size
+) = (0..time)
+    .filter { chargeTime ->
+        val goTime = time - chargeTime
+        val speed = chargeTime * 1
+        val goDist = goTime * speed
+        goDist > dist
+    }.size
 
 suspend fun Flow<String>.y2023day6part1(): Int {
     val lines = this.toList()
     val times =
-        lines.first()
+        lines
+            .first()
             .removePrefix("Time:")
             .split(" ")
             .filter { it.isNotBlank() }
@@ -37,7 +39,8 @@ suspend fun Flow<String>.y2023day6part1(): Int {
 suspend fun Flow<String>.y2023day6part2(): Int {
     val lines = this.toList()
     val time =
-        lines.first()
+        lines
+            .first()
             .removePrefix("Time:")
             .split(" ")
             .filter { it.isNotBlank() }

@@ -40,7 +40,8 @@ suspend fun Flow<String>.y2023day14part1(): Long {
                             currentStones,
                             inputLines.size,
                         )
-                    cz.glubo.adventofcode.y2023.day14.logger.debug { "x: $x start: $currentStart currentLoad: $currentLoad stones: $currentStones" }
+                    cz.glubo.adventofcode.y2023.day14.logger
+                        .debug { "x: $x start: $currentStart currentLoad: $currentLoad stones: $currentStones" }
                     load += currentLoad
                     currentStart = y + 1
                     currentStones = 0
@@ -73,9 +74,10 @@ data class Mirror(
 ) {
     fun tiltUp(): cz.glubo.adventofcode.y2023.day14.Mirror {
         val newStones =
-            rollingStones.sortedBy {
-                it.order(size)
-            }.toMutableList()
+            rollingStones
+                .sortedBy {
+                    it.order(size)
+                }.toMutableList()
 
         newStones.indices.forEach { i ->
             val stone = newStones[i]
@@ -133,7 +135,8 @@ suspend fun Flow<String>.toMirror(): cz.glubo.adventofcode.y2023.day14.Mirror {
 
 fun cycle(input: cz.glubo.adventofcode.y2023.day14.Mirror) =
     (0..3).fold(input) { it, _ ->
-        it.tiltUp()
+        it
+            .tiltUp()
             .rotate()
     }
 
@@ -148,8 +151,13 @@ suspend fun Flow<String>.y2023day14part2(): Long {
             var i = 0
             var m = mirror
             while (i < 1000000000) {
-                if (i % 10000 == 0) cz.glubo.adventofcode.y2023.day14.logger.debug { i.toString() }
-                val next = cz.glubo.adventofcode.y2023.day14.cycle(m)
+                if (i % 10000 == 0) {
+                    cz.glubo.adventofcode.y2023.day14.logger
+                        .debug { i.toString() }
+                }
+                val next =
+                    cz.glubo.adventofcode.y2023.day14
+                        .cycle(m)
                 if (contains(next)) {
                     cycleEnd = i
                     cycleStart = get(next)!!.first
@@ -161,8 +169,11 @@ suspend fun Flow<String>.y2023day14part2(): Long {
                 i++
             }
         }
-    cz.glubo.adventofcode.y2023.day14.logger.debug { "Found a cycle $cycleStart to $cycleEnd" }
-    cz.glubo.adventofcode.y2023.day14.logger.debug { map.values.map { it.first to it.second.weight() }.joinToString { "${it.first}: ${it.second}" } }
+    cz.glubo.adventofcode.y2023.day14.logger
+        .debug { "Found a cycle $cycleStart to $cycleEnd" }
+    cz.glubo.adventofcode.y2023.day14.logger.debug {
+        map.values.map { it.first to it.second.weight() }.joinToString { "${it.first}: ${it.second}" }
+    }
     val cycleLength: Int = cycleEnd!! - cycleStart!! + 1
     val remainingCycles: Int = (999999999 - cycleStart!!) % cycleLength
     val finalMirror: cz.glubo.adventofcode.y2023.day14.Mirror = map.values.first { it.first == cycleStart!! + remainingCycles }.second

@@ -16,9 +16,10 @@ suspend fun y2024day1part1(input: Flow<String>): Long {
     first.sort()
     second.sort()
 
-    var res = first.indices.fold(0L) { acc, i ->
-        acc + abs(first[i] - second[i])
-    }
+    var res =
+        first.indices.fold(0L) { acc, i ->
+            acc + abs(first[i] - second[i])
+        }
     return res
 }
 
@@ -34,9 +35,9 @@ suspend fun y2024day1part2(input: Flow<String>): Long {
         })
     }
 
-
-    var res = first.fold(0L) { acc, number ->
-        acc + second.getOrDefault(number, 0)
-    }
+    var res =
+        first.fold(0L) { acc, number ->
+            acc + second.getOrDefault(number, 0)
+        }
     return res
 }

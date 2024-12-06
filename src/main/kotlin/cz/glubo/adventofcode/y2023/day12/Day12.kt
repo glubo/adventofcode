@@ -6,11 +6,12 @@ import kotlinx.coroutines.flow.fold
 
 private val logger = noCoLogger({}.javaClass.`package`.toString())
 
-suspend fun Flow<String>.y2023day12part1(): Long {
-    return this.fold(0L) { acc, line ->
+suspend fun Flow<String>.y2023day12part1(): Long =
+    this.fold(0L) { acc, line ->
         val (source, ruleString) = line.split(' ')
         val rules =
-            ruleString.split(',')
+            ruleString
+                .split(',')
                 .map { it.toInt() }
 
         var variants =
@@ -24,14 +25,14 @@ suspend fun Flow<String>.y2023day12part1(): Long {
 
         acc + variants
     }
-}
 
-suspend fun Flow<String>.y2023day12part2(): Long {
-    return this.fold(0L) { acc, line ->
+suspend fun Flow<String>.y2023day12part2(): Long =
+    this.fold(0L) { acc, line ->
         val (sourceIn, ruleString) = line.split(' ')
         val ruleStringR = "$ruleString,$ruleString,$ruleString,$ruleString,$ruleString"
         val rules =
-            ruleStringR.split(',')
+            ruleStringR
+                .split(',')
                 .map { it.toInt() }
         val source = "$sourceIn?$sourceIn?$sourceIn?$sourceIn?$sourceIn"
         val validCount =
@@ -43,7 +44,6 @@ suspend fun Flow<String>.y2023day12part2(): Long {
             )
         acc + validCount
     }
-}
 
 data class Input(
     val tail: String,

@@ -134,13 +134,14 @@ fun countLava(ops: List<Op>): Long {
             val topRanges = intersectToRanges(topIntersects.map { it.start.x })
 
             val botIntersects =
-                lines.filter {
-                    when (it.direction) {
-                        UP -> y in (it.end.y..<it.start.y)
-                        DOWN -> y in (it.start.y..<it.end.y)
-                        else -> false
-                    }
-                }.sortedBy { it.start.x }
+                lines
+                    .filter {
+                        when (it.direction) {
+                            UP -> y in (it.end.y..<it.start.y)
+                            DOWN -> y in (it.start.y..<it.end.y)
+                            else -> false
+                        }
+                    }.sortedBy { it.start.x }
             val botRanges = intersectToRanges(botIntersects.map { it.start.x })
 
             val bothLavaCount =

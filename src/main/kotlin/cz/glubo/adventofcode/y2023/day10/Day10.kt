@@ -112,11 +112,10 @@ private fun List<YXPair>.filterLeadingToFence(
     tiles: List<List<Tile>>,
     y: Int,
     x: Int,
-): List<YXPair> {
-    return this.filter {
+): List<YXPair> =
+    this.filter {
         tiles.getOrNull((y to x) + it)?.distance != null
     }
-}
 
 private operator fun YXPair.plus(it: YXPair): YXPair = (this.first + it.first) to (this.second + it.second)
 
@@ -141,16 +140,15 @@ private fun List<List<Tile>>.cleanNonFenceTiles(startPosition: YXPair) =
 private fun isInside(
     topParity: Int,
     botParity: Int,
-): Boolean {
-    return (topParity % 2 == 1) && (botParity % 2 == 1)
-}
+): Boolean = (topParity % 2 == 1) && (botParity % 2 == 1)
 
 private suspend fun List<List<Tile>>.log() =
     this.forEach { line ->
         logger.info {
-            line.map {
-                if (it.connectedTo.isEmpty()) "." else "#"
-            }.joinToString("")
+            line
+                .map {
+                    if (it.connectedTo.isEmpty()) "." else "#"
+                }.joinToString("")
         }
     }
 

@@ -67,12 +67,14 @@ suspend fun Flow<String>.y2023day19part1(): Long {
     val workflows = parseWorkflows(lines)
 
     val parts =
-        lines.dropWhile { it != "" }
+        lines
+            .dropWhile { it != "" }
             .drop(1)
             .map { partLine ->
                 // {x=787,m=2655,a=1222,s=2876}
                 val attributes: Map<Attribute, Int> =
-                    partLine.removePrefix("{")
+                    partLine
+                        .removePrefix("{")
                         .removeSuffix("}")
                         .split(",")
                         .associate { attributeString: String ->
@@ -92,12 +94,14 @@ suspend fun Flow<String>.y2023day19part1(): Long {
 }
 
 private fun parseWorkflows(lines: List<String>) =
-    lines.takeWhile { it != "" }
+    lines
+        .takeWhile { it != "" }
         .map { line ->
             // px{a<2006:qkq,m>2090:A,rfg}
             val name = line.takeWhile { it != '{' }
             val rules =
-                line.removeSuffix("}")
+                line
+                    .removeSuffix("}")
                     .removePrefix("$name{")
                     .split(",")
                     .map { opString ->
@@ -184,7 +188,8 @@ suspend fun Flow<String>.y2023day19part2(): Long {
                     split.second?.let { higher ->
                         toExplore.add(
                             workflowMap[it.target]!! to
-                                remainingRanges.toMutableMap()
+                                remainingRanges
+                                    .toMutableMap()
                                     .let { map ->
                                         map[it.attribute] = higher
                                         map
@@ -201,7 +206,8 @@ suspend fun Flow<String>.y2023day19part2(): Long {
                     split.first?.let { lower ->
                         toExplore.add(
                             workflowMap[it.target]!! to
-                                remainingRanges.toMutableMap()
+                                remainingRanges
+                                    .toMutableMap()
                                     .let { map ->
                                         map[it.attribute] = lower
                                         map

@@ -4,18 +4,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.fold
 
-suspend fun Flow<String>.y2023day4part1(): Int {
-    return this.fold(0) { accumulator, line ->
+suspend fun Flow<String>.y2023day4part1(): Int =
+    this.fold(0) { accumulator, line ->
         val firstSep = line.indexOf(':')
         val secondSep = line.indexOf('|')
         val winningNumbers =
-            line.substring(firstSep + 1, secondSep)
+            line
+                .substring(firstSep + 1, secondSep)
                 .split(' ')
                 .filter { it.isNotBlank() }
                 .map { it.toInt() }
                 .toSet()
         val ourNumbers =
-            line.substring(secondSep + 1, line.length)
+            line
+                .substring(secondSep + 1, line.length)
                 .split(' ')
                 .filter { it.isNotBlank() }
                 .map { it.toInt() }
@@ -31,7 +33,6 @@ suspend fun Flow<String>.y2023day4part1(): Int {
         println("our: $ourWinningNumbers value: $value")
         accumulator + value
     }
-}
 
 suspend fun Flow<String>.y2023day4part2(): Int {
     val copiesMap = emptyMap<Int, Int>().toMutableMap()
@@ -41,13 +42,15 @@ suspend fun Flow<String>.y2023day4part2(): Int {
         val firstSep = line.indexOf(':')
         val secondSep = line.indexOf('|')
         val winningNumbers =
-            line.substring(firstSep + 1, secondSep)
+            line
+                .substring(firstSep + 1, secondSep)
                 .split(' ')
                 .filter { it.isNotBlank() }
                 .map { it.toInt() }
                 .toSet()
         val ourNumbers =
-            line.substring(secondSep + 1, line.length)
+            line
+                .substring(secondSep + 1, line.length)
                 .split(' ')
                 .filter { it.isNotBlank() }
                 .map { it.toInt() }
@@ -68,12 +71,11 @@ suspend fun Flow<String>.y2023day4part2(): Int {
     return sum
 }
 
-fun pow2(n: Int): Int {
-    return if (n < 0) {
+fun pow2(n: Int): Int =
+    if (n < 0) {
         throw IllegalArgumentException()
     } else if (n == 0) {
         1
     } else {
         (0..<n).fold(1) { acc: Int, _: Int -> acc * 2 }
     }
-}
