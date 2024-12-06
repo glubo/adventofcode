@@ -1,13 +1,13 @@
 package cz.glubo.adventofcode.y2024.day6
 
 import cz.glubo.adventofcode.utils.Direction
-import cz.glubo.adventofcode.utils.Field
-import cz.glubo.adventofcode.utils.FieldWithFakeTile
+import cz.glubo.adventofcode.utils.Grid
+import cz.glubo.adventofcode.utils.GridWithFakeTile
 import cz.glubo.adventofcode.utils.IVec2
 import kotlinx.coroutines.flow.Flow
 
 suspend fun y2024day6part1(input: Flow<String>): Long {
-    var (field, startPos: IVec2?) = parseFieldAndFindStart(input)
+    var (field, startPos) = parseGridAndFindStart(input)
 
     var currentPos = startPos
     var currentDirection = Direction.UP
@@ -32,8 +32,8 @@ suspend fun y2024day6part1(input: Flow<String>): Long {
     return field.fields.count { it.visited }.toLong()
 }
 
-private suspend fun parseFieldAndFindStart(input: Flow<String>): Pair<Field<Tile>, IVec2> {
-    var field = input.parseField()
+private suspend fun parseGridAndFindStart(input: Flow<String>): Pair<Grid<Tile>, IVec2> {
+    var field = input.parseGrid()
     var startPos: IVec2? = null
     (0..<field.height).forEach { y ->
         (0..<field.width).forEach { x ->
@@ -54,7 +54,7 @@ private data class Tile(
     var directions: MutableList<Direction>,
 )
 
-private suspend fun Flow<String>.parseField(): Field<Tile> {
+private suspend fun Flow<String>.parseGrid(): Grid<Tile> {
     val tiles = mutableListOf<Tile>()
     var height = 0
     var width = 0
@@ -72,17 +72,17 @@ private suspend fun Flow<String>.parseField(): Field<Tile> {
         )
     }
 
-    val tileField =
-        Field(
+    val tileGrid =
+        Grid(
             width = width,
             height = height,
             fields = tiles,
         )
-    return tileField
+    return tileGrid
 }
 
 suspend fun y2024day6part2(input: Flow<String>): Long {
-    var field = input.parseField()
+    var field = input.parseGrid()
     var startPos: IVec2? = null
     val candidates = mutableListOf<IVec2>()
     (0..<field.height).forEach { y ->
@@ -99,7 +99,7 @@ suspend fun y2024day6part2(input: Flow<String>): Long {
     val result =
         candidates.count { obstaclePos ->
             val newField =
-                FieldWithFakeTile(
+                GridWithFakeTile(
                     field.width,
                     field.height,
                     field.fields,

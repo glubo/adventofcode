@@ -1,7 +1,7 @@
 package cz.glubo.adventofcode.y2024.day4
 
-import cz.glubo.adventofcode.utils.Field
 import cz.glubo.adventofcode.utils.FullDirection
+import cz.glubo.adventofcode.utils.Grid
 import cz.glubo.adventofcode.utils.IVec2
 import kotlinx.coroutines.flow.Flow
 
@@ -12,7 +12,7 @@ suspend fun y2024day4part1(input: Flow<String>): Long {
         val direction: FullDirection,
     )
 
-    val field = input.parseField()
+    val field = input.parseGrid()
     val candidates = mutableListOf<Candidate1>()
     (0..<field.height).forEach { y ->
         (0..<field.width).forEach { x ->
@@ -51,7 +51,7 @@ suspend fun y2024day4part1(input: Flow<String>): Long {
     return res.toLong()
 }
 
-private suspend fun Flow<String>.parseField(): Field<Char> {
+private suspend fun Flow<String>.parseGrid(): Grid<Char> {
     val tiles = mutableListOf<Char>()
     var height = 0
     var width = 0
@@ -65,17 +65,17 @@ private suspend fun Flow<String>.parseField(): Field<Char> {
         )
     }
 
-    val tileField =
-        Field(
+    val tileGrid =
+        Grid(
             width = width,
             height = height,
             fields = tiles,
         )
-    return tileField
+    return tileGrid
 }
 
 suspend fun y2024day4part2(input: Flow<String>): Long {
-    val field = input.parseField()
+    val field = input.parseGrid()
     val candidates = mutableListOf<IVec2>()
     (0..<field.height).forEach { y ->
         (0..<field.width).forEach { x ->

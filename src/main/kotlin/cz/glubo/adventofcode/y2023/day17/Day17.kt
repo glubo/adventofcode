@@ -1,6 +1,6 @@
 package cz.glubo.adventofcode.y2023.day17
 
-import cz.glubo.adventofcode.utils.Field
+import cz.glubo.adventofcode.utils.Grid
 import cz.glubo.adventofcode.utils.IVec2
 import cz.glubo.adventofcode.utils.Orientation
 import cz.glubo.adventofcode.utils.Orientation.HORIZONTAL
@@ -11,11 +11,11 @@ import java.util.PriorityQueue
 
 private val logger = noCoLogger({}.javaClass.`package`.toString())
 
-data class HeatField(
+data class HeatGrid(
     val hWidth: Int,
     val hHeight: Int,
     val hFields: MutableList<Int>,
-) : Field<Int>(hWidth, hHeight, hFields) {
+) : Grid<Int>(hWidth, hHeight, hFields) {
     fun debug() {
         logger.debug {
             "\n" + fields.chunked(width).map { it.joinToString("") { i -> "$i" } }.joinToString("\n")
@@ -32,7 +32,7 @@ data class HeatField(
         maxSteps: Int,
     ): Long {
         val visitsMap =
-            Field<MutableMap<Orientation, Int>>(
+            Grid<MutableMap<Orientation, Int>>(
                 width = width,
                 height = height,
                 fields = MutableList(height * width) { mutableMapOf() },
@@ -80,7 +80,7 @@ data class HeatField(
     }
 }
 
-suspend fun Flow<String>.parseField(): HeatField {
+suspend fun Flow<String>.parseGrid(): HeatGrid {
     var width: Int? = null
     var height = 0
     val fields = mutableListOf<Int>()
@@ -91,7 +91,7 @@ suspend fun Flow<String>.parseField(): HeatField {
         )
         height++
     }
-    return HeatField(
+    return HeatGrid(
         width!!,
         height,
         fields,
@@ -99,14 +99,14 @@ suspend fun Flow<String>.parseField(): HeatField {
 }
 
 suspend fun Flow<String>.y2023day17part1(): Long {
-    val field = this.parseField()
+    val field = this.parseGrid()
     field.debug()
 
     return field.weightAcross(1, 3)
 }
 
 suspend fun Flow<String>.y2023day17part2(): Long {
-    val field = this.parseField()
+    val field = this.parseGrid()
     field.debug()
 
     return field.weightAcross(4, 10)

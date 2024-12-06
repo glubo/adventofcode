@@ -5,7 +5,7 @@ import cz.glubo.adventofcode.utils.Direction.DOWN
 import cz.glubo.adventofcode.utils.Direction.LEFT
 import cz.glubo.adventofcode.utils.Direction.RIGHT
 import cz.glubo.adventofcode.utils.Direction.UP
-import cz.glubo.adventofcode.utils.Field
+import cz.glubo.adventofcode.utils.Grid
 import cz.glubo.adventofcode.utils.IVec2
 import cz.glubo.adventofcode.utils.Orientation
 import cz.glubo.adventofcode.utils.Orientation.HORIZONTAL
@@ -26,13 +26,13 @@ enum class Tile {
 
 suspend fun Flow<String>.y2023day16part1(): Long {
     val cast = IVec2(-1, 0) to RIGHT
-    val tileField = parseField()
+    val tileField = parseGrid()
 
     return countLavaTiles(tileField, cast)
 }
 
 suspend fun Flow<String>.y2023day16part2(): Long {
-    val tileField = parseField()
+    val tileField = parseGrid()
     val maxX =
         (0..<tileField.width)
             .flatMap { x ->
@@ -53,14 +53,14 @@ suspend fun Flow<String>.y2023day16part2(): Long {
 }
 
 private fun countLavaTiles(
-    tileField: Field<Tile>,
+    tileGrid: Grid<Tile>,
     cast: Pair<IVec2, Direction>,
 ): Long {
-    var height = tileField.height
-    var width = tileField.width
+    var height = tileGrid.height
+    var width = tileGrid.width
 
-    val lavaField =
-        Field(
+    val lavaGrid =
+        Grid(
             width = width,
             height = height,
             fields = MutableList(width * height) { false },
@@ -75,9 +75,9 @@ private fun countLavaTiles(
         visited.add(castFrom to castDirection)
         var rayPos = castFrom + castDirection.vector
         do {
-            lavaField[rayPos] = true
+            lavaGrid[rayPos] = true
             val newRays =
-                when (tileField[rayPos]) {
+                when (tileGrid[rayPos]) {
                     Tile.NONE -> emptyList()
                     Tile.MIRROR -> listOf(rayPos to mirror(castDirection))
                     Tile.MIRROR_BACK -> listOf(rayPos to mirrorBack(castDirection))
@@ -105,16 +105,16 @@ private fun countLavaTiles(
                 break
             }
             rayPos += castDirection.vector
-        } while (!tileField.outside(rayPos))
+        } while (!tileGrid.outside(rayPos))
     }
 
-    lavaField.debug { if (it) '#' else '.' }
-    return lavaField.fields
+    lavaGrid.debug { if (it) '#' else '.' }
+    return lavaGrid.fields
         .count { it }
         .toLong()
 }
 
-private suspend fun Flow<String>.parseField(): Field<Tile> {
+private suspend fun Flow<String>.parseGrid(): Grid<Tile> {
     val tiles = mutableListOf<Tile>()
     var height = 0
     var width = 0
@@ -134,13 +134,13 @@ private suspend fun Flow<String>.parseField(): Field<Tile> {
         )
     }
 
-    val tileField =
-        Field(
+    val tileGrid =
+        Grid(
             width = width,
             height = height,
             fields = tiles,
         )
-    return tileField
+    return tileGrid
 }
 
 /**

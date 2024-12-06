@@ -124,13 +124,13 @@ enum class Orientation(
     }
 }
 
-class FieldWithFakeTile<T>(
+class GridWithFakeTile<T>(
     width: Int,
     height: Int,
     fields: MutableList<T>,
     val fakeTilePos: IVec2,
     val fakeTile: T,
-) : Field<T>(width, height, fields) {
+) : Grid<T>(width, height, fields) {
     override fun get(at: IVec2): T? =
         when {
             fakeTilePos == at -> fakeTile
@@ -138,7 +138,7 @@ class FieldWithFakeTile<T>(
         }
 }
 
-open class Field<T>(
+open class Grid<T>(
     val width: Int,
     val height: Int,
     val fields: MutableList<T>,
@@ -168,7 +168,7 @@ open class Field<T>(
 
     fun debug(map: (T) -> Char) {
         noCoLogger(this.javaClass.toString()).debug {
-            "Field $width * $height\n" +
+            "Grid $width * $height\n" +
                 fields
                     .chunked(width)
                     .map { line -> line.map { map(it) }.joinToString("") }
