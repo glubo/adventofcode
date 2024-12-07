@@ -157,6 +157,13 @@ open class Grid<T>(
         }
     }
 
+    fun allIVec2() =
+        (0..<width).flatMap { x ->
+            (0..<height).map { y ->
+                IVec2(x, y)
+            }
+        }
+
     fun outside(it: IVec2) =
         when {
             it.x >= width -> true
