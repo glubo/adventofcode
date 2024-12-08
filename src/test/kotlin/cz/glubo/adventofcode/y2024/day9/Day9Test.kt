@@ -1,29 +1,31 @@
-package cz.glubo.adventofcode.y2024.dayN
+package cz.glubo.adventofcode.y2024.day9
 
 import cz.glubo.adventofcode.utils.input.TestInput
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 /**
- * https://adventofcode.com/2024/day/N
+ * https://adventofcode.com/2024/day/9
  */
 @Suppress("UNUSED")
-class DayNTest :
+class Day9Test :
     StringSpec({
 
-        "dayN example part 1 matches" {
-            y2024dayNpart1(
+        "day9 example part 1 matches" {
+            y2024day9part1(
                 TestInput(
                     """
+                        
                     """.trimIndent(),
                 ),
             ) shouldBe 0
         }
 
-        "dayN example part 2 matches" {
-            y2024dayNpart2(
+        "day9 example part 2 matches" {
+            y2024day9part2(
                 TestInput(
                     """
+                        
                     """.trimIndent(),
                 ),
             ) shouldBe 0

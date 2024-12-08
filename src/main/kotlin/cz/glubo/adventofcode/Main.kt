@@ -59,6 +59,8 @@ import cz.glubo.adventofcode.y2024.day7.y2024day7part1
 import cz.glubo.adventofcode.y2024.day7.y2024day7part2
 import cz.glubo.adventofcode.y2024.day8.y2024day8part1
 import cz.glubo.adventofcode.y2024.day8.y2024day8part2
+import cz.glubo.adventofcode.y2024.day9.y2024day9part1
+import cz.glubo.adventofcode.y2024.day9.y2024day9part2
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart1
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart2
 import io.klogging.Level
@@ -201,8 +203,8 @@ fun main(args: Array<String>) {
             "2023day19p1" to LinesToLongCommand { it.y2023day19part1() },
             "2023day19p2" to LinesToLongCommand { it.y2023day19part2() },
             "2023day25p1" to LinesToLongCommand { it.y2023day25part1() },
-            "2024dayNp1" to LinesToLongCommand { y2024dayNpart1(it) },
-            "2024dayNp2" to LinesToLongCommand { y2024dayNpart2(it) },
+            "2024dayNp1" to LinesToLongCommand { y2024dayNpart1(StdinInput()) },
+            "2024dayNp2" to LinesToLongCommand { y2024dayNpart2(StdinInput()) },
             "2024day1p1" to LinesToLongCommand { y2024day1part1(it) },
             "2024day1p2" to LinesToLongCommand { y2024day1part2(it) },
             "2024day2p1" to LinesToLongCommand { y2024day2part1(it) },
@@ -219,6 +221,8 @@ fun main(args: Array<String>) {
             "2024day7p2" to LinesToLongCommand { y2024day7part2(it) },
             "2024day8p1" to InputToLongCommand { y2024day8part1(StdinInput()) },
             "2024day8p2" to LinesToLongCommand { y2024day8part2(StdinInput()) },
+            "2024day9p1" to InputToLongCommand { y2024day9part1(StdinInput()) },
+            "2024day9p2" to LinesToLongCommand { y2024day9part2(StdinInput()) },
         )
 
     val cmd = CommandLine(MyHelpCommand())
