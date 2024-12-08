@@ -1,5 +1,7 @@
 package cz.glubo.adventofcode
 
+import cz.glubo.adventofcode.utils.input.Input
+import cz.glubo.adventofcode.utils.input.StdinInput
 import cz.glubo.adventofcode.y2023.day1.y2023day1part1
 import cz.glubo.adventofcode.y2023.day1.y2023day1part2
 import cz.glubo.adventofcode.y2023.day10.y2023day10part1
@@ -64,7 +66,6 @@ import io.klogging.config.ANSI_CONSOLE
 import io.klogging.config.loggingConfiguration
 import io.klogging.noCoLogger
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import picocli.CommandLine.Command
@@ -73,6 +74,25 @@ import kotlin.system.exitProcess
 import kotlin.time.measureTime
 
 private val logger = noCoLogger({}.javaClass.`package`.toString())
+
+abstract class InputCommand<ResultType> : Callable<Int> {
+    @CommandLine.Option(names = ["--verbose", "-v"], negatable = true)
+    var verbose: Boolean = false
+
+    abstract suspend fun execute(input: Input): ResultType
+
+    override fun call(): Int {
+        var result: ResultType?
+        val duration =
+            measureTime {
+                runBlocking {
+                    result = execute(StdinInput())
+                }
+            }
+        logger.info { "result: $result (took $duration)" }
+        return 0
+    }
+}
 
 abstract class FlowCommand<ResultType> : Callable<Int> {
     @CommandLine.Option(names = ["--verbose", "-v"], negatable = true)
@@ -85,13 +105,19 @@ abstract class FlowCommand<ResultType> : Callable<Int> {
         val duration =
             measureTime {
                 runBlocking {
-                    val linesFlow = generateSequence(::readLine).asFlow()
-                    result = execute(linesFlow)
+                    result = execute(StdinInput().lineFlow())
                 }
             }
         logger.info { "result: $result (took $duration)" }
         return 0
     }
+}
+
+@Command(mixinStandardHelpOptions = true)
+class InputToLongCommand(
+    private val action: suspend (input: Input) -> Long,
+) : InputCommand<Long>() {
+    override suspend fun execute(input: Input) = action(input)
 }
 
 @Command(mixinStandardHelpOptions = true)
@@ -191,8 +217,8 @@ fun main(args: Array<String>) {
             "2024day6p2" to LinesToLongCommand { y2024day6part2(it) },
             "2024day7p1" to LinesToLongCommand { y2024day7part1(it) },
             "2024day7p2" to LinesToLongCommand { y2024day7part2(it) },
-            "2024day8p1" to LinesToLongCommand { y2024day8part1(it) },
-            "2024day8p2" to LinesToLongCommand { y2024day8part2(it) },
+            "2024day8p1" to InputToLongCommand { y2024day8part1(StdinInput()) },
+            "2024day8p2" to LinesToLongCommand { y2024day8part2(StdinInput()) },
         )
 
     val cmd = CommandLine(MyHelpCommand())

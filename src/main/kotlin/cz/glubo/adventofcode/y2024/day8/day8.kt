@@ -1,16 +1,19 @@
 package cz.glubo.adventofcode.y2024.day8
 
-import cz.glubo.adventofcode.utils.Grid
 import cz.glubo.adventofcode.utils.IVec2
-import kotlinx.coroutines.flow.Flow
+import cz.glubo.adventofcode.utils.input.Input
 import org.slf4j.LoggerFactory
 
 val logger = LoggerFactory.getLogger("y2024d87")
 
-suspend fun y2024day8part1(input: Flow<String>): Long {
-    val grid = input.parseGrid()
+suspend fun y2024day8part1(input: Input): Long {
+    val grid =
+        input.grid {
+            it
+        }
 
     val antennaMap = mutableMapOf<Char, MutableList<IVec2>>()
+
     grid.allIVec2().forEach { pos ->
         val c = grid[pos]
         if (c == null || c == '.') return@forEach
@@ -43,31 +46,8 @@ suspend fun y2024day8part1(input: Flow<String>): Long {
         .toLong()
 }
 
-private suspend fun Flow<String>.parseGrid(): Grid<Char> {
-    val tiles = mutableListOf<Char>()
-    var height = 0
-    var width = 0
-    this.collect { line ->
-        width = line.length
-        height++
-        tiles.addAll(
-            line.map { char ->
-                char
-            },
-        )
-    }
-
-    val tileGrid =
-        Grid(
-            width = width,
-            height = height,
-            fields = tiles,
-        )
-    return tileGrid
-}
-
-suspend fun y2024day8part2(input: Flow<String>): Long {
-    val grid = input.parseGrid()
+suspend fun y2024day8part2(input: Input): Long {
+    val grid = input.grid { it }
 
     val antennaMap = mutableMapOf<Char, MutableList<IVec2>>()
     grid.allIVec2().forEach { pos ->
