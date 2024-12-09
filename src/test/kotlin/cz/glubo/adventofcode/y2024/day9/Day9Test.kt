@@ -15,19 +15,19 @@ class Day9Test :
             y2024day9part1(
                 TestInput(
                     """
-                        
+                    2333133121414131402
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 1928
         }
 
         "day9 example part 2 matches" {
             y2024day9part2(
                 TestInput(
                     """
-                        
+                    2333133121414131402
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 2858
         }
     })
