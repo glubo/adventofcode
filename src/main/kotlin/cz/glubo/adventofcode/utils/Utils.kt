@@ -158,8 +158,8 @@ open class Grid<T>(
     }
 
     fun allIVec2() =
-        (0..<width).flatMap { x ->
-            (0..<height).map { y ->
+        (0..<height).flatMap { y ->
+            (0..<width).map { x ->
                 IVec2(x, y)
             }
         }
@@ -173,14 +173,18 @@ open class Grid<T>(
             else -> false
         }
 
-    fun debug(map: (T) -> Char) {
+    fun debug(map: (T, IVec2) -> Char) {
         noCoLogger(this.javaClass.toString()).debug {
             "Grid $width * $height\n" +
-                fields
+                allIVec2()
                     .chunked(width)
-                    .map { line -> line.map { map(it) }.joinToString("") }
+                    .map { line -> line.map { map(get(it)!!, it) }.joinToString("") }
                     .joinToString("\n")
         }
+    }
+
+    fun debug(map: (T) -> Char) {
+        debug { it, _ -> map(it) }
     }
 }
 
@@ -214,6 +218,7 @@ fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
         boundary in (this.start + 1..this.endInclusive) -> {
             (this.start..<boundary) to (boundary..this.endInclusive)
         }
+
         boundary <= this.start -> null to this
         else -> this to null
     }

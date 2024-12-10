@@ -64,8 +64,16 @@ class Day10Test :
             y2024day10part2(
                 TestInput(
                     """
+                    89010123
+                    78121874
+                    87430965
+                    96549874
+                    45678903
+                    32019012
+                    01329801
+                    10456732
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 81
         }
     })
