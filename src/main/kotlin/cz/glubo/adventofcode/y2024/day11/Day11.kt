@@ -11,34 +11,8 @@ suspend fun y2024day11part1(input: Input): Long {
     val stones = input.lineFlow().first().split(" ")
 
     return stones.sumOf {
-//        evolve(it.toLong())
         countStones(it.toLong(), 25)
     }
-}
-
-fun evolve(start: Long): Long {
-    var list = listOf(start)
-    repeat(25) { _ ->
-        val nextList =
-            list.flatMap {
-                when {
-                    it == 0L -> listOf(1L)
-                    "$it".length % 2 == 0 -> {
-                        val tmp = "$it"
-                        listOf(
-                            tmp.take(tmp.length / 2).toLong(),
-                            tmp.takeLast(tmp.length / 2).toLong(),
-                        )
-                    }
-
-                    else -> listOf(it * 2024)
-                }
-            }
-//        logger.debug(nextList)
-        list = nextList
-    }
-
-    return list.size.toLong()
 }
 
 suspend fun y2024day11part2(input: Input): Long {
@@ -69,13 +43,6 @@ fun countStones(
             else -> countStones(stone * 2024, remaining - 1)
         }
     }
-
-fun evolve2(start: Long): Long {
-    var res = 0L
-    res = countStones(start, 75)
-
-    return res
-}
 
 private fun splitLongIntoHalves(it: Long): List<Long> {
     val tmp = "$it"
