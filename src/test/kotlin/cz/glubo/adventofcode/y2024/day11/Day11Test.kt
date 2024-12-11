@@ -14,9 +14,10 @@ class Day11Test :
             y2024day11part1(
                 TestInput(
                     """
+                    125 17
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 55312
         }
 
         "day11 example part 2 matches" {
