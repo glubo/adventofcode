@@ -19,6 +19,8 @@ data class IVec2(
 
     operator fun times(scale: Int) = IVec2(scale * this.x, scale * this.y)
 
+    infix fun dot(other: IVec2) = this.x * other.x + this.y * other.y
+
     /**
      * Calculates the taxicab distance between this vector and the given vector.
      *
@@ -96,6 +98,22 @@ enum class Direction(
             DOWN -> UP
             LEFT -> RIGHT
             RIGHT -> LEFT
+        }
+
+    fun perpendicular() =
+        when (this) {
+            UP -> listOf(LEFT, RIGHT)
+            DOWN -> listOf(LEFT, RIGHT)
+            LEFT -> listOf(UP, DOWN)
+            RIGHT -> listOf(UP, DOWN)
+        }
+
+    fun turnRight() =
+        when (this) {
+            UP -> RIGHT
+            DOWN -> LEFT
+            LEFT -> UP
+            RIGHT -> DOWN
         }
 }
 
