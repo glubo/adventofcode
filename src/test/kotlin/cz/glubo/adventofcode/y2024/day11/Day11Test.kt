@@ -24,8 +24,9 @@ class Day11Test :
             y2024day11part2(
                 TestInput(
                     """
+                    125 17
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 65601038650482L
         }
     })
