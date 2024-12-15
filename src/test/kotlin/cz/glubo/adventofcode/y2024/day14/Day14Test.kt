@@ -43,14 +43,4 @@ class Day14Test :
                 IVec2(11, 7),
             ) shouldBe 12
         }
-
-        "day14 example part 2 matches" {
-            y2024day14part2(
-                TestInput(
-                    """
-                    """.trimIndent(),
-                ),
-                IVec2(11, 7),
-            ) shouldBe 0
-        }
     })
