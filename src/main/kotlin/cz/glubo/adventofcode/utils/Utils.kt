@@ -115,6 +115,17 @@ enum class Direction(
             LEFT -> UP
             RIGHT -> DOWN
         }
+
+    companion object {
+        fun fromCommandChar(commandChar: Char) =
+            when (commandChar) {
+                '<' -> LEFT
+                '>' -> RIGHT
+                '^' -> UP
+                'v' -> DOWN
+                else -> error("unexpected direction $commandChar")
+            }
+    }
 }
 
 enum class Orientation(
