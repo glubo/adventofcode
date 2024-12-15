@@ -58,6 +58,8 @@ import cz.glubo.adventofcode.y2024.day14.y2024day14part1
 import cz.glubo.adventofcode.y2024.day14.y2024day14part2
 import cz.glubo.adventofcode.y2024.day15.y2024day15part1
 import cz.glubo.adventofcode.y2024.day15.y2024day15part2
+import cz.glubo.adventofcode.y2024.day16.y2024day16part1
+import cz.glubo.adventofcode.y2024.day16.y2024day16part2
 import cz.glubo.adventofcode.y2024.day2.y2024day2part1
 import cz.glubo.adventofcode.y2024.day2.y2024day2part2
 import cz.glubo.adventofcode.y2024.day3.y2024day3part1
@@ -248,6 +250,8 @@ fun main(args: Array<String>) {
             "2024day14p2" to LinesToLongCommand { y2024day14part2(StdinInput(), IVec2(101, 103)) },
             "2024day15p1" to InputToLongCommand { y2024day15part1(StdinInput()) },
             "2024day15p2" to LinesToLongCommand { y2024day15part2(StdinInput()) },
+            "2024day16p1" to InputToLongCommand { y2024day16part1(StdinInput()) },
+            "2024day16p2" to LinesToLongCommand { y2024day16part2(StdinInput()) },
         )
 
     val cmd = CommandLine(MyHelpCommand())
