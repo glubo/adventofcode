@@ -1,6 +1,5 @@
 package cz.glubo.adventofcode.y2024.day16
 
-import cz.glubo.SortedArrayList
 import cz.glubo.adventofcode.utils.Direction
 import cz.glubo.adventofcode.utils.Grid
 import cz.glubo.adventofcode.utils.IVec2
@@ -10,6 +9,7 @@ import cz.glubo.adventofcode.y2024.day16.Tile.END
 import cz.glubo.adventofcode.y2024.day16.Tile.START
 import cz.glubo.adventofcode.y2024.day16.Tile.WALL
 import io.klogging.noCoLogger
+import java.util.PriorityQueue
 
 val logger = noCoLogger({}.javaClass.toString())
 
@@ -33,7 +33,7 @@ suspend fun y2024day16part1(input: Input): Long {
         override fun compareTo(other: Head): Int = this.cost.compareTo(other.cost)
     }
 
-    val heads = SortedArrayList<Head>()
+    val heads = PriorityQueue<Head>()
     heads.add(
         Head(
             startPos,
@@ -44,8 +44,8 @@ suspend fun y2024day16part1(input: Input): Long {
 
     val visited = mutableListOf<Head>()
 
-    while (heads.iterator().hasNext()) {
-        val head = heads.iterator().next()
+    while (heads.isNotEmpty()) {
+        val head = heads.poll()
 
         when (grid[head.position]) {
             END -> return head.cost
@@ -89,22 +89,23 @@ suspend fun y2024day16part1(input: Input): Long {
     }
     error("Did not reach the end")
 }
+typealias HeadQueue = PriorityQueue<Head>
+
+data class Head(
+    val position: IVec2,
+    val direction: Direction,
+    val cost: Long,
+    val parents: MutableSet<Head>,
+) : Comparable<Head> {
+    override fun compareTo(other: Head): Int = this.cost.compareTo(other.cost)
+}
 
 suspend fun y2024day16part2(input: Input): Long {
     logger.info("year 2024 day 16 part 2")
     val grid = grid(input)
     val startPos = grid.allIVec2().first { grid[it] == START }
 
-    data class Head(
-        val position: IVec2,
-        val direction: Direction,
-        val cost: Long,
-        val parents: MutableSet<Head>,
-    ) : Comparable<Head> {
-        override fun compareTo(other: Head): Int = this.cost.compareTo(other.cost)
-    }
-
-    val heads = SortedArrayList<Head>()
+    val heads = HeadQueue()
     heads.add(
         Head(
             startPos,
@@ -114,38 +115,42 @@ suspend fun y2024day16part2(input: Input): Long {
         ),
     )
 
-    val visited = mutableListOf<Head>()
+    val visited = mutableMapOf<Pair<IVec2, Direction>, Head>()
     val routes = mutableListOf<Head>()
     var endCost: Long? = null
 
     while (heads.iterator().hasNext()) {
-        val head = heads.iterator().next()
-        heads.filter { it != head }
+        val head = heads.poll()
 
         if ((endCost ?: Long.MAX_VALUE) < head.cost) {
             continue
         }
 
+        fun HeadQueue.addIfViable(head: Head) {
+            when {
+                WALL == grid[head.position] -> Unit
+                else -> this.add(head)
+            }
+        }
+
         when (grid[head.position]) {
-            WALL -> continue
             END -> {
                 if (endCost == null) endCost = head.cost
                 routes.add(head)
             }
 
             START, EMPTY -> {
-                val alreadyVisited = visited.firstOrNull { it.position == head.position && it.direction == head.direction }
+                val alreadyVisited = visited.get(head.position to head.direction)
                 if ((alreadyVisited?.cost ?: -1) == head.cost) {
                     logger.debug { "DUPL" }
                     alreadyVisited!!.parents.addAll(head.parents)
                 }
                 if ((alreadyVisited?.cost ?: Long.MAX_VALUE) > head.cost) {
                     logger.debug { "NEXT" }
-                    alreadyVisited?.let { visited.remove(it) }
 
-                    visited.add(head)
+                    visited[head.position to head.direction] = head
 
-                    heads.add(
+                    heads.addIfViable(
                         Head(
                             head.position + head.direction.vector,
                             head.direction,
@@ -153,26 +158,28 @@ suspend fun y2024day16part2(input: Input): Long {
                             mutableSetOf(head),
                         ),
                     )
-                    heads.add(
+                    val turnRight = head.direction.turnRight()
+                    heads.addIfViable(
                         Head(
-                            head.position,
-                            head.direction.turnRight(),
-                            head.cost + 1000,
+                            head.position + turnRight.vector,
+                            turnRight,
+                            head.cost + 1001,
                             mutableSetOf(head),
                         ),
                     )
-                    heads.add(
+                    val turnLeft = head.direction.turnLeft()
+                    heads.addIfViable(
                         Head(
-                            head.position,
-                            head.direction.turnLeft(),
-                            head.cost + 1000,
+                            head.position + turnLeft.vector,
+                            turnLeft,
+                            head.cost + 1001,
                             mutableSetOf(head),
                         ),
                     )
                 }
             }
 
-            null -> error("Escaped the maze")
+            else -> error("Escaped the maze")
         }
     }
 

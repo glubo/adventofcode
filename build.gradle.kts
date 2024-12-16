@@ -18,7 +18,6 @@ repositories {
 }
 
 dependencies {
-    implementation("cz.glubo:sortedlist:1.0.2")
     implementation(kotlin("stdlib"))
     implementation(KotlinX.coroutines.core)
     implementation("info.picocli:picocli:_")
