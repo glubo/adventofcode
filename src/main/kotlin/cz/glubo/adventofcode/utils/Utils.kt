@@ -116,6 +116,14 @@ enum class Direction(
             RIGHT -> DOWN
         }
 
+    fun turnLeft() =
+        when (this) {
+            UP -> LEFT
+            DOWN -> RIGHT
+            LEFT -> DOWN
+            RIGHT -> UP
+        }
+
     companion object {
         fun fromCommandChar(commandChar: Char) =
             when (commandChar) {

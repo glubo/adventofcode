@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
@@ -19,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    implementation("cz.glubo:sortedlist:1.0.2")
     implementation(kotlin("stdlib"))
     implementation(KotlinX.coroutines.core)
     implementation("info.picocli:picocli:_")
@@ -50,4 +50,7 @@ tasks.build {
 
 kotlinter {
     ignoreFailures = true
+}
+repositories {
+    maven("https://gitlab.com/api/v4/projects/64578383/packages/maven")
 }
