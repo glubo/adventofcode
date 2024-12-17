@@ -261,3 +261,7 @@ fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
     }
 
 fun Int?.orMax() = this ?: Int.MAX_VALUE
+
+fun <T> List<T>.isSame(other: List<T>) = (this.size == other.size) && this.indices.all {
+    this[it] == other[it]
+}
