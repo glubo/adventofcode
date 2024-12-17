@@ -77,5 +77,6 @@ fun pow2(n: Int): Int =
     } else if (n == 0) {
         1
     } else {
-        (0..<n).fold(1) { acc: Int, _: Int -> acc * 2 }
+//        (0..<n).fold(1) { acc: Int, _: Int -> acc * 2 }
+        1.shl(n)
     }

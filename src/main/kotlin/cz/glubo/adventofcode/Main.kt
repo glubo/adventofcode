@@ -60,6 +60,8 @@ import cz.glubo.adventofcode.y2024.day15.y2024day15part1
 import cz.glubo.adventofcode.y2024.day15.y2024day15part2
 import cz.glubo.adventofcode.y2024.day16.y2024day16part1
 import cz.glubo.adventofcode.y2024.day16.y2024day16part2
+import cz.glubo.adventofcode.y2024.day17.y2024day17part1
+import cz.glubo.adventofcode.y2024.day17.y2024day17part2
 import cz.glubo.adventofcode.y2024.day2.y2024day2part1
 import cz.glubo.adventofcode.y2024.day2.y2024day2part2
 import cz.glubo.adventofcode.y2024.day3.y2024day3part1
@@ -134,6 +136,13 @@ abstract class FlowCommand<ResultType> : Callable<Int> {
 class InputToLongCommand(
     private val action: suspend (input: Input) -> Long,
 ) : InputCommand<Long>() {
+    override suspend fun execute(input: Input) = action(input)
+}
+
+@Command(mixinStandardHelpOptions = true)
+class InputToStringCommand(
+    private val action: suspend (input: Input) -> String,
+) : InputCommand<String>() {
     override suspend fun execute(input: Input) = action(input)
 }
 
@@ -252,6 +261,8 @@ fun main(args: Array<String>) {
             "2024day15p2" to InputToLongCommand { y2024day15part2(it) },
             "2024day16p1" to InputToLongCommand { y2024day16part1(it) },
             "2024day16p2" to InputToLongCommand { y2024day16part2(it) },
+            "2024day17p1" to InputToStringCommand { y2024day17part1(it) },
+            "2024day17p2" to InputToLongCommand { y2024day17part2(it).toLong() },
         )
 
     val cmd = CommandLine(MyHelpCommand())

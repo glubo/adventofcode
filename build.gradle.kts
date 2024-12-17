@@ -2,8 +2,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     kotlin("jvm")
-    id("com.github.johnrengelman.shadow")
+    id("com.gradleup.shadow")
     id("org.jmailen.kotlinter")
+    id("com.adarshr.test-logger")
     application
 }
 
@@ -33,10 +34,6 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
     maxHeapSize = "20g"
-}
-
-tasks.withType<KotlinJvmCompile> {
-    kotlinOptions.jvmTarget = "21"
 }
 
 tasks.withType<JavaExec> {
