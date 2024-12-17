@@ -30,9 +30,9 @@ enum class OPCODE(
 }
 
 data class State(
-    var A: BigInteger,
-    var B: BigInteger,
-    var C: BigInteger,
+    var A: Long,
+    var B: Long,
+    var C: Long,
     var pointer: Int,
     var output: String,
 )
@@ -42,9 +42,9 @@ typealias Program = List<Pair<OPCODE, Int>>
 fun combo(
     state: State,
     param: Int,
-): BigInteger =
+): Long =
     when (param) {
-        0, 1, 2, 3 -> param.toBigInteger()
+        0, 1, 2, 3 -> param.toLong()
         4 -> state.A
         5 -> state.B
         6 -> state.C
@@ -73,19 +73,19 @@ fun advance(
         }
 
         OPCODE.BXL -> {
-            state.B = state.B.xor(op.second.toBigInteger())
+            state.B = state.B.xor(op.second.toLong())
             state.pointer += 2
             true
         }
 
         OPCODE.BST -> {
-            state.B = combo(state, op.second) % 8.toBigInteger()
+            state.B = combo(state, op.second) % 8.toLong()
             state.pointer += 2
             true
         }
 
         OPCODE.JNZ -> {
-            if (state.A == BigInteger.ZERO) {
+            if (state.A == 0L) {
                 state.pointer += 2
                 true
             } else {
@@ -101,7 +101,7 @@ fun advance(
         }
 
         OPCODE.OUT -> {
-            state.output = state.output join combo(state, op.second).mod(8.toBigInteger()).toString()
+            state.output = state.output join combo(state, op.second).mod(8.toLong()).toString()
             state.pointer += 2
             true
         }
@@ -143,9 +143,9 @@ fun String.parseProgram() =
 suspend fun y2024day17part1(input: Input): String {
     logger.info("year 2024 day 17 part 1")
     val lines = input.lineFlow().toList()
-    val a = lines[0].removePrefix("Register A: ").toBigInteger()
-    val b = lines[1].removePrefix("Register B: ").toBigInteger()
-    val c = lines[2].removePrefix("Register C: ").toBigInteger()
+    val a = lines[0].removePrefix("Register A: ").toLong()
+    val b = lines[1].removePrefix("Register B: ").toLong()
+    val c = lines[2].removePrefix("Register C: ").toLong()
     val program: Program =
         lines[4].parseProgram()
 
@@ -170,13 +170,13 @@ suspend fun y2024day17part1(input: Input): String {
 
 fun run(
     program: Program,
-    a: BigInteger,
+    a: Long,
 ): List<Int> {
     val currentState =
         State(
             A = a,
-            B = BigInteger.ZERO,
-            C = BigInteger.ZERO,
+            B = 0L,
+            C = 0L,
             pointer = 0,
             output = "",
         )
@@ -191,29 +191,29 @@ fun run(
     return currentState.output.split(",").map { it.toInt() }
 }
 
-fun pow2(n: BigInteger): BigInteger =
-    if (n < BigInteger.ZERO) {
+fun pow2(n: Long): Long =
+    if (n < 0) {
         throw IllegalArgumentException()
-    } else if (n == BigInteger.ZERO) {
-        BigInteger.ONE
+    } else if (n == 0L) {
+        1L
     } else {
-        BigInteger.ONE.shl(n.toInt())
+        1L.shl(n.toInt())
     }
 
-suspend fun y2024day17part2(input: Input): BigInteger {
+suspend fun y2024day17part2(input: Input): Long {
     val lines = input.lineFlow().toList()
     val wanted = lines[4].parseProgramRaw()
     val program: Program = wanted.toProgram()
 
-    fun findMatch(wanted: List<Int>): List<BigInteger> {
+    fun findMatch(wanted: List<Int>): List<Long> {
         return when (wanted.size) {
-            0 -> listOf(BigInteger.ZERO)
+            0 -> listOf(0L)
             else -> {
                 val smallerACandidates = findMatch(wanted.drop(1))
 
                 smallerACandidates.flatMap { smallerA ->
                     (0..7).mapNotNull { i ->
-                        val a = smallerA * 8.toBigInteger() + i.toBigInteger()
+                        val a = smallerA * 8.toLong() + i.toLong()
                         val output = run(program, a)
                         logger.debug { "$smallerA, $a: $output, $wanted}" }
                         if (wanted.isSame(output)) {
