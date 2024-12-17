@@ -18,15 +18,15 @@ class Day17Test :
                 )
             val state =
                 State(
-                    0.toBigInteger(),
-                    0.toBigInteger(),
-                    9.toBigInteger(),
+                    0.toLong(),
+                    0.toLong(),
+                    9.toLong(),
                     0,
                     "",
                 )
             val nextState = advance(state, program)
             nextState shouldNotBe false
-            state.B shouldBe 1.toBigInteger()
+            state.B shouldBe 1.toLong()
         }
 
         "a2" {
@@ -34,30 +34,30 @@ class Day17Test :
 
             val state =
                 State(
-                    0.toBigInteger(),
-                    29.toBigInteger(),
-                    0.toBigInteger(),
+                    0.toLong(),
+                    29.toLong(),
+                    0.toLong(),
                     0,
                     "",
                 )
             val nextState = advance(state, program)
             nextState shouldNotBe false
-            state.B shouldBe 26.toBigInteger()
+            state.B shouldBe 26.toLong()
         }
         "a3" {
             val program = "4,0".parseProgram()
 
             val state =
                 State(
-                    0.toBigInteger(),
-                    2024.toBigInteger(),
-                    43690.toBigInteger(),
+                    0.toLong(),
+                    2024.toLong(),
+                    43690.toLong(),
                     0,
                     "",
                 )
             val nextState = advance(state, program)
             nextState shouldNotBe false
-            state.B shouldBe 44354.toBigInteger()
+            state.B shouldBe 44354.toLong()
         }
 
         "day17 example 2 part 1 matches" {
@@ -113,7 +113,7 @@ class Day17Test :
                         Program: 0,3,5,4,3,0
                     """.trimIndent(),
                 ),
-            ) shouldBe 117440.toBigInteger()
+            ) shouldBe 117440.toLong()
         }
 
     })
