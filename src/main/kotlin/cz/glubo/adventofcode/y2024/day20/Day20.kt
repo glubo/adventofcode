@@ -25,70 +25,50 @@ data class Tile(
     var endDistance: Long?,
 )
 
-val possibleJumps =
-    listOf(
-        IVec2(-2, 0),
-        IVec2(2, 0),
-        IVec2(0, 2),
-        IVec2(0, -2),
-        IVec2(1, 1),
-        IVec2(-1, 1),
-        IVec2(-1, -1),
-        IVec2(1, -1),
-    )
-
 suspend fun y2024day20part1(
     input: Input,
     atLeast: Int,
 ): Long {
     logger.info("year 2024 day 20 part 1")
+    val possibleJumps =
+        listOf(
+            IVec2(-2, 0),
+            IVec2(2, 0),
+            IVec2(0, 2),
+            IVec2(0, -2),
+            IVec2(1, 1),
+            IVec2(-1, 1),
+            IVec2(-1, -1),
+            IVec2(1, -1),
+        ).associateWith { 2 }
 
-    val grid =
-        input.grid {
-            when (it) {
-                '#' -> Tile(WALL, null, null)
-                '.' -> Tile(EMPTY, null, null)
-                'S' -> Tile(START, null, null)
-                'E' -> Tile(END, null, null)
-                else -> error("unexpected tile $it")
-            }
-        }
-    lateinit var startPos: IVec2
-    lateinit var endPos: IVec2
-    grid.allIVec2().forEach {
-        when (grid[it]?.type) {
-            START -> startPos = it
-            END -> endPos = it
-            else -> Unit
-        }
-    }
+    val grid = parseGrid(input)
+    var (startPos: IVec2, endPos: IVec2) = findStartAndEnd(grid)
 
     floodStart(grid, startPos)
     floodEnd(grid, endPos)
 
     val normalLength = grid[startPos]!!.endDistance!!
     logger.debug { "Normal length: $normalLength" }
-    return grid
-        .allIVec2()
-        .sumOf { pos ->
-            val startDistance = grid[pos]?.startDistance ?: return@sumOf 0
+    return countViableJumps(grid, possibleJumps, normalLength, atLeast).toLong()
+}
 
-            possibleJumps.count { jump ->
-                val jumpPos = pos + jump
-                val endDistanceJump = grid[jumpPos]?.endDistance ?: return@count false
+suspend fun y2024day20part2(
+    input: Input,
+    atLeast: Int,
+): Long {
+    logger.info("year 2024 day 20 part 2")
+    val grid = parseGrid(input)
+    var (startPos: IVec2, endPos: IVec2) = findStartAndEnd(grid)
 
-                val saved = normalLength - 2 - startDistance - endDistanceJump
-                if (pos.x == 7 && pos.y == 7) {
-                    logger.debug { "$pos $jump $endDistanceJump $saved" }
-                }
-                if (saved >= atLeast) {
-                    logger.info { "found jump $pos to $jumpPos saving $saved" }
-                    true
-                } else {
-                    false
-                }
-            }
-        }.toLong()
+    floodStart(grid, startPos)
+    floodEnd(grid, endPos)
+
+    val possibleJumps2 = buildPossibleJumps2()
+
+    val normalLength = grid[startPos]!!.endDistance!!
+    logger.debug { "Normal length: $normalLength" }
+    return countViableJumps(grid, possibleJumps2, normalLength, atLeast).toLong()
 }
 
 fun floodStart(
@@ -145,21 +125,18 @@ fun floodEnd(
     }
 }
 
-suspend fun y2024day20part2(
-    input: Input,
-    atLeast: Int,
-): Long {
-    logger.info("year 2024 day 20 part 2")
-    val grid =
-        input.grid {
-            when (it) {
-                '#' -> Tile(WALL, null, null)
-                '.' -> Tile(EMPTY, null, null)
-                'S' -> Tile(START, null, null)
-                'E' -> Tile(END, null, null)
-                else -> error("unexpected tile $it")
-            }
+private suspend fun parseGrid(input: Input) =
+    input.grid {
+        when (it) {
+            '#' -> Tile(WALL, null, null)
+            '.' -> Tile(EMPTY, null, null)
+            'S' -> Tile(START, null, null)
+            'E' -> Tile(END, null, null)
+            else -> error("unexpected tile $it")
         }
+    }
+
+private fun findStartAndEnd(grid: Grid<Tile>): Pair<IVec2, IVec2> {
     lateinit var startPos: IVec2
     lateinit var endPos: IVec2
     grid.allIVec2().forEach {
@@ -169,10 +146,34 @@ suspend fun y2024day20part2(
             else -> Unit
         }
     }
+    return Pair(startPos, endPos)
+}
 
-    floodStart(grid, startPos)
-    floodEnd(grid, endPos)
+private fun countViableJumps(
+    grid: Grid<Tile>,
+    possibleJumps2: Map<IVec2, Int>,
+    normalLength: Long,
+    atLeast: Int,
+) = grid
+    .allIVec2()
+    .sumOf { pos ->
+        val startDistance = grid[pos]?.startDistance ?: return@sumOf 0
 
+        possibleJumps2.count { jump ->
+            val jumpPos = pos + jump.key
+            val endDistanceJump = grid[jumpPos]?.endDistance ?: return@count false
+
+            val saved = normalLength - jump.value - startDistance - endDistanceJump
+            if (saved >= atLeast) {
+                logger.debug { "found jump $pos to $jumpPos saving $saved" }
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+private fun buildPossibleJumps2(): MutableMap<IVec2, Int> {
     val possibleJumps2 = mutableMapOf<IVec2, Int>()
     possibleJumps2.put(IVec2(0, 0), 0)
     var cost = 0
@@ -187,25 +188,5 @@ suspend fun y2024day20part2(
         }
         cost = nextCost
     }
-
-    val normalLength = grid[startPos]!!.endDistance!!
-    logger.debug { "Normal length: $normalLength" }
-    return grid
-        .allIVec2()
-        .sumOf { pos ->
-            val startDistance = grid[pos]?.startDistance ?: return@sumOf 0
-
-            possibleJumps2.count { jump ->
-                val jumpPos = pos + jump.key
-                val endDistanceJump = grid[jumpPos]?.endDistance ?: return@count false
-
-                val saved = normalLength - jump.value - startDistance - endDistanceJump
-                if (saved >= atLeast) {
-                    logger.debug { "found jump $pos to $jumpPos saving $saved" }
-                    true
-                } else {
-                    false
-                }
-            }
-        }.toLong()
+    return possibleJumps2
 }
