@@ -124,6 +124,14 @@ enum class Direction(
             RIGHT -> UP
         }
 
+    fun toCommandChar() =
+        when (this) {
+            UP -> '^'
+            DOWN -> 'v'
+            LEFT -> '<'
+            RIGHT -> '>'
+        }
+
     companion object {
         fun fromCommandChar(commandChar: Char) =
             when (commandChar) {
@@ -262,6 +270,8 @@ fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
 
 fun Int?.orMax() = this ?: Int.MAX_VALUE
 
-fun <T> List<T>.isSame(other: List<T>) = (this.size == other.size) && this.indices.all {
-    this[it] == other[it]
-}
+fun <T> List<T>.isSame(other: List<T>) =
+    (this.size == other.size) &&
+        this.indices.all {
+            this[it] == other[it]
+        }
