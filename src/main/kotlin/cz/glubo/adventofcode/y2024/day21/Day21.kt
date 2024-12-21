@@ -119,7 +119,7 @@ class Layer(
                 position = targetPos
             }
             logger.debug { "$layerName hydrated $input: $outputs" }
-            return@getOrPut outputs
+            outputs
         }
 
     private fun shortestPaths(
@@ -152,7 +152,7 @@ class Layer(
                 }
             } while (paths.isNotEmpty())
 
-            return@getOrPut result
+            result
         }
 
     private fun getPosition(t: Tile) =
