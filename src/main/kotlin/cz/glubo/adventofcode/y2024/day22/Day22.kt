@@ -3,7 +3,6 @@ package cz.glubo.adventofcode.y2024.day22
 import cz.glubo.adventofcode.utils.input.Input
 import io.klogging.noCoLogger
 import kotlinx.coroutines.flow.fold
-import kotlin.math.max
 
 val logger = noCoLogger({}.javaClass.toString())
 
@@ -63,9 +62,7 @@ suspend fun y2024day22part2(input: Input): Long {
             val key = stack.mapNotNull { it.diff }
 
             if (key.size == 4) {
-                localMap.compute(key) { _, current ->
-                    max((current ?: 0), curPrice)
-                }
+                localMap.computeIfAbsent(key) { curPrice }
             }
             if (key.size > 4) error("wtf")
             lastPrice = curPrice
