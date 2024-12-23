@@ -275,3 +275,21 @@ fun <T> List<T>.isSame(other: List<T>) =
         this.indices.all {
             this[it] == other[it]
         }
+
+fun <E> Set<E>.allSubsets(): Sequence<Set<E>> =
+    sequence {
+        val original = this@allSubsets
+
+        if (original.isEmpty()) return@sequence
+
+        val first = original.first()
+        yield(setOf(first))
+        original
+            .drop(1)
+            .toSet()
+            .allSubsets()
+            .forEach {
+                yield(it)
+                yield(setOf(first) + it)
+            }
+    }
