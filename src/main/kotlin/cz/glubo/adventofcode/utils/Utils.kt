@@ -293,3 +293,23 @@ fun <E> Set<E>.allSubsets(): Sequence<Set<E>> =
                 yield(setOf(first) + it)
             }
     }
+
+fun <E> Set<E>.allOrders(): Sequence<List<E>> =
+    sequence {
+        val list = this@allOrders.toList()
+        if (list.isEmpty()) {
+            yield(emptyList())
+        } else {
+            for (i in list.indices) {
+                val otherSet =
+                    list
+                        .filterIndexed { it, _ -> it != i }
+                        .toSet()
+                otherSet.allOrders().forEach { item ->
+                    yield(item + list [i])
+                }
+            }
+        }
+    }
+
+fun Long.getBit(n: Int) = this.shr(n).and(1)
