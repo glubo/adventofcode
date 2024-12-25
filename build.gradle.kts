@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-
 plugins {
     kotlin("jvm")
     id("com.gradleup.shadow")
@@ -21,6 +19,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(KotlinX.coroutines.core)
+    implementation(KotlinX.coroutines.reactive)
     implementation("info.picocli:picocli:_")
     implementation("io.klogging:slf4j-klogging:_")
     testImplementation(kotlin("test"))

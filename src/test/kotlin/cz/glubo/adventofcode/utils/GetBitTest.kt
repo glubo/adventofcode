@@ -19,4 +19,14 @@ class GetBitTest :
                 1024L.getBit(0) shouldBe 0
             }
         }
+
+        "bitDistance" {
+            assertSoftly {
+                1L.bitDistance(1L) shouldBe 0
+                2L.bitDistance(0L) shouldBe 1
+                2L.bitDistance(1L) shouldBe 2
+                1024L.bitDistance(1L) shouldBe 2
+                1L.bitDistance(1024L) shouldBe 2
+            }
+        }
     })

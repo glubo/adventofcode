@@ -1,9 +1,13 @@
 package cz.glubo.adventofcode.y2024.day24
 
-import cz.glubo.adventofcode.utils.getBit
+import cz.glubo.adventofcode.utils.bitDistance
 import cz.glubo.adventofcode.utils.input.Input
 import io.klogging.noCoLogger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.runBlocking
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.experimental.xor
@@ -114,97 +118,91 @@ suspend fun y2024day24part2(
     logger.info { "wantedResult: $wantedS" }
     logger.info { "badbadResult: ${badResult.toString(2)}" }
     logger.info { "badResultBmap ${badBitmap.toString(2).padStart(wantedS.length, '0')}" }
+    val a =
+        findSwaps(
+            wantedResult,
+            stateMap,
+            gates,
+            emptyMap(),
+            4,
+        )
 
-    val suspects = mutableSetOf<Pair<String, Short>>()
-    var rem = badBitmap
-    var i = 0
-    do {
-        val cur = rem.and(1)
-        if (cur > 0) {
-            val name = "z" + i.toString().padStart(2, '0')
-            suspects.add(name to wantedResult.getBit(i).toShort())
-        }
-        i++
-        rem = rem.shr(1)
-    } while (rem > 0)
+    return a!!.joinToString(",")
+}
 
-    val suspectMap =
-        suspects
-            .associateWith { suspect ->
-                getNameWhitelist(suspect.first, gates)
-            }.entries
-            .sortedBy { it.value.size }
-    logger.info(suspectMap.map { it.key to it.value.size })
+suspend fun findSwaps(
+    wantedResult: Long,
+    stateMap: MutableMap<String, Short>,
+    gates: List<Gate>,
+    swapMap: Map<String, String>,
+    i: Int,
+): List<String>? {
+    val names =
+        gates
+            .map { it.target }
+            .filter { !swapMap.containsKey(it) }
 
-    suspectMap.first().let { sentry ->
-        val reducedState =
-            stateMap.entries
-                .filter { it.key in sentry.value }
-                .associate { it.key to it.value }
-        logger.info { "reduced state $reducedState" }
+    val swapErrorList =
+        (0..<names.size)
+            .flatMap { i ->
+                (i + 1..<names.size).map { j ->
+                    val newSwapMap =
+                        mapOf(
+                            names[i] to names[j],
+                            names[j] to names[i],
+                        ) + swapMap
+                    val result = compute(stateMap, gates, newSwapMap)
 
-        val reducedGates =
-            gates.filter {
-                it.target in sentry.value
-            }
-        logger.info { "reduced gates $reducedGates" }
-
-        sentry.value.forEach { a ->
-            sentry.value.forEach { b ->
-                val swappedResult = computeState(reducedState, reducedGates, mapOf(a to b, b to a))
-                logger.info { "swapping $a $b result $swappedResult" }
-                if (swappedResult[sentry.key.first] == sentry.key.second) {
-                    logger.info("swap $a $b")
+                    newSwapMap to result.bitDistance(wantedResult)
                 }
-            }
-        }
-    }
+            }.sortedBy { it.second }
+            .toMutableList()
 
-//    logger.info { "Initial suspects: $suspects" }
-//    do {
-//        var newSuspects = mutableSetOf<String>()
-//
-//        suspects.forEach { suspect ->
-//            val suspectGate =
-//                gateLines.firstOrNull { it.target == suspect }
-//                    ?: return@forEach
-//            if (suspectGate.inputA !in suspects) newSuspects.add(suspectGate.inputA)
-//            if (suspectGate.inputB !in suspects) newSuspects.add(suspectGate.inputB)
+    do {
+        runBlocking(Dispatchers.IO) {
+            val chunk = (1..3).map { _ -> swapErrorList.removeFirst() }
+            val results =
+                chunk.map {
+                    async {
+                        if (it.second == 0) {
+                            logger.info { "found ${it.first}" }
+                            return@async it.first.keys.sorted()
+                        }
+                        if (i > 1) {
+                            findSwaps(
+                                wantedResult,
+                                stateMap,
+                                gates,
+                                it.first,
+                                i - 1,
+                            )?.let { s -> return@async s }
+                        }
+                        null
+                    }
+                }
+            results.awaitAll().filterNotNull()
+        }.let {
+            if (it.isNotEmpty()) return it.first()
+        }
+    } while (swapErrorList.isNotEmpty())
+
+//    swapErrorList.forEach {
+//        if (it.second == 0) {
+//            logger.info { "found ${it.first}" }
+//            return it.first.keys.sorted()
 //        }
-//
-//        suspects.addAll(newSuspects)
-//    } while (newSuspects.isEmpty())
-//
-//    logger.info { "Found suspects: $suspects" }
-//
-//    val swapPool =
-//        suspects
-//            .allSubsets()
-//            .filter { it.size == swaps * 2 }
-//            .firstNotNullOf { swapMembers ->
-//                swapMembers
-//                    .allOrders()
-//                    .firstOrNull {
-//                        val swapMap = mutableMapOf<String, String>()
-//
-//                        it.chunked(2).forEach { (a, b) ->
-//                            swapMap[a] = b
-//                            swapMap[b] = a
-//                        }
-//
-//                        wantedResult ==
-//                            compute(
-//                                stateMap,
-//                                gateLines,
-//                                swapMap,
-//                            )
-//                    }
-//            }
-//
-//    return swapPool
-//        .sorted()
-//        .joinToString(",")
-    return ""
+//        if (i > 1) {
+//            findSwaps(
+//                wantedResult,
+//                stateMap,
+//                gates,
+//                it.first,
+//                i - 1,
+//            )?.let { s -> return s }
+//        }
+//        null
+//    }
+    return null
 }
 
 private fun parseStateMap(stateLines: List<String>): MutableMap<String, Short> {
@@ -233,25 +231,3 @@ private fun parseGates(lines: List<String>) =
                 target,
             )
         }
-
-private fun getNameWhitelist(
-    target: String,
-    gates: List<Gate>,
-): Set<String> {
-    var suspects = mutableSetOf(target)
-
-    do {
-        var newSuspects = mutableSetOf<String>()
-
-        suspects.forEach { suspect ->
-            val suspectGate =
-                gates.firstOrNull { it.target == suspect }
-                    ?: return@forEach
-            if (suspectGate.inputA !in suspects) newSuspects.add(suspectGate.inputA)
-            if (suspectGate.inputB !in suspects) newSuspects.add(suspectGate.inputB)
-        }
-
-        suspects.addAll(newSuspects)
-    } while (newSuspects.isNotEmpty())
-    return suspects
-}

@@ -313,3 +313,15 @@ fun <E> Set<E>.allOrders(): Sequence<List<E>> =
     }
 
 fun Long.getBit(n: Int) = this.shr(n).and(1)
+
+fun Long.bitDistance(other: Long): Int {
+    var a = this
+    var b = other
+    var result = 0
+    do {
+        result += a.and(1).xor(b.and(1)).toInt()
+        a = a.shr(1)
+        b = b.shr(1)
+    } while (a > 0 || b > 0)
+    return result
+}
