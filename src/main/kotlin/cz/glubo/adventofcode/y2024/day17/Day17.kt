@@ -130,14 +130,16 @@ fun String.parseProgramRaw() =
         .split(",")
         .map { it.toInt() }
 
-fun List<Int>.toProgram() = this
-    .chunked(2)
-    .map { (o, p) ->
-        OPCODE.entries.first { it.opcode == o } to p
-    }
+fun List<Int>.toProgram() =
+    this
+        .chunked(2)
+        .map { (o, p) ->
+            OPCODE.entries.first { it.opcode == o } to p
+        }
 
 fun String.parseProgram() =
-    this.parseProgramRaw()
+    this
+        .parseProgramRaw()
         .toProgram()
 
 suspend fun y2024day17part1(input: Input): String {
@@ -205,8 +207,8 @@ suspend fun y2024day17part2(input: Input): Long {
     val wanted = lines[4].parseProgramRaw()
     val program: Program = wanted.toProgram()
 
-    fun findMatch(wanted: List<Int>): List<Long> {
-        return when (wanted.size) {
+    fun findMatch(wanted: List<Int>): List<Long> =
+        when (wanted.size) {
             0 -> listOf(0L)
             else -> {
                 val smallerACandidates = findMatch(wanted.drop(1))
@@ -226,8 +228,6 @@ suspend fun y2024day17part2(input: Input): Long {
                 }
             }
         }
-
-    }
 
     val suitableAList = findMatch(wanted)
     logger.debug { suitableAList }

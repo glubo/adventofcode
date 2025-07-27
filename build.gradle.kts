@@ -44,7 +44,8 @@ tasks.build {
 }
 
 kotlinter {
-    ignoreFailures = true
+    ignoreLintFailures = true
+    ignoreFormatFailures = true
 }
 repositories {
     maven("https://gitlab.com/api/v4/projects/64578383/packages/maven")

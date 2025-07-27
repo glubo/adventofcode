@@ -106,14 +106,13 @@ class Day17Test :
             y2024day17part2(
                 TestInput(
                     """
-                        Register A: 2024
-                        Register B: 0
-                        Register C: 0
+                    Register A: 2024
+                    Register B: 0
+                    Register C: 0
 
-                        Program: 0,3,5,4,3,0
+                    Program: 0,3,5,4,3,0
                     """.trimIndent(),
                 ),
             ) shouldBe 117440.toLong()
         }
-
     })
