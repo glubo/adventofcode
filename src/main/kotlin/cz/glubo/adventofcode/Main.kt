@@ -331,6 +331,8 @@ fun main(args: Array<String>) {
             "2025day8p2" to InputToLongCommand { y2025day8part2(it) },
             "2025day10p1" to InputToLongCommand { y2025day10part1(it) },
             "2025day10p2" to InputToLongCommand { y2025day10part2(it) },
+            "2024day25p1" to InputToLongCommand { y2024day25part1(it) },
+            "2024day25p2" to InputToLongCommand { y2024day25part2(it) },
         )
 
     val cmd = CommandLine(MyHelpCommand())
