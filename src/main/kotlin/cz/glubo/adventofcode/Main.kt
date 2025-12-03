@@ -96,6 +96,10 @@ import cz.glubo.adventofcode.y2024.day9.y2024day9part1
 import cz.glubo.adventofcode.y2024.day9.y2024day9part2
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart1
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart2
+import cz.glubo.adventofcode.y2025.day1.y2025day1part1
+import cz.glubo.adventofcode.y2025.day1.y2025day1part2
+import cz.glubo.adventofcode.y2025.day2.y2025day2part1
+import cz.glubo.adventofcode.y2025.day2.y2025day2part2
 import cz.glubo.adventofcode.y2025.day3.y2025day3part1
 import cz.glubo.adventofcode.y2025.day3.y2025day3part2
 import io.klogging.Level
@@ -297,6 +301,10 @@ fun main(args: Array<String>) {
             "2024day24p2" to InputToStringCommand { y2024day24part2(it, 4) },
             "2024day25p1" to InputToLongCommand { y2024day25part1(it) },
             "2024day25p2" to InputToLongCommand { y2024day25part2(it) },
+            "2025day1p1" to InputToLongCommand { y2025day1part1(it) },
+            "2025day1p2" to InputToLongCommand { y2025day1part2(it) },
+            "2025day2p1" to InputToLongCommand { y2025day2part1(it) },
+            "2025day2p2" to InputToLongCommand { y2025day2part2(it) },
             "2025day3p1" to InputToLongCommand { y2025day3part1(it) },
             "2025day3p2" to InputToLongCommand { y2025day3part2(it) },
         )
