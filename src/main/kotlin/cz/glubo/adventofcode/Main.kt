@@ -96,6 +96,8 @@ import cz.glubo.adventofcode.y2024.day9.y2024day9part1
 import cz.glubo.adventofcode.y2024.day9.y2024day9part2
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart1
 import cz.glubo.adventofcode.y2024.dayN.y2024dayNpart2
+import cz.glubo.adventofcode.y2025.day3.y2025day3part1
+import cz.glubo.adventofcode.y2025.day3.y2025day3part2
 import io.klogging.Level
 import io.klogging.config.ANSI_CONSOLE
 import io.klogging.config.loggingConfiguration
@@ -295,6 +297,8 @@ fun main(args: Array<String>) {
             "2024day24p2" to InputToStringCommand { y2024day24part2(it, 4) },
             "2024day25p1" to InputToLongCommand { y2024day25part1(it) },
             "2024day25p2" to InputToLongCommand { y2024day25part2(it) },
+            "2025day3p1" to InputToLongCommand { y2025day3part1(it) },
+            "2025day3p2" to InputToLongCommand { y2025day3part2(it) },
         )
 
     val cmd = CommandLine(MyHelpCommand())

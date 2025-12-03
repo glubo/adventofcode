@@ -264,8 +264,13 @@ fun IntRange.split(boundary: Int): Pair<IntRange?, IntRange?> =
             (this.start..<boundary) to (boundary..this.endInclusive)
         }
 
-        boundary <= this.start -> null to this
-        else -> this to null
+        boundary <= this.start -> {
+            null to this
+        }
+
+        else -> {
+            this to null
+        }
     }
 
 fun Int?.orMax() = this ?: Int.MAX_VALUE
@@ -306,7 +311,7 @@ fun <E> Set<E>.allOrders(): Sequence<List<E>> =
                         .filterIndexed { it, _ -> it != i }
                         .toSet()
                 otherSet.allOrders().forEach { item ->
-                    yield(item + list [i])
+                    yield(item + list[i])
                 }
             }
         }
@@ -324,4 +329,12 @@ fun Long.bitDistance(other: Long): Int {
         b = b.shr(1)
     } while (a > 0 || b > 0)
     return result
+}
+
+fun pow10(n: Int): Long {
+    var res = 1L
+    repeat(n) {
+        res *= 10
+    }
+    return res
 }

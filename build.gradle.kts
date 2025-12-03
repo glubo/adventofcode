@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm")
-    id("com.gradleup.shadow")
-    id("org.jmailen.kotlinter")
-    id("com.adarshr.test-logger")
+    kotlin("jvm") version libs.versions.kotlin.get()
+    alias(libs.plugins.com.gradleup.shadow)
+    alias(libs.plugins.org.jmailen.kotlinter)
+    alias(libs.plugins.com.adarshr.test.logger)
     application
 }
 
@@ -12,22 +12,19 @@ version = "1.0-SNAPSHOT"
 application {
     mainClass.set("cz.glubo.adventofcode.MainKt")
 }
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(KotlinX.coroutines.core)
-    implementation(KotlinX.coroutines.reactive)
-    implementation("info.picocli:picocli:_")
-    implementation("io.klogging:slf4j-klogging:_")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.reactive)
+    implementation(libs.picocli)
+    implementation(libs.slf4j.klogging)
     testImplementation(kotlin("test"))
-    testImplementation(KotlinX.coroutines.test)
-    testImplementation(Testing.junit.jupiter.params)
-    testImplementation(Testing.kotest.runner.junit5)
-    testImplementation(Testing.kotest.assertions.core)
-    testImplementation(Testing.kotest.framework.datatest)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.junit.jupiter.params)
+    testImplementation(libs.kotest.runner.junit5)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.kotest.framework.datatest)
 }
 
 tasks.test {
@@ -48,5 +45,5 @@ kotlinter {
     ignoreFormatFailures = true
 }
 repositories {
-    maven("https://gitlab.com/api/v4/projects/64578383/packages/maven")
+    mavenCentral()
 }
