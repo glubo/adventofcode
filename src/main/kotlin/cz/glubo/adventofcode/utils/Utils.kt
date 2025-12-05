@@ -202,9 +202,20 @@ open class Grid<T>(
         }
     }
 
+    fun <W> map(callback: (T, IVec2) -> W): Grid<W> =
+        Grid(
+            this.width,
+            this.height,
+            this
+                .allIVec2()
+                .map {
+                    callback(this[it] ?: error("wtf"), it)
+                }.toMutableList(),
+        )
+
     fun allIVec2() =
-        (0..<height).flatMap { y ->
-            (0..<width).map { x ->
+        (0..<height).asSequence().flatMap { y ->
+            (0..<width).asSequence().map { x ->
                 IVec2(x, y)
             }
         }
@@ -223,8 +234,9 @@ open class Grid<T>(
             "Grid $width * $height\n" +
                 allIVec2()
                     .chunked(width)
-                    .map { line -> line.map { map(get(it)!!, it) }.joinToString("") }
-                    .joinToString("\n")
+                    .joinToString("\n") { line ->
+                        line.map { map(get(it)!!, it) }.joinToString("")
+                    }
         }
     }
 
