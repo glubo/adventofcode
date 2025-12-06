@@ -14,17 +14,30 @@ class Day6Test :
             y2025day6part1(
                 TestInput(
                     """
+                    123 328  51 64 
+                     45 64  387 23 
+                      6 98  215 314
+                    *   +   *   +  
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 4277556
+        }
+
+        "sdadasd" {
+
+            "1 2  3   4".split(" +".toRegex()) shouldBe listOf("1", "2", "3", "4")
         }
 
         "day6 example part 2 matches" {
             y2025day6part2(
                 TestInput(
                     """
+                    123 328  51 64 
+                     45 64  387 23 
+                      6 98  215 314
+                    *   +   *   +  
                     """.trimIndent(),
                 ),
-            ) shouldBe 0
+            ) shouldBe 3263827
         }
     })

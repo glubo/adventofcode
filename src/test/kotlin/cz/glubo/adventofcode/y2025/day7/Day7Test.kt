@@ -1,0 +1,30 @@
+package cz.glubo.adventofcode.y2025.day7
+
+import cz.glubo.adventofcode.utils.input.TestInput
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.shouldBe
+
+/**
+ * https://adventofcode.com/2025/day/7
+ */
+class Day7Test :
+    StringSpec({
+
+        "day7 example part 1 matches" {
+            y2025day7part1(
+                TestInput(
+                    """
+                    """.trimIndent(),
+                ),
+            ) shouldBe 0
+        }
+
+        "day7 example part 2 matches" {
+            y2025day7part2(
+                TestInput(
+                    """
+                    """.trimIndent(),
+                ),
+            ) shouldBe 0
+        }
+    })
