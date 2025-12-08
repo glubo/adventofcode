@@ -32,6 +32,53 @@ data class IVec2(
     infix fun tcDistance(other: IVec2) = abs(this.x - other.x) + abs(this.y - other.y)
 }
 
+data class IVec3(
+    val x: Int,
+    val y: Int,
+    val z: Int,
+) {
+    operator fun plus(other: IVec3) =
+        IVec3(
+            this.x + other.x,
+            this.y + other.y,
+            this.z + other.z,
+        )
+
+    operator fun minus(other: IVec3) =
+        IVec3(
+            this.x - other.x,
+            this.y - other.y,
+            this.z - other.z,
+        )
+
+    operator fun times(scale: Int) =
+        IVec3(
+            scale * this.x,
+            scale * this.y,
+            scale * this.z,
+        )
+
+    infix fun dot(other: IVec3) =
+        this.x.toLong() * other.x +
+            this.y.toLong() * other.y +
+            this.z.toLong() * other.z
+
+    /**
+     * Calculates the taxicab distance between this vector and the given vector.
+     *
+     * The taxicab distance is the sum of the absolute differences of the corresponding coordinates of the vectors.
+     *
+     * @param other The vector to calculate the taxicab distance to.
+     * @return The taxicab distance between this vector and the given vector.
+     */
+    infix fun tcDistance(other: IVec3) = abs(this.x - other.x) + abs(this.y - other.y) + abs(this.z - other.z)
+
+    infix fun squareDistance(other: IVec3): Long {
+        val diff = this - other
+        return diff dot diff
+    }
+}
+
 enum class FullDirection(
     val vector: IVec2,
     val char: Char,
