@@ -17,6 +17,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.reactive)
+    implementation(libs.z3.turnkey)
     implementation(libs.picocli)
     implementation(libs.slf4j.klogging)
     testImplementation(kotlin("test"))

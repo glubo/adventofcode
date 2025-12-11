@@ -3,35 +3,8 @@
 [plugins]
 
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.0" }
-##                                                                 ⬆ = "2.2.0-Beta1" }
-##                                                                 ⬆ = "2.2.0-Beta2" }
-##                                                                 ⬆ = "2.2.0-RC" }
-##                                                                 ⬆ = "2.2.0-RC2" }
-##                                                                 ⬆ = "2.2.0-RC3" }
-##                                                                 ⬆ = "2.2.0" }
-##                                                                 ⬆ = "2.2.10-RC" }
-##                                                                 ⬆ = "2.2.20-Beta1" }
 
 com-gradleup-shadow = { id = "com.gradleup.shadow", version = "8.3.8" }
-##                                                       ⬆ = "9.0.0-beta1" }
-##                                                       ⬆ = "9.0.0-beta2" }
-##                                                       ⬆ = "9.0.0-beta3" }
-##                                                       ⬆ = "9.0.0-beta4" }
-##                                                       ⬆ = "9.0.0-beta5" }
-##                                                       ⬆ = "9.0.0-beta6" }
-##                                                       ⬆ = "9.0.0-beta7" }
-##                                                       ⬆ = "9.0.0-beta8" }
-##                                                       ⬆ = "9.0.0-beta9" }
-##                                                       ⬆ = "9.0.0-beta10" }
-##                                                       ⬆ = "9.0.0-beta11" }
-##                                                       ⬆ = "9.0.0-beta12" }
-##                                                       ⬆ = "9.0.0-beta13" }
-##                                                       ⬆ = "9.0.0-beta14" }
-##                                                       ⬆ = "9.0.0-beta15" }
-##                                                       ⬆ = "9.0.0-beta16" }
-##                                                       ⬆ = "9.0.0-beta17" }
-##                                                       ⬆ = "9.0.0-rc1" }
-##                                                       ⬆ = "9.0.0-rc2" }
 
 org-jmailen-kotlinter = { id = "org.jmailen.kotlinter", version = "5.2.0" }
 
@@ -40,28 +13,12 @@ com-adarshr-test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
 [versions]
 
 kotlin = "2.2.0"
-##  ⬆ = "2.2.0-Beta1"
-##  ⬆ = "2.2.0-Beta2"
-##  ⬆ = "2.2.0-RC"
-##  ⬆ = "2.2.0-RC2"
-##  ⬆ = "2.2.0-RC3"
-##  ⬆ = "2.2.0"
-##  ⬆ = "2.2.10-RC"
-##  ⬆ = "2.2.20-Beta1"
 
 kotlinx-coroutines = "1.10.2"
 
 junit-jupiter = "5.13.4"
-##         ⬆ = "6.0.0-M1"
-##         ⬆ = "6.0.0-M2"
 
 kotest = "5.9.1"
-##  ⬆ = "6.0.0.M1"
-##  ⬆ = "6.0.0.M2"
-##  ⬆ = "6.0.0.M3"
-##  ⬆ = "6.0.0.M4"
-##  ⬆ = "6.0.0.M5"
-##  ⬆ = "6.0.0.M6"
 
 [libraries]
 
@@ -106,3 +63,5 @@ kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", ver
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 
 kotest-framework-datatest = { group = "io.kotest", name = "kotest-framework-datatest", version.ref = "kotest" }
+
+z3-turnkey = "tools.aqua:z3-turnkey:4.14.1"
