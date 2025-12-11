@@ -60,9 +60,18 @@ suspend fun y2024day18part1(
             val nextPos = head + dir.vector
             val nextTile = grid[nextPos]
             when {
-                nextTile == null -> Unit
-                nextTile?.corrupted == true -> Unit
-                nextTile?.cost ?: Int.MAX_VALUE <= headTile.cost + 1 -> Unit
+                nextTile == null -> {
+                    Unit
+                }
+
+                nextTile?.corrupted == true -> {
+                    Unit
+                }
+
+                nextTile?.cost ?: Int.MAX_VALUE <= headTile.cost + 1 -> {
+                    Unit
+                }
+
                 else -> {
                     nextTile.cost = headTile.cost + 1
                     heads += nextPos

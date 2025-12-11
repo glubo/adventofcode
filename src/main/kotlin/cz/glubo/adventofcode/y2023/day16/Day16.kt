@@ -78,22 +78,35 @@ private fun countLavaTiles(
             lavaGrid[rayPos] = true
             val newRays =
                 when (tileGrid[rayPos]) {
-                    Tile.NONE -> emptyList()
-                    Tile.MIRROR -> listOf(rayPos to mirror(castDirection))
-                    Tile.MIRROR_BACK -> listOf(rayPos to mirrorBack(castDirection))
-                    Tile.VERTICAL_SPLIT ->
+                    Tile.NONE -> {
+                        emptyList()
+                    }
+
+                    Tile.MIRROR -> {
+                        listOf(rayPos to mirror(castDirection))
+                    }
+
+                    Tile.MIRROR_BACK -> {
+                        listOf(rayPos to mirrorBack(castDirection))
+                    }
+
+                    Tile.VERTICAL_SPLIT -> {
                         when (Orientation.of(castDirection)) {
                             HORIZONTAL -> listOf(rayPos to UP, rayPos to DOWN)
                             VERTICAL -> emptyList()
                         }
+                    }
 
-                    Tile.HORIZONTAL_SPLIT ->
+                    Tile.HORIZONTAL_SPLIT -> {
                         when (Orientation.of(castDirection)) {
                             HORIZONTAL -> emptyList()
                             VERTICAL -> listOf(rayPos to LEFT, rayPos to RIGHT)
                         }
+                    }
 
-                    null -> emptyList()
+                    null -> {
+                        emptyList()
+                    }
                 }
 
             if (newRays.isNotEmpty()) {

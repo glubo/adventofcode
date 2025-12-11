@@ -130,9 +130,13 @@ private fun List<List<Tile>>.cleanNonFenceTiles(startPosition: YXPair) =
                     )
                 }
 
-                dirtyTile.distance == null -> Tile(emptyList())
+                dirtyTile.distance == null -> {
+                    Tile(emptyList())
+                }
 
-                else -> Tile(dirtyTile.connectedTo, dirtyTile.distance)
+                else -> {
+                    Tile(dirtyTile.connectedTo, dirtyTile.distance)
+                }
             }
         }
     }
@@ -160,19 +164,42 @@ private suspend fun Flow<String>.parseTiles(): Pair<List<List<Tile>>, YXPair> {
         toList().mapIndexed { y, line ->
             line.mapIndexed { x, char ->
                 when (char) {
-                    '.' -> Tile(emptyList())
-                    '-' -> Tile(listOf(0 to 1, 0 to -1))
-                    '|' -> Tile(listOf(1 to 0, -1 to 0))
-                    'J' -> Tile(listOf(-1 to 0, 0 to -1))
-                    'L' -> Tile(listOf(-1 to 0, 0 to 1))
-                    'F' -> Tile(listOf(1 to 0, 0 to 1))
-                    '7' -> Tile(listOf(1 to 0, 0 to -1))
+                    '.' -> {
+                        Tile(emptyList())
+                    }
+
+                    '-' -> {
+                        Tile(listOf(0 to 1, 0 to -1))
+                    }
+
+                    '|' -> {
+                        Tile(listOf(1 to 0, -1 to 0))
+                    }
+
+                    'J' -> {
+                        Tile(listOf(-1 to 0, 0 to -1))
+                    }
+
+                    'L' -> {
+                        Tile(listOf(-1 to 0, 0 to 1))
+                    }
+
+                    'F' -> {
+                        Tile(listOf(1 to 0, 0 to 1))
+                    }
+
+                    '7' -> {
+                        Tile(listOf(1 to 0, 0 to -1))
+                    }
+
                     'S' -> {
                         startPosition = y to x
                         Tile(listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1), 0)
                     }
 
-                    else -> throw RuntimeException("Unexpected tile at $y $x: '$char'")
+                    else -> {
+                        throw RuntimeException("Unexpected tile at $y $x: '$char'")
+                    }
                 }
             }
         }

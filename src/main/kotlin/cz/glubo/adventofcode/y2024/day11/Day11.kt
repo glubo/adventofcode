@@ -32,15 +32,23 @@ fun countStones(
 ): Long =
     resultMap.getOrPut(Pair(stone, remaining)) {
         when {
-            remaining < 1 -> 1
-            stone == 0L -> countStones(1L, remaining - 1)
+            remaining < 1 -> {
+                1
+            }
+
+            stone == 0L -> {
+                countStones(1L, remaining - 1)
+            }
+
             "$stone".length % 2 == 0 -> {
                 splitLongIntoHalves(stone).sumOf {
                     countStones(it, remaining - 1)
                 }
             }
 
-            else -> countStones(stone * 2024, remaining - 1)
+            else -> {
+                countStones(stone * 2024, remaining - 1)
+            }
         }
     }
 

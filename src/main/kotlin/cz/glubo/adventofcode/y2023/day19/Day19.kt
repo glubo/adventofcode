@@ -137,16 +137,25 @@ fun applyRules(
     while (true) {
         for (op in currentRule.rules) {
             when (op.opcode) {
-                CMP, ICMP ->
+                CMP, ICMP -> {
                     if (opCompare(part.attributes[op.attribute]!!, op)) {
                         if (op.target in "RA") return op.target == "A"
                         currentRule = ruleMap[op.target]!!
                         break
                     }
+                }
 
-                APPROVE -> return true
-                REJECT -> return false
-                JUMP -> currentRule = ruleMap[op.target]!!
+                APPROVE -> {
+                    return true
+                }
+
+                REJECT -> {
+                    return false
+                }
+
+                JUMP -> {
+                    currentRule = ruleMap[op.target]!!
+                }
             }
         }
     }
@@ -219,16 +228,20 @@ suspend fun Flow<String>.y2023day19part2(): Long {
                     }
                 }
 
-                APPROVE ->
+                APPROVE -> {
                     sum +=
                         remainingRanges.values.fold(1L) { acc, i ->
                             acc * i.length()
                         }
+                }
+
                 REJECT -> {}
-                JUMP ->
+
+                JUMP -> {
                     toExplore.add(
                         workflowMap[it.target]!! to remainingRanges,
                     )
+                }
             }
         }
     }

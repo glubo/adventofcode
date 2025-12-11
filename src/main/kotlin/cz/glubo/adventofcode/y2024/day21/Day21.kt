@@ -139,16 +139,29 @@ class Layer(
                 val headPos = position + path.sum
                 val head = keyboard[headPos]
                 when {
-                    path.moves.size > shortestLengthSoFar() -> Unit
-                    headPos == targetPos -> result.add(path)
-                    head == null -> Unit
-                    head == LAVA -> Unit
-                    else ->
+                    path.moves.size > shortestLengthSoFar() -> {
+                        Unit
+                    }
+
+                    headPos == targetPos -> {
+                        result.add(path)
+                    }
+
+                    head == null -> {
+                        Unit
+                    }
+
+                    head == LAVA -> {
+                        Unit
+                    }
+
+                    else -> {
                         paths.addAll(
                             Direction.entries.map {
                                 path.add(it)
                             },
                         )
+                    }
                 }
             } while (paths.isNotEmpty())
 

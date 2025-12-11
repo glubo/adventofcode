@@ -25,12 +25,12 @@ dependencies {
     testImplementation(libs.junit.jupiter.params)
     testImplementation(libs.kotest.runner.junit5)
     testImplementation(libs.kotest.assertions.core)
-    testImplementation(libs.kotest.framework.datatest)
 }
 
 tasks.test {
     useJUnitPlatform()
     maxHeapSize = "20g"
+    systemProperty("kotest.framework.config.fqn", "cz.glubo.adventofcode.config.ProjectConfig")
 }
 
 tasks.withType<JavaExec> {

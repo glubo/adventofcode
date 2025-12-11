@@ -209,7 +209,10 @@ suspend fun y2024day17part2(input: Input): Long {
 
     fun findMatch(wanted: List<Int>): List<Long> =
         when (wanted.size) {
-            0 -> listOf(0L)
+            0 -> {
+                listOf(0L)
+            }
+
             else -> {
                 val smallerACandidates = findMatch(wanted.drop(1))
 

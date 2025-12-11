@@ -48,8 +48,14 @@ suspend fun y2024day16part1(input: Input): Long {
         val head = heads.poll()
 
         when (grid[head.position]) {
-            END -> return head.cost
-            WALL -> Unit
+            END -> {
+                return head.cost
+            }
+
+            WALL -> {
+                Unit
+            }
+
             START, EMPTY -> {
                 val alreadyVisited = visited.firstOrNull { it.position == head.position && it.direction == head.direction }
                 val bestCost = alreadyVisited?.cost ?: Long.MAX_VALUE
@@ -82,7 +88,9 @@ suspend fun y2024day16part1(input: Input): Long {
                 }
             }
 
-            null -> error("Escaped the maze")
+            null -> {
+                error("Escaped the maze")
+            }
         }
 
         heads.filter { it != head }
@@ -179,7 +187,9 @@ suspend fun y2024day16part2(input: Input): Long {
                 }
             }
 
-            else -> error("Escaped the maze")
+            else -> {
+                error("Escaped the maze")
+            }
         }
     }
 

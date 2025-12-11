@@ -2,23 +2,23 @@
 
 [plugins]
 
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.0" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.21" }
 
-com-gradleup-shadow = { id = "com.gradleup.shadow", version = "8.3.8" }
+com-gradleup-shadow = { id = "com.gradleup.shadow", version = "9.3.0" }
 
-org-jmailen-kotlinter = { id = "org.jmailen.kotlinter", version = "5.2.0" }
+org-jmailen-kotlinter = { id = "org.jmailen.kotlinter", version = "5.3.0" }
 
 com-adarshr-test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
 
 [versions]
 
-kotlin = "2.2.0"
+kotlin = "2.2.21"
 
 kotlinx-coroutines = "1.10.2"
 
-junit-jupiter = "5.13.4"
+junit-jupiter = "6.0.1"
 
-kotest = "5.9.1"
+kotest = "6.0.7"
 
 [libraries]
 
@@ -30,27 +30,27 @@ kotlinx-coroutines-reactive = { group = "org.jetbrains.kotlinx", name = "kotlinx
 
 picocli = "info.picocli:picocli:4.7.7"
 
-slf4j-klogging = "io.klogging:slf4j-klogging:0.11.4"
+slf4j-klogging = "io.klogging:slf4j-klogging:0.11.7"
 
 kotlin-build-tools-impl = { module = "org.jetbrains.kotlin:kotlin-build-tools-impl" }
 
 kotlin-scripting-compiler-embeddable = { group = "org.jetbrains.kotlin", name = "kotlin-scripting-compiler-embeddable", version.ref = "kotlin" }
 
-ktlint-rule-engine = "com.pinterest.ktlint:ktlint-rule-engine:1.7.1"
+ktlint-rule-engine = "com.pinterest.ktlint:ktlint-rule-engine:1.8.0"
 
-ktlint-ruleset-standard = "com.pinterest.ktlint:ktlint-ruleset-standard:1.7.1"
+ktlint-ruleset-standard = "com.pinterest.ktlint:ktlint-ruleset-standard:1.8.0"
 
-ktlint-cli-reporter-core = "com.pinterest.ktlint:ktlint-cli-reporter-core:1.7.1"
+ktlint-cli-reporter-core = "com.pinterest.ktlint:ktlint-cli-reporter-core:1.8.0"
 
-ktlint-cli-reporter-plain = "com.pinterest.ktlint:ktlint-cli-reporter-plain:1.7.1"
+ktlint-cli-reporter-plain = "com.pinterest.ktlint:ktlint-cli-reporter-plain:1.8.0"
 
-ktlint-cli-reporter-html = "com.pinterest.ktlint:ktlint-cli-reporter-html:1.7.1"
+ktlint-cli-reporter-html = "com.pinterest.ktlint:ktlint-cli-reporter-html:1.8.0"
 
-ktlint-cli-reporter-checkstyle = "com.pinterest.ktlint:ktlint-cli-reporter-checkstyle:1.7.1"
+ktlint-cli-reporter-checkstyle = "com.pinterest.ktlint:ktlint-cli-reporter-checkstyle:1.8.0"
 
-ktlint-cli-reporter-json = "com.pinterest.ktlint:ktlint-cli-reporter-json:1.7.1"
+ktlint-cli-reporter-json = "com.pinterest.ktlint:ktlint-cli-reporter-json:1.8.0"
 
-ktlint-cli-reporter-sarif = "com.pinterest.ktlint:ktlint-cli-reporter-sarif:1.7.1"
+ktlint-cli-reporter-sarif = "com.pinterest.ktlint:ktlint-cli-reporter-sarif:1.8.0"
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
 
@@ -61,7 +61,5 @@ junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-para
 kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
-
-kotest-framework-datatest = { group = "io.kotest", name = "kotest-framework-datatest", version.ref = "kotest" }
 
 z3-turnkey = "tools.aqua:z3-turnkey:4.14.1"

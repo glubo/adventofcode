@@ -31,8 +31,12 @@ suspend fun Flow<String>.y2023day14part1(): Long {
         var currentStart = 0
         while (y in lines.indices) {
             when (lines[y][x]) {
-                'O' -> currentStones++
+                'O' -> {
+                    currentStones++
+                }
+
                 '.' -> {}
+
                 '#' -> {
                     val currentLoad =
                         cz.glubo.adventofcode.y2023.day14.computeLoad(
@@ -120,9 +124,18 @@ suspend fun Flow<String>.toMirror(): cz.glubo.adventofcode.y2023.day14.Mirror {
         line.forEachIndexed { x, c ->
             when (c) {
                 '.' -> {}
-                'O' -> rolling.add(x to y)
-                '#' -> static.add(x to y)
-                else -> throw RuntimeException("Unknown character at [$x, $y]: '$c'")
+
+                'O' -> {
+                    rolling.add(x to y)
+                }
+
+                '#' -> {
+                    static.add(x to y)
+                }
+
+                else -> {
+                    throw RuntimeException("Unknown character at [$x, $y]: '$c'")
+                }
             }
         }
     }

@@ -75,13 +75,22 @@ fun matches(
     val current = numbers.last()
     val nextNumbers = numbers.dropLast(1)
     return when {
-        numbers.size == 1 -> target == current
-        target < 0 -> false
-        numbers.size > 1 ->
+        numbers.size == 1 -> {
+            target == current
+        }
+
+        target < 0 -> {
+            false
+        }
+
+        numbers.size > 1 -> {
             variants(target, current).any {
                 matches(it, nextNumbers, variants)
             }
+        }
 
-        else -> throw RuntimeException("ugh")
+        else -> {
+            throw RuntimeException("ugh")
+        }
     }
 }

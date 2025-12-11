@@ -82,14 +82,22 @@ data class World2(
             val walls = mutableListOf<IVec2>()
             grid.allIVec2().forEach {
                 when (grid[it]) {
-                    Tile.PLAYER -> playerPos = IVec2(it.x * 2, it.y)
-                    Tile.STONE -> stones.add(Stone(IVec2(it.x * 2, it.y)))
+                    Tile.PLAYER -> {
+                        playerPos = IVec2(it.x * 2, it.y)
+                    }
+
+                    Tile.STONE -> {
+                        stones.add(Stone(IVec2(it.x * 2, it.y)))
+                    }
+
                     Tile.WALL -> {
                         walls.add(IVec2(it.x * 2 + 1, it.y))
                         walls.add(IVec2(it.x * 2, it.y))
                     }
 
-                    else -> Unit
+                    else -> {
+                        Unit
+                    }
                 }
             }
             return World2(

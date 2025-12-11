@@ -63,7 +63,9 @@ suspend fun Flow<String>.y2023day15part2(): Long {
                     element?.let { box.remove(it) }
                 }
 
-                else -> throw RuntimeException("Unknown operation: '$op'")
+                else -> {
+                    throw RuntimeException("Unknown operation: '$op'")
+                }
             }
             logger.debug { "After $op: " + map.filter { it.value.isNotEmpty() }.toMap() }
         }

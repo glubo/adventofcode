@@ -75,17 +75,24 @@ fun variations(input: Input) =
             getOrPut(i) {
                 tapDebug(i) {
                     when {
-                        i.tail.isEmpty() -> ifb { i.rulesLeft.isEmpty() }
-                        i.rulesLeft.isEmpty() -> ifb { !i.tail.contains('#') }
-                        else ->
+                        i.tail.isEmpty() -> {
+                            ifb { i.rulesLeft.isEmpty() }
+                        }
+
+                        i.rulesLeft.isEmpty() -> {
+                            ifb { !i.tail.contains('#') }
+                        }
+
+                        else -> {
                             when (i.tail.first()) {
-                                '.' ->
+                                '.' -> {
                                     rec(
                                         Input(
                                             i.tail.removePrefix('.'),
                                             i.rulesLeft,
                                         ),
                                     )
+                                }
 
                                 '#' -> {
                                     if (i.rulesLeft.first() > i.tail.prefixLength("#?")) {
@@ -93,29 +100,40 @@ fun variations(input: Input) =
                                     } else {
                                         val newTail = i.tail.drop(i.rulesLeft.first())
                                         when {
-                                            newTail.isEmpty() -> ifb { i.rulesLeft.size == 1 }
-                                            newTail.startsWith('#') -> 0L
-                                            newTail.startsWith('?') ->
+                                            newTail.isEmpty() -> {
+                                                ifb { i.rulesLeft.size == 1 }
+                                            }
+
+                                            newTail.startsWith('#') -> {
+                                                0L
+                                            }
+
+                                            newTail.startsWith('?') -> {
                                                 rec(
                                                     Input(
                                                         newTail.drop(1),
                                                         i.rulesLeft.drop(1),
                                                     ),
                                                 )
-                                            newTail.startsWith('.') ->
+                                            }
+
+                                            newTail.startsWith('.') -> {
                                                 rec(
                                                     Input(
                                                         newTail.removePrefix('.'),
                                                         i.rulesLeft.drop(1),
                                                     ),
                                                 )
+                                            }
 
-                                            else -> throw RuntimeException("asdasd")
+                                            else -> {
+                                                throw RuntimeException("asdasd")
+                                            }
                                         }
                                     }
                                 }
 
-                                '?' ->
+                                '?' -> {
                                     rec(
                                         Input(
                                             i.tail.replaceFirst('#'),
@@ -128,9 +146,13 @@ fun variations(input: Input) =
                                                 i.rulesLeft,
                                             ),
                                         )
+                                }
 
-                                else -> 0L
+                                else -> {
+                                    0L
+                                }
                             }
+                        }
                     }
                 }
             }
